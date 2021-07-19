@@ -5,6 +5,8 @@ import ShopsList from '../screens/ShopsList';
 import ProductList from '../screens/ProductList';
 import ProductDetail from '../screens/ProductDetail';
 import CartScreen from '../screens/CartScreen';
+import SignUp from '../screens/SignUp';
+import Login from '../screens/Login';
 
 const ShopNavigator = createStackNavigator(
   {
@@ -12,6 +14,8 @@ const ShopNavigator = createStackNavigator(
     Products: ProductList,
     ProductDetails: ProductDetail,
     Cart: CartScreen,
+    SignUp: SignUp,
+    Login: Login,
   },
   {
     defaultNavigationOptions: {

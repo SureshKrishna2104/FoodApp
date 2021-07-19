@@ -1,0 +1,21 @@
+export const URL = 'http://35.224.0.195:9090';
+
+export const postMethod = (type, value) => {
+  console.warn('inside psot', type, value);
+  let data = {
+    method: 'POST',
+    credentials: 'same-origin',
+    mode: 'same-origin',
+    body: JSON.stringify(value),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  };
+  return fetch(URL + type, data)
+    .then(response => response.json())
+    .then(responseData => {
+      console.warn('out of the', responseData);
+      return responseData;
+    }); // promise
+};

@@ -1,4 +1,5 @@
-import React from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -8,14 +9,18 @@ import {
   FlatList,
   NativeModules,
   NativeEventEmitter,
+  Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 //import Colors from '../../constatnts/Colors';
 import CartItem from '../components/CartItem';
 import * as cartActions from '../store/actions/cart';
+import {postMethod} from '../services/Apiservices';
 //import RazorpayCheckout from 'react-native-razorpay';
 
 const CartScreen = props => {
+  const [id, setId] = useState(' ');
+
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
     const transformedCartItems = [];
@@ -32,32 +37,73 @@ const CartScreen = props => {
       a.productId > b.productId ? 1 : -1,
     );
   });
-  //   const onPressButton = () => {
-  //     var options = {
-  //       description: 'Credits towards consultation',
-  //       image: 'https://i.imgur.com/3g7nmJC.png',
-  //       currency: 'USD',
-  //       key: 'rzp_test_9Uxn5bk4geZo24',
-  //       amount: cartTotalAmount.toFixed(2) * 1000,
-  //       name: 'foo',
-  //       prefill: {
-  //         email: 'sureshkrish2104@gmail.com',
-  //         contact: '6380055351',
-  //         name: 'Suresh krishna',
-  //       },
-  //       theme: {color: '#F37254'},
-  //     };
-  //     RazorpayCheckout.open(options)
-  //       .then(data => {
-  //         alert(`Paid Successfully: ${data.razorpay_payment_id}`);
-  //       })
-  //       .catch(error => {
-  //         // handle failure
-  //         alert(`Paid Failure: ${error.code} | ${error.description}`);
-  //       });
-  //   };
+  useEffect(() => {
+    // AsyncStorage.getItem('userId')
+
+    AsyncStorage.getItem('userId').then(async res => {
+      console.warn('res', res);
+      setId(res);
+    });
+  });
   const onPressButton = () => {
-    console.warn('button clicked', cartItems);
+    console.warn('button clicked', cartItems, id);
+    if (!id) {
+      props.navigation.navigate('Login');
+    } else {
+      postMethod('/orders/' + id, cartItems)
+        .then(response => {
+          if (response) {
+            console.warn('signup response', response.status);
+
+            if (response.status == 200) {
+              // const user_data = {
+              //         token: response.data.token,
+              //         userId: response.data.userId,
+              //         roles: response.data.roles,
+              //         userName: response.data.userName,
+              //     };
+
+              // setInfo(response)
+              // signIn(user_data);
+              // setIsLoading(false)
+
+              Alert.alert('Your foods ordered sucessfully');
+              props.navigation.navigate('Shops');
+              // <CartItem
+              //   quantity=""
+              //   title=""
+              //   amount=""
+              //   onRemove={() => {
+              //     dispatch(cartActions.removeFromCart(itemData.item.productId));
+              //   }}
+              // />;
+              //cartItems = [];
+              transformedCartItems = [];
+            } else if (response.data.status == 500) {
+              //setIsLoading(false)
+
+              Alert.alert('Not able to signup, Please try later');
+            }
+            if (response.data.status == 404) {
+              //setIsLoading(false)
+
+              Alert.alert('User account already deactivated');
+            }
+          }
+        })
+        .catch(error => {
+          //setIsLoading(false)
+
+          Alert.alert(
+            'No Internet connection.\n Please check your internet connection \nor try again',
+            error,
+          );
+          console.warn(
+            'No Internet connection.\n Please check your internet connection \nor try again',
+            error,
+          );
+        });
+    }
   };
   const dispatch = useDispatch();
   return (

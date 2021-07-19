@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {Text, View, FlatList} from 'react-native';
 import ShopGrid from '../components/ShopGrid';
+import MealItem from '../components/MealItem';
 
 const ProductList = props => {
   const hotelId = props.navigation.getParam('hotelId');
@@ -25,11 +26,13 @@ const ProductList = props => {
   }, []);
   const renderGrid = itemdata => {
     return (
-      <ShopGrid
+      <MealItem
         image={itemdata.item.image_url}
         title={itemdata.item.itemName}
         description={itemdata.item.description}
-        onSelectNews={() => {
+        hotelName={hotelName}
+        amount={itemdata.item.amount}
+        onSelectMeal={() => {
           props.navigation.navigate({
             routeName: 'ProductDetails',
             params: {
@@ -53,7 +56,7 @@ const ProductList = props => {
 ProductList.navigationOptions = navigationData => {
   const hotelName = navigationData.navigation.getParam('hotelName');
   return {
-    headerTitle: hotelName + " food's",
+    headerTitle: hotelName.toUpperCase() + " food's",
   };
 };
 

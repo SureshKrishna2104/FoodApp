@@ -5,28 +5,48 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 
 const ShopGrid = props => {
   return (
-    <View style={styles.screen}>
-      <TouchableOpacity onPress={props.onSelectNews}>
-        <View>
-          <View style={{...styles.newsRow, ...styles.newsHeader}}>
-            <ImageBackground
-              source={{uri: props.image}}
-              style={styles.bgImage}></ImageBackground>
+    <ScrollView>
+      <View style={styles.mealItem}>
+        <TouchableOpacity onPress={props.onSelectNews}>
+          <View>
+            <View style={{...styles.newsRow, ...styles.newsHeader}}>
+              <ImageBackground
+                source={{uri: props.image}}
+                style={styles.bgImage}></ImageBackground>
+            </View>
+            <View style={styles.newsDetail}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  //marginBottom: 10,
+                  marginTop: 5,
+                }}>
+                Hotel {props.title.toUpperCase()}
+              </Text>
+            </View>
           </View>
-          <View style={styles.newsDetail}>
-            <Text>{props.title}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    </View>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  mealItem: {
+    marginTop: 5,
+    height: 250,
+    width: '100%',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
   newsItem: {
     height: 250,
     width: '100%',
@@ -43,10 +63,13 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 3,
     padding: 10,
-    height: 250,
+    height: 300,
     width: '100%',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
+    marginTop: 10,
+    //marginBottom: -30,
+    // backgroundColor: 'grey',
   },
   bgImage: {
     width: '100%',
@@ -64,6 +87,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '15%',
+    backgroundColor: 'orange',
+    fontSize: 42,
+  },
+  mealDetail: {
+    paddingHorizontal: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '15%',
+    // backgroundColor: 'rgba(0,82,75,21)',
+    backgroundColor: 'orange',
   },
   titleContainer: {
     backgroundColor: 'rgba(0,0,0,0.5)',

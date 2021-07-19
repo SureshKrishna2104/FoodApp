@@ -47,7 +47,7 @@ const ShopsList = props => {
 };
 ShopsList.navigationOptions = navData => {
   return {
-    headerTitle: 'All Shops',
+    headerTitle: 'Hotels',
     headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
