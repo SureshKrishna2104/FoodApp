@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     height: 250,
     width: '100%',
     backgroundColor: '#f5f5f5',
-    borderRadius: 10,
+    borderRadius: 5,
     overflow: 'hidden',
   },
   newsItem: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '15%',
-    backgroundColor: 'orange',
+    backgroundColor: 'tomato',
     fontSize: 42,
   },
   mealDetail: {
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '15%',
-    // backgroundColor: 'rgba(0,82,75,21)',
+    // backgroundColor: 'rgba(255,127,80,0)',
     backgroundColor: 'orange',
   },
   titleContainer: {

@@ -7,7 +7,7 @@ import {
   ImageBackground,
 } from 'react-native';
 
-const MealItem = props => {
+const OfferGrid = props => {
   return (
     <View style={styles.mealItem}>
       <TouchableOpacity onPress={props.onSelectMeal}>
@@ -16,7 +16,7 @@ const MealItem = props => {
             <ImageBackground source={{uri: props.image}} style={styles.bgImage}>
               <View style={styles.titleContainer}>
                 <Text style={styles.title} numberOfLines={1}>
-                  Hotel {props.hotelName.toUpperCase()}
+                  Offer Rs.{props.offer}
                 </Text>
               </View>
             </ImageBackground>
@@ -101,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MealItem;
+export default OfferGrid;
