@@ -105,6 +105,28 @@ const CartScreen = props => {
         });
     }
   };
+  const renderGrid = itemData => {
+    AsyncStorage.setItem('count', itemData.item.quantity);
+    return (
+      <CartItem
+        quantity={itemData.item.quantity}
+        title={itemData.item.productTitle}
+        amount={itemData.item.sum}
+        onRemove={() => {
+          dispatch(cartActions.removeFromCart(itemData.item.productId));
+        }}
+        onAdd={() => {
+          dispatch(
+            cartActions.addToCart(
+              itemData.item.productId,
+              itemData.item.productPrice,
+              itemData.item.productTitle,
+            ),
+          );
+        }}
+      />
+    );
+  };
   const dispatch = useDispatch();
   return (
     <View style={styles.screen}>
@@ -117,16 +139,7 @@ const CartScreen = props => {
       <FlatList
         data={cartItems}
         keyExtractor={item => item.productId}
-        renderItem={itemData => (
-          <CartItem
-            quantity={itemData.item.quantity}
-            title={itemData.item.productTitle}
-            amount={itemData.item.sum}
-            onRemove={() => {
-              dispatch(cartActions.removeFromCart(itemData.item.productId));
-            }}
-          />
-        )}
+        renderItem={renderGrid}
       />
     </View>
   );

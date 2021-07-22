@@ -15,7 +15,7 @@ const MealItem = props => {
           <View style={{...styles.mealRow, ...styles.mealHeader}}>
             <ImageBackground source={{uri: props.image}} style={styles.bgImage}>
               <View style={styles.titleContainer}>
-                <Text style={styles.title} numberOfLines={1}>
+                <Text style={styles.title} numberOfLines={2}>
                   Hotel {props.hotelName.toUpperCase()}
                 </Text>
               </View>
@@ -63,10 +63,13 @@ const styles = StyleSheet.create({
   mealItem: {
     marginTop: 5,
     height: 250,
-    width: '100%',
+    width: '95%',
     backgroundColor: '#f5f5f5',
-    borderRadius: 5,
+    borderRadius: 10,
     overflow: 'hidden',
+    marginRight: 10,
+    marginVertical: 10,
+    marginHorizontal: 10,
   },
   bgImage: {
     width: '100%',
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '15%',
     // backgroundColor: 'rgba(0,82,75,21)',
-    backgroundColor: 'orange',
+    backgroundColor: '#6FC3F7',
   },
   titleContainer: {
     backgroundColor: 'rgba(0,0,0,0.5)',

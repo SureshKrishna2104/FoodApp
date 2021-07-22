@@ -10,8 +10,7 @@ export default (state = initialState, action) => {
     case ADD_TO_CART:
       const addProduct = action.product;
       const prodPrice = action.amount;
-      console.warn('addp', addProduct, prodPrice);
-      // const prodPrice = prodPric;
+
       const prodTitle = action.name;
       let updatedOrNewCartItem;
       if (state.items[addProduct]) {

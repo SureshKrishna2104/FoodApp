@@ -28,7 +28,7 @@ const ShopNavigator = createStackNavigator(
     defaultNavigationOptions: {
       headerTitleAlign: 'center',
       headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? 'tomato' : '',
+        backgroundColor: Platform.OS === 'android' ? '#6FC3F7' : '',
         alignContent: 'center',
       },
       headerTintColor: Platform.OS === 'android' ? 'white' : ' ',
@@ -37,7 +37,7 @@ const ShopNavigator = createStackNavigator(
 );
 const defaultStackNavOptions = {
   headerStyle: {
-    backgroundColor: Platform.OS === 'android' ? 'orange' : '',
+    backgroundColor: Platform.OS === 'android' ? '#6FC3F7' : '',
   },
   headerTintColor: 'white',
   headerTitleSyle: {
@@ -50,7 +50,7 @@ const defaultStackNavOptions = {
 const CartNavigator = createStackNavigator(
   {
     Carts: CartScreen,
-    MealDetail: ProductDetail,
+    ProductDetails: ProductDetail,
   },
   {
     defaultNavigationOptions: defaultStackNavOptions,
@@ -59,7 +59,7 @@ const CartNavigator = createStackNavigator(
 const OfferNavigator = createStackNavigator(
   {
     Offer: OfferScreen,
-    MealDetail: ProductDetail,
+    ProductDetails: ProductDetail,
   },
   {
     defaultNavigationOptions: defaultStackNavOptions,
@@ -68,7 +68,7 @@ const OfferNavigator = createStackNavigator(
 const ProfileNavigator = createStackNavigator(
   {
     Profile: ProfileScreen,
-    MealDetail: ProductDetail,
+    ProductDetails: ProductDetail,
   },
   {
     defaultNavigationOptions: defaultStackNavOptions,
@@ -84,7 +84,7 @@ const ShopBotTabNavigator = createBottomTabNavigator(
             <Icon
               name="ios-restaurant"
               size={25}
-              color={focused ? 'tomato' : 'grey'}
+              color={focused ? '#1813A2' : 'grey'}
             />
           );
         },
@@ -100,7 +100,7 @@ const ShopBotTabNavigator = createBottomTabNavigator(
             <Icon
               name="fast-food"
               size={25}
-              color={focused ? 'tomato' : 'grey'}
+              color={focused ? '#1813A2' : 'grey'}
             />
           );
         },
@@ -115,7 +115,7 @@ const ShopBotTabNavigator = createBottomTabNavigator(
             <Icon
               name="ios-cart"
               size={25}
-              color={focused ? 'tomato' : 'grey'}
+              color={focused ? '#1813A2' : 'grey'}
             />
           );
         },
@@ -127,7 +127,11 @@ const ShopBotTabNavigator = createBottomTabNavigator(
         tabBarLabel: 'Profile!',
         tabBarIcon: ({tabInfo, focused}) => {
           return (
-            <Icon name="person" size={25} color={focused ? 'tomato' : 'grey'} />
+            <Icon
+              name="person"
+              size={25}
+              color={focused ? '#1813A2' : 'grey'}
+            />
           );
         },
       },
@@ -135,7 +139,7 @@ const ShopBotTabNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      activeTintColor: 'red',
+      activeTintColor: '#1813A2',
     },
   },
 );

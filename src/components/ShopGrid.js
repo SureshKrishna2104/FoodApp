@@ -17,9 +17,15 @@ const ShopGrid = props => {
             <View style={{...styles.newsRow, ...styles.newsHeader}}>
               <ImageBackground
                 source={{uri: props.image}}
-                style={styles.bgImage}></ImageBackground>
+                style={styles.bgImage}>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.title} numberOfLines={2}>
+                    Hotel {props.title.toUpperCase()}
+                  </Text>
+                </View>
+              </ImageBackground>
             </View>
-            <View style={styles.newsDetail}>
+            {/* <View style={styles.newsDetail}>
               <Text
                 style={{
                   fontSize: 20,
@@ -27,10 +33,11 @@ const ShopGrid = props => {
                   fontWeight: 'bold',
                   //marginBottom: 10,
                   marginTop: 5,
-                }}>
+                }}
+                numberOfLines={2}>
                 Hotel {props.title.toUpperCase()}
               </Text>
-            </View>
+            </View> */}
           </View>
         </TouchableOpacity>
       </View>
@@ -42,10 +49,13 @@ const styles = StyleSheet.create({
   mealItem: {
     marginTop: 5,
     height: 250,
-    width: '100%',
+    width: '95%',
     backgroundColor: '#f5f5f5',
-    borderRadius: 5,
+    borderRadius: 10,
     overflow: 'hidden',
+    marginRight: 10,
+    marginVertical: 10,
+    marginHorizontal: 10,
   },
   newsItem: {
     height: 250,
@@ -80,14 +90,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   newsHeader: {
-    height: '85%',
+    height: '100%',
   },
   newsDetail: {
     paddingHorizontal: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '15%',
-    backgroundColor: 'tomato',
+    backgroundColor: '#6FC3F7',
     fontSize: 42,
   },
   mealDetail: {

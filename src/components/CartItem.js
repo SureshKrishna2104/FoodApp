@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const CartItem = props => {
+  // let q = props.quantity;
+  // useEffect(() => {
+  //   console.warn('qua', q);
+  //   AsyncStorage.setItem('count', q.toString());
+  // });
   return (
     <View style={styles.cartItem}>
       <View style={styles.itemData}>
@@ -16,7 +22,10 @@ const CartItem = props => {
       <View style={styles.itemData}>
         <Text style={styles.mainText}>${props.amount.toFixed(2)}</Text>
         <TouchableOpacity onPress={props.onRemove} style={styles.deleteButton}>
-          <Icon name="ios-trash" size={23} color="red" />
+          <Icon name="ios-remove-sharp" size={23} color="red" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={props.onAdd} style={styles.deleteButton}>
+          <Icon name="ios-add" size={23} color="red" />
         </TouchableOpacity>
       </View>
     </View>
