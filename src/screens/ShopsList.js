@@ -35,6 +35,9 @@ const ShopsList = props => {
 
     return willFocusSubscription;
   }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
   const renderGrid = itemdata => {
     return (
       <ShopGrid

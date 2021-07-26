@@ -13,6 +13,8 @@ import SignUp from '../screens/SignUp';
 import Login from '../screens/Login';
 import OfferScreen from '../screens/OfferScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import EditProfile from '../screens/EditProfile';
+import OrderScreen from '../screens/OrderScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const ShopNavigator = createStackNavigator(
@@ -69,6 +71,8 @@ const ProfileNavigator = createStackNavigator(
   {
     Profile: ProfileScreen,
     ProductDetails: ProductDetail,
+    Orders: OrderScreen,
+    EditProfile: EditProfile,
   },
   {
     defaultNavigationOptions: defaultStackNavOptions,

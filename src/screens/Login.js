@@ -38,9 +38,9 @@ const Login = ({navigation}) => {
   const setInfo = async data => {
     console.warn('dataaaa-', data.data.userId);
     const jsonValue = JSON.stringify(data.data);
-    const id = JSON.stringify(data.data.userId);
+    // const id = JSON.stringify(data.data.userId);
     await AsyncStorage.setItem('userInfo', jsonValue);
-    await AsyncStorage.setItem('userId', id);
+    await AsyncStorage.setItem('userId', data.data.userId);
   };
 
   const doLogin = () => {
@@ -69,7 +69,7 @@ const Login = ({navigation}) => {
               // setIsLoading(false)
 
               Alert.alert('Login successful');
-              navigation.navigate('Cart');
+              navigation.navigate('Shops');
             } else if (response.status == 500) {
               setIsLoading(false);
 
@@ -245,7 +245,7 @@ const Login = ({navigation}) => {
           <Text>Are you New! Please SignUp</Text>
           <TouchableOpacity
             style={styles.appButtonContainer}
-            onPress={() => this.props.navigation.navigate('SignUp')}>
+            onPress={() => navigation.navigate('SignUp')}>
             <Text
               style={styles.appButtonText}
               secureTextEntry={true}

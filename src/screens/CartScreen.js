@@ -19,23 +19,21 @@ import {postMethod} from '../services/Apiservices';
 //import RazorpayCheckout from 'react-native-razorpay';
 
 const CartScreen = props => {
-  const [id, setId] = useState(' ');
+  const [id, setId] = useState();
 
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
     const transformedCartItems = [];
     for (const key in state.cart.items) {
       transformedCartItems.push({
-        productId: key,
+        itemId: key,
         productTitle: state.cart.items[key].productTitle,
         productPrice: state.cart.items[key].productPrice,
         quantity: state.cart.items[key].quantity,
         sum: state.cart.items[key].sum,
       });
     }
-    return transformedCartItems.sort((a, b) =>
-      a.productId > b.productId ? 1 : -1,
-    );
+    return transformedCartItems.sort((a, b) => (a.itemId > b.itemId ? 1 : -1));
   });
   useEffect(() => {
     // AsyncStorage.getItem('userId')
@@ -50,59 +48,72 @@ const CartScreen = props => {
     if (!id) {
       props.navigation.navigate('Login');
     } else {
-      postMethod('/orders/' + id, cartItems)
-        .then(response => {
-          if (response) {
-            console.warn('signup response', response.status);
+      console.warn('foods', cartItems);
+      if (cartItems.length === 0) {
+        alert('Please add items to cart');
+      } else {
+        console.warn('foods', cartItems.itemId);
+        const req = {
+          itemId: cartItems.itemId,
+          quantity: cartItems.quantity,
+        };
+        console.warn('rrq', req);
+        console.warn('id', id);
+        postMethod('/orders/BFMcPe', cartItems)
+          .then(response => {
+            if (response) {
+              console.warn('order response', response);
 
-            if (response.status == 200) {
-              // const user_data = {
-              //         token: response.data.token,
-              //         userId: response.data.userId,
-              //         roles: response.data.roles,
-              //         userName: response.data.userName,
-              //     };
+              if (response.status == 200) {
+                // const user_data = {
+                //         token: response.data.token,
+                //         userId: response.data.userId,
+                //         roles: response.data.roles,
+                //         userName: response.data.userName,
+                //     };
 
-              // setInfo(response)
-              // signIn(user_data);
-              // setIsLoading(false)
+                // setInfo(response)
+                // signIn(user_data);
+                // setIsLoading(false)
 
-              Alert.alert('Your foods ordered sucessfully');
-              props.navigation.navigate('Shops');
-              // <CartItem
-              //   quantity=""
-              //   title=""
-              //   amount=""
-              //   onRemove={() => {
-              //     dispatch(cartActions.removeFromCart(itemData.item.productId));
-              //   }}
-              // />;
-              //cartItems = [];
-              transformedCartItems = [];
-            } else if (response.data.status == 500) {
-              //setIsLoading(false)
+                Alert.alert('Your foods ordered sucessfully');
+                props.navigation.navigate('Shops');
+                dispatch(cartActions.emptyCart());
+                // <CartItem
+                //   quantity=""
+                //   title=""
+                //   amount=""
+                //   onRemove={() => {
+                //     dispatch(cartActions.removeFromCart(itemData.item.itemId));
+                //   }}
+                // />;
+                //cartItems = [];
+                //transformedCartItems = [];
+              } else if (response.data.status == 500) {
+                //setIsLoading(false)
 
-              Alert.alert('Not able to signup, Please try later');
+                Alert.alert('Not able to signup, Please try later');
+              }
+              if (response.data.status == 404) {
+                //setIsLoading(false)
+
+                Alert.alert('User account already deactivated');
+              }
             }
-            if (response.data.status == 404) {
-              //setIsLoading(false)
+          })
+          .catch(error => {
+            //setIsLoading(false)
 
-              Alert.alert('User account already deactivated');
-            }
-          }
-        })
-        .catch(error => {
-          //setIsLoading(false)
-
-          Alert.alert(
-            'No Internet connection.\n Please check your internet connection \nor try again',
-            error,
-          );
-          console.warn(
-            'No Internet connection.\n Please check your internet connection \nor try again',
-            error,
-          );
-        });
+            Alert.alert(
+              'No Internet connection.\n Please check your internet connection \nor try again',
+              error,
+            );
+            console.warn(
+              'No Internet connection.\n Please check your internet connection \nor try again',
+              error,
+            );
+          });
+      }
     }
   };
   const renderGrid = itemData => {
@@ -113,12 +124,12 @@ const CartScreen = props => {
         title={itemData.item.productTitle}
         amount={itemData.item.sum}
         onRemove={() => {
-          dispatch(cartActions.removeFromCart(itemData.item.productId));
+          dispatch(cartActions.removeFromCart(itemData.item.itemId));
         }}
         onAdd={() => {
           dispatch(
             cartActions.addToCart(
-              itemData.item.productId,
+              itemData.item.itemId,
               itemData.item.productPrice,
               itemData.item.productTitle,
             ),
@@ -138,7 +149,7 @@ const CartScreen = props => {
       </View>
       <FlatList
         data={cartItems}
-        keyExtractor={item => item.productId}
+        keyExtractor={item => item.itemId}
         renderItem={renderGrid}
       />
     </View>
