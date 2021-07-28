@@ -19,6 +19,8 @@ import Feather from 'react-native-vector-icons/Feather';
 //import {postMethod} from '../services/Apiservices';
 import {postMethod} from '../services/Apiservices';
 import {useTheme} from 'react-native-paper';
+import {useSelector, useDispatch} from 'react-redux';
+import * as cartActions from '../store/actions/cart';
 //import { AuthContext } from '../routes'
 import ActivityLoading from '../components/ActivityLoading';
 const Login = ({navigation}) => {
@@ -32,7 +34,7 @@ const Login = ({navigation}) => {
   });
 
   const [isLoading, setIsLoading] = React.useState(false);
-
+  const dispatch = useDispatch();
   //const { signIn } = React.useContext(AuthContext);
 
   const setInfo = async data => {
@@ -67,9 +69,14 @@ const Login = ({navigation}) => {
               setInfo(response);
               // signIn(user_data);
               // setIsLoading(false)
-
+              console.warn('login', response.data.userId);
               Alert.alert('Login successful');
+
+              dispatch(cartActions.login(true));
+              //dispatch(cartActions.jwt(response.data.userId));
+              //navigation.navigate('Profile');
               navigation.navigate('Shops');
+              navigation.goBack();
             } else if (response.status == 500) {
               setIsLoading(false);
 

@@ -4,10 +4,12 @@ import ShopGrid from '../components/ShopGrid';
 import MealItem from '../components/MealItem';
 
 const ProductList = props => {
-  const hotelId = props.navigation.getParam('hotelId');
-  const hotelName = props.navigation.getParam('hotelName');
-  const hotelImage = props.navigation.getParam('hotelImage');
-  const hotelItems = props.navigation.getParam('hotelItems');
+  const hotelId = props.route.params.hotelId;
+  //props.navigation.getParam('hotelId');
+  const hotelName = props.route.params.hotelName;
+  //props.navigation.getParam('hotelName');
+  // const hotelImage = props.navigation.getParam('hotelImage');
+  // const hotelItems = props.navigation.getParam('hotelItems');
   // const newsCat = props.navigation.getParam('newsCat');
   // const newsUrl = props.navigation.getParam('newsUrl');
   const [data, setData] = React.useState();
@@ -33,15 +35,11 @@ const ProductList = props => {
         hotelName={hotelName}
         amount={itemdata.item.amount}
         onSelectMeal={() => {
-          props.navigation.navigate({
-            routeName: 'ProductDetails',
-            params: {
-              itemId: itemdata.item.itemId,
-              itemAmount: itemdata.item.amount,
-              itemName: itemdata.item.itemName,
-
-              itemImage: itemdata.item.image_url,
-            },
+          props.navigation.navigate('ProductDetail', {
+            itemId: itemdata.item.itemId,
+            itemAmount: itemdata.item.amount,
+            itemName: itemdata.item.itemName,
+            itemImage: itemdata.item.image_url,
           });
         }}
       />

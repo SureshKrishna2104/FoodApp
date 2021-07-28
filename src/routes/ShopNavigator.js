@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createAppContainer} from 'react-navigation';
 //import {createDrawerNavigator} from '@react-navigation/drawer';
 //import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {useSelector, useDispatch} from 'react-redux';
 //import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ShopsList from '../screens/ShopsList';
 import ProductList from '../screens/ProductList';
@@ -15,7 +16,9 @@ import OfferScreen from '../screens/OfferScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import EditProfile from '../screens/EditProfile';
 import OrderScreen from '../screens/OrderScreen';
+import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as cartActions from '../store/actions/cart';
 
 const ShopNavigator = createStackNavigator(
   {
@@ -70,9 +73,11 @@ const OfferNavigator = createStackNavigator(
 const ProfileNavigator = createStackNavigator(
   {
     Profile: ProfileScreen,
+    // Profile1: ProfileScreen,
     ProductDetails: ProductDetail,
     Orders: OrderScreen,
     EditProfile: EditProfile,
+    Login: Login,
   },
   {
     defaultNavigationOptions: defaultStackNavOptions,

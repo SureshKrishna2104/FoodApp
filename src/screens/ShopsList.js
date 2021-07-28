@@ -23,9 +23,10 @@ const ShopsList = props => {
   useEffect(() => {
     fetchData();
     const willFocusSubscription = props.navigation.addListener('focus', () => {
+      console.warn('refreshed');
       fetchData();
     });
-    AsyncStorage.getItem('count').then(async res => {
+    AsyncStorage.getItem('userId').then(async res => {
       console.warn('res', res);
       setCount(res);
 
@@ -45,14 +46,11 @@ const ShopsList = props => {
         title={itemdata.item.hotelName}
         description={itemdata.item.description}
         onSelectNews={() => {
-          props.navigation.navigate({
-            routeName: 'Products',
-            params: {
-              hotelId: itemdata.item.hotelId,
-              hotelName: itemdata.item.hotelName,
-              hotelImage: itemdata.item.image_url,
-              hotelItems: itemdata.item.items,
-            },
+          props.navigation.navigate('Products', {
+            hotelId: itemdata.item.hotelId,
+            hotelName: itemdata.item.hotelName,
+            hotelImage: itemdata.item.image_url,
+            hotelItems: itemdata.item.items,
           });
         }}
       />

@@ -1,8 +1,18 @@
-import {ADD_TO_CART, REMOVE_FROM_CART, EMPTY_CART} from '../actions/cart';
+import {
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  EMPTY_CART,
+  LOGIN,
+  JWT,
+} from '../actions/cart';
 import CartItem from '../../models/cart-item';
+import {act} from 'react-test-renderer';
+//import {FA5Style} from '@expo/vector-icons/build/FontAwesome5';
 const initialState = {
   items: {},
   totalAmount: 0,
+  check: false,
+  jwt: '',
 };
 
 export default (state = initialState, action) => {
@@ -27,6 +37,7 @@ export default (state = initialState, action) => {
         ...state,
         items: {...state.items, [addProduct]: updatedOrNewCartItem},
         totalAmount: state.totalAmount + prodPrice,
+        check: false,
       };
     case REMOVE_FROM_CART:
       const selectedCartItem = state.items[action.pid];
@@ -49,12 +60,24 @@ export default (state = initialState, action) => {
         ...state,
         items: updatedCartItems,
         totalAmount: state.totalAmount - selectedCartItem.productPrice,
+        check: false,
       };
     case EMPTY_CART:
       return {
         ...state,
         items: {},
         totalAmount: 0,
+        check: false,
+      };
+    case LOGIN:
+      return {
+        ...state,
+        check: action.tf,
+      };
+    case JWT:
+      return {
+        ...state,
+        jwt: action.token,
       };
   }
   return state;

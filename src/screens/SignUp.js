@@ -334,6 +334,7 @@ import {useTheme} from 'react-native-paper';
 import ActivityLoading from '../components/ActivityLoading';
 const SignUp = ({navigation}) => {
   const [data, setData] = React.useState({
+    name: '',
     number: '',
     password: '',
     address: '',
@@ -358,13 +359,20 @@ const SignUp = ({navigation}) => {
 
   const doLogin = () => {
     const req = {
+      name: data.name,
       number: data.number,
       password: data.password,
       address: data.address,
-      pincode: data.pincode,
+      pinCode: data.pincode,
     };
 
-    if (data.number != '') {
+    if (
+      data.number != '' &&
+      data.name != '' &&
+      data.password != '' &&
+      data.address != '' &&
+      data.pincode != ''
+    ) {
       setIsLoading(true);
       postMethod('/signup', req)
         .then(response => {
@@ -412,7 +420,7 @@ const SignUp = ({navigation}) => {
     } else {
       setIsLoading(false);
 
-      Alert.alert('number and Password cannot be empty');
+      Alert.alert('Please add all manadatory fields');
     }
   };
 
@@ -440,7 +448,7 @@ const SignUp = ({navigation}) => {
     });
   };
 
-  const handleValidUser = val => {
+  const handleValidNumber = val => {
     if (val.trim().length >= 1) {
       setData({
         ...data,
@@ -454,7 +462,48 @@ const SignUp = ({navigation}) => {
       });
     }
   };
-
+  const handleValidAddress = val => {
+    if (val.trim().length >= 1) {
+      setData({
+        ...data,
+        address: val,
+        isValidUser: true,
+      });
+    } else {
+      setData({
+        ...data,
+        isValidUser: false,
+      });
+    }
+  };
+  const handleValidPinCode = val => {
+    if (val.trim().length >= 1) {
+      setData({
+        ...data,
+        pincode: val,
+        isValidUser: true,
+      });
+    } else {
+      setData({
+        ...data,
+        isValidUser: false,
+      });
+    }
+  };
+  const handleValidName = val => {
+    if (val.trim().length >= 1) {
+      setData({
+        ...data,
+        name: val,
+        isValidUser: true,
+      });
+    } else {
+      setData({
+        ...data,
+        isValidUser: false,
+      });
+    }
+  };
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
@@ -485,8 +534,54 @@ const SignUp = ({navigation}) => {
                 color: colors.text,
               },
             ]}>
-            Phone Number
+            Name
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  color: 'red',
+                },
+              ]}>
+              {' '}
+              *
+            </Text>
           </Text>
+
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color={colors.text} size={20} />
+            <TextInput
+              placeholder="Enter Your Name"
+              placeholderTextColor="#666666"
+              style={[
+                styles.textInput,
+                {
+                  color: colors.text,
+                },
+              ]}
+              autoCapitalize="none"
+              onChangeText={val => handleValidName(val)}
+            />
+          </View>
+          <Text
+            style={[
+              styles.text_footer,
+              {
+                color: colors.text,
+              },
+            ]}>
+            Phone Number
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  color: 'red',
+                },
+              ]}>
+              {' '}
+              *
+            </Text>
+          </Text>
+
           <View style={styles.action}>
             <FontAwesome name="user-o" color={colors.text} size={20} />
             <TextInput
@@ -499,7 +594,7 @@ const SignUp = ({navigation}) => {
                 },
               ]}
               autoCapitalize="none"
-              onChangeText={val => handleValidUser(val)}
+              onChangeText={val => handleValidNumber(val)}
             />
           </View>
 
@@ -511,6 +606,16 @@ const SignUp = ({navigation}) => {
               },
             ]}>
             Password
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  color: 'red',
+                },
+              ]}>
+              {' '}
+              *
+            </Text>
           </Text>
           <View style={styles.action}>
             <Feather name="lock" color={colors.text} size={20} />
@@ -550,6 +655,16 @@ const SignUp = ({navigation}) => {
               },
             ]}>
             Address
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  color: 'red',
+                },
+              ]}>
+              {' '}
+              *
+            </Text>
           </Text>
           <View style={styles.action}>
             <FontAwesome name="user-o" color={colors.text} size={20} />
@@ -563,7 +678,7 @@ const SignUp = ({navigation}) => {
                 },
               ]}
               autoCapitalize="none"
-              onChangeText={val => handleValidUser(val)}
+              onChangeText={val => handleValidAddress(val)}
             />
           </View>
           <Text
@@ -574,6 +689,16 @@ const SignUp = ({navigation}) => {
               },
             ]}>
             PinCode
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  color: 'red',
+                },
+              ]}>
+              {' '}
+              *
+            </Text>
           </Text>
           <View style={styles.action}>
             <FontAwesome name="user-o" color={colors.text} size={20} />
@@ -587,7 +712,7 @@ const SignUp = ({navigation}) => {
                 },
               ]}
               autoCapitalize="none"
-              onChangeText={val => handleValidUser(val)}
+              onChangeText={val => handleValidPinCode(val)}
             />
           </View>
 

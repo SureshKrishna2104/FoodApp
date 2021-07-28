@@ -42,7 +42,7 @@ const CartScreen = props => {
       console.warn('res', res);
       setId(res);
     });
-  });
+  }, []);
   const onPressButton = () => {
     console.warn('button clicked', cartItems, id);
     if (!id) {

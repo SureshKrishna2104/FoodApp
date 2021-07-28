@@ -33,15 +33,12 @@ const OfferScreen = props => {
         offer={itemdata.item.offer}
         amount={itemdata.item.amount}
         onSelectMeal={() => {
-          props.navigation.navigate({
-            routeName: 'ProductDetails',
-            params: {
-              itemId: itemdata.item.itemId,
-              itemAmount: itemdata.item.amount,
-              itemName: itemdata.item.itemName,
+          props.navigation.navigate('ProductDetail', {
+            itemId: itemdata.item.itemId,
+            itemAmount: itemdata.item.amount,
+            itemName: itemdata.item.itemName,
 
-              itemImage: itemdata.item.image_url,
-            },
+            itemImage: itemdata.item.image_url,
           });
         }}
       />

@@ -5,11 +5,15 @@ import {useSelector, useDispatch} from 'react-redux';
 // import Colors from '../../constatnts/Colors';
 import * as cartActions from '../store/actions/cart';
 
-const ProductDetail = props => {
-  const productId = props.navigation.getParam('itemId');
-  const productImage = props.navigation.getParam('itemImage');
-  const productPrice = props.navigation.getParam('itemAmount');
-  const productName = props.navigation.getParam('itemName');
+const ProductDetail = ({route}, props) => {
+  const productId = route.params.itemId;
+  //props.navigation.getParam('itemId');
+  const productImage = route.params.itemImage;
+  //props.navigation.getParam('itemImage');
+  const productPrice = route.params.itemAmount;
+  //props.navigation.getParam('itemAmount');
+  const productName = route.params.itemName;
+  //props.navigation.getParam('itemName');
   // const selectedProduct = useSelector(state =>
   //   state.products.availableProducts.find(prod => prod.id === productId),
   // );
@@ -36,11 +40,11 @@ const ProductDetail = props => {
   );
 };
 
-ProductDetail.navigationOptions = navData => {
-  return {
-    headerTitle: navData.navigation.getParam('itemName'),
-  };
-};
+// ProductDetail.navigationOptions = navData => {
+//   return {
+//     headerTitle: navData.navigation.getParam('itemName'),
+//   };
+// };
 
 const styles = StyleSheet.create({
   image: {
