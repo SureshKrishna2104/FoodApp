@@ -19,6 +19,26 @@ export const postMethod = (type, value) => {
       return responseData;
     }); // promise
 };
+export const putMethod = (type, value) => {
+  console.warn('inside psot', type, value);
+  let data = {
+    method: 'PUT',
+    credentials: 'same-origin',
+    mode: 'same-origin',
+    body: JSON.stringify(value),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  };
+  return fetch(URL + type, data)
+    .then(response => response.json())
+    .then(responseData => {
+      console.warn('out of the', responseData);
+      return responseData;
+    }); // promise
+};
+
 export const getAllData = type => {
   console.warn('dashboard', type);
   let data = {

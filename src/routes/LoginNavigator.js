@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+//import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-
+import {View, Text, Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-//import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AsyncStorage from '@react-native-community/async-storage';
 import ShopsList from '../screens/ShopsList';
 import ProductList from '../screens/ProductList';
@@ -24,7 +24,7 @@ const LoginStack = createStackNavigator();
 const OfferStack = createStackNavigator();
 const CartStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 const LoginNavigator = () => {
   const [id, setId] = useState('');
   const check = useSelector(state => state.cart.check);
@@ -80,7 +80,7 @@ const LoginNavigator = () => {
             return (
               <Icon
                 name="ios-cart"
-                size={25}
+                size={28}
                 color={focused ? '#1813A2' : 'grey'}
               />
             );
@@ -135,6 +135,7 @@ const HomeStackScreen = ({navigation}) => (
       component={CartScreen}
       options={{
         title: 'Cart',
+        headerTitleAlign: 'center',
       }}
     />
     <HomeStack.Screen
@@ -150,6 +151,7 @@ const HomeStackScreen = ({navigation}) => (
       component={ProductDetail}
       options={{
         title: 'FoodDetail',
+        headerTitleAlign: 'center',
       }}
     />
   </HomeStack.Navigator>
@@ -163,7 +165,7 @@ const CartStackScreen = ({navigation}) => (
         shadowColor: '#fff',
         elevation: 0,
       },
-      headerTintColor: '#000',
+      headerTintColor: 'white',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
@@ -173,6 +175,7 @@ const CartStackScreen = ({navigation}) => (
       component={CartScreen}
       options={{
         title: 'Cart',
+        headerTitleAlign: 'center',
       }}
     />
     <CartStack.Screen
@@ -180,6 +183,7 @@ const CartStackScreen = ({navigation}) => (
       component={Login}
       options={{
         title: 'Login',
+        headerTitleAlign: 'center',
       }}
     />
     <CartStack.Screen
@@ -187,6 +191,7 @@ const CartStackScreen = ({navigation}) => (
       component={SignUp}
       options={{
         title: 'SignUp',
+        headerTitleAlign: 'center',
       }}
     />
   </CartStack.Navigator>
@@ -200,13 +205,27 @@ const OfferStackScreen = ({navigation}) => (
         shadowColor: '#fff',
         elevation: 0,
       },
-      headerTintColor: '#000',
+      headerTintColor: 'white',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
     }}>
-    <OfferStack.Screen name="Offer" component={OfferScreen} />
-    <OfferStack.Screen name="ProductDetail" component={ProductDetail} />
+    <OfferStack.Screen
+      name="Offer"
+      component={OfferScreen}
+      options={{
+        title: 'Todays Offer!',
+        headerTitleAlign: 'center',
+      }}
+    />
+    <OfferStack.Screen
+      name="ProductDetail"
+      component={ProductDetail}
+      options={{
+        title: 'Food Detail',
+        headerTitleAlign: 'center',
+      }}
+    />
   </OfferStack.Navigator>
 );
 
@@ -218,7 +237,7 @@ const ProfileStackScreen = ({navigation}) => (
         shadowColor: '#fff',
         elevation: 0,
       },
-      headerTintColor: '#000',
+      headerTintColor: 'white',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
@@ -228,6 +247,7 @@ const ProfileStackScreen = ({navigation}) => (
       component={ProfileScreen}
       options={{
         title: 'Profile',
+        headerTitleAlign: 'center',
       }}
     />
     <ProfileStack.Screen
@@ -235,6 +255,7 @@ const ProfileStackScreen = ({navigation}) => (
       component={OrderScreen}
       options={{
         title: 'Your Orders',
+        headerTitleAlign: 'center',
       }}
     />
     <ProfileStack.Screen
@@ -242,6 +263,7 @@ const ProfileStackScreen = ({navigation}) => (
       component={EditProfile}
       options={{
         title: 'Edit Profile',
+        headerTitleAlign: 'center',
       }}
     />
     <ProfileStack.Screen
@@ -249,6 +271,7 @@ const ProfileStackScreen = ({navigation}) => (
       component={Login}
       options={{
         title: 'Login',
+        headerTitleAlign: 'center',
       }}
     />
     <ProfileStack.Screen
@@ -256,6 +279,7 @@ const ProfileStackScreen = ({navigation}) => (
       component={SignUp}
       options={{
         title: 'SignUp',
+        headerTitleAlign: 'center',
       }}
     />
   </ProfileStack.Navigator>

@@ -18,7 +18,7 @@ const OfferScreen = props => {
       .then(response => response.json())
       .then(responseData => {
         setData(responseData.data);
-        console.warn('out of id', responseData);
+        console.warn('out of offer', responseData);
       })
       .catch(err => {
         console.error(err);
@@ -37,7 +37,6 @@ const OfferScreen = props => {
             itemId: itemdata.item.itemId,
             itemAmount: itemdata.item.amount,
             itemName: itemdata.item.itemName,
-
             itemImage: itemdata.item.image_url,
           });
         }}

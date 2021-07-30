@@ -121,7 +121,7 @@ const ProfileScreen = ({navigation}) => {
                     marginBottom: 5,
                   },
                 ]}>
-                {data.length > 0 ? data.name : 'Your Name'}
+                {data.length != 0 ? data.name : 'Your Name'}
               </Title>
               <Caption style={styles.caption}>Food 360*</Caption>
             </View>
@@ -165,14 +165,24 @@ const ProfileScreen = ({navigation}) => {
         <View style={styles.menuWrapper}>
           {data.length != 0 ? (
             <View>
-              <TouchableRipple onPress={() => navigation.navigate('Orders')}>
+              <TouchableRipple
+                onPress={() =>
+                  navigation.navigate('Orders', {order: data.orders})
+                }>
                 <View style={styles.menuItem}>
                   <Icon name="cart-arrow-right" color="#F05E23" size={25} />
                   <Text style={styles.menuItemText}>Your Orders</Text>
                 </View>
               </TouchableRipple>
               <TouchableRipple
-                onPress={() => navigation.navigate('EditProfile')}>
+                onPress={() =>
+                  navigation.navigate('EditProfile', {
+                    name: data.name,
+                    phone: data.number,
+                    address: data.address,
+                    pincode: data.pinCode,
+                  })
+                }>
                 <View style={styles.menuItem}>
                   <Icon name="account-edit" color="#F05E23" size={25} />
                   <Text style={styles.menuItemText}>Edit Profile</Text>

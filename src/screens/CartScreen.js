@@ -59,7 +59,7 @@ const CartScreen = props => {
         };
         console.warn('rrq', req);
         console.warn('id', id);
-        postMethod('/orders/BFMcPe', cartItems)
+        postMethod('/orders/' + id, cartItems)
           .then(response => {
             if (response) {
               console.warn('order response', response);

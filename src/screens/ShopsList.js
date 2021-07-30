@@ -1,7 +1,15 @@
 import React, {useEffect} from 'react';
-import {Text, View, FlatList} from 'react-native';
+import {
+  Text,
+  View,
+  FlatList,
+  StyleSheet,
+  StatusBar,
+  ScrollView,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ShopGrid from '../components/ShopGrid';
+import SliderContent from '../components/SliderContent';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
 const ShopsList = props => {
@@ -56,9 +64,21 @@ const ShopsList = props => {
       />
     );
   };
+  // return (
+  //   <View>
+  //     <SliderContent />
+  //     <FlatList data={data} renderItem={renderGrid} />
+  //   </View>
+  // );
   return (
-    <View>
-      <FlatList data={data} renderItem={renderGrid} />
+    <View style={styles.container}>
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <ScrollView>
+        <SliderContent />
+        <View style={styles.ListPannel}>
+          <FlatList data={data} renderItem={renderGrid} />
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -109,3 +129,28 @@ ShopsList.navigationOptions = navData => {
 };
 
 export default ShopsList;
+const styles = StyleSheet.create({
+  containerload: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 10,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  ListPannel: {
+    padding: 10,
+  },
+  textheader: {
+    fontSize: 18,
+    paddingVertical: 8,
+  },
+  loader: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
+});
