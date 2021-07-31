@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginRight: 10,
     marginVertical: 10,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
   },
   newsItem: {
     height: 250,

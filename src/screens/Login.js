@@ -150,7 +150,7 @@ const Login = ({navigation}) => {
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
-        <StatusBar backgroundColor="#009387" barStyle="light-content" />
+        {/* <StatusBar backgroundColor="#009387" barStyle="light-content" /> */}
         <View style={styles.header}>
           <Text style={styles.text_header}>Welcome!</Text>
           <Image

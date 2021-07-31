@@ -16,7 +16,7 @@ const OrderGrid = props => {
             <ImageBackground source={{uri: props.image}} style={styles.bgImage}>
               <View style={styles.titleContainer}>
                 <Text style={styles.title} numberOfLines={1}>
-                  TotalAmount Rs.{props.totalAmount}
+                  Hotel {props.title}
                 </Text>
               </View>
             </ImageBackground>
@@ -40,7 +40,17 @@ const OrderGrid = props => {
                 //marginBottom: 10,
                 marginTop: 5,
               }}>
-              Hotel {props.title.toUpperCase()}
+              Dish {props.name}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: 'white',
+                fontWeight: 'bold',
+                //marginBottom: 10,
+                marginTop: 5,
+              }}>
+              Rs.{props.amount}
             </Text>
             <Text
               style={{

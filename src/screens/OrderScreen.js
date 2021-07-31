@@ -6,11 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const OrderScreen = props => {
   const order = props.route.params.order;
   const [data, setData] = React.useState();
-  useEffect(() => {
-    const willFocusSubscription = props.navigation.addListener('focus', () => {
-      console.warn('refreshed');
-      // fetchData();
-    });
+  const fetchData = () => {
     AsyncStorage.getItem('userId').then(async res => {
       const id = await res;
       console.warn('res', res);
@@ -30,17 +26,27 @@ const OrderScreen = props => {
         .catch(err => {
           console.error(err);
         });
-      return willFocusSubscription;
     });
+  };
+  useEffect(() => {
+    fetchData();
+    const willFocusSubscription = props.navigation.addListener('focus', () => {
+      console.warn('refreshed');
+      fetchData();
+    });
+
+    return willFocusSubscription;
   }, []);
   const renderGrid = itemdata => {
     return (
       <OrderGrid
         image={itemdata.item.image_url}
-        title="Suresh"
+        title={itemdata.item.hotelName}
+        //title="Suresh"
         quantity={itemdata.item.quantity}
         totalAmount={itemdata.item.totalAmount}
-        amount={itemdata.item.amount}
+        name={itemdata.item.itemName}
+        amount={itemdata.item.itemAmount}
         // onSelectMeal={() => {
         //   props.navigation.navigate('ProductDetail', {
         //     itemId: itemdata.item.itemId,
@@ -54,7 +60,7 @@ const OrderScreen = props => {
   };
   return (
     <View>
-      <FlatList data={data} renderItem={renderGrid} />
+      <FlatList data={data} inverted={true} renderItem={renderGrid} />
     </View>
   );
 };

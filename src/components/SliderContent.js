@@ -82,7 +82,12 @@ export default class SliderContent extends Component {
     return (
       <ScrollView>
         <View style={{flex: 1}}>
-          <View style={{width: width, alignItems: 'center'}}>
+          <View
+            style={{
+              width: 350,
+              alignItems: 'center',
+              marginHorizontal: 3,
+            }}>
             <Swiper
               style={{height: width / 1.5}}
               showsButtons={false}
@@ -112,9 +117,9 @@ export default class SliderContent extends Component {
 const styles = StyleSheet.create({
   imageBanner: {
     height: '100%',
-    width: '90%',
+    width: '100%',
     //borderRadius: 0,
-    marginHorizontal: 20,
+    marginHorizontal: 3,
     marginTop: 10,
     borderRadius: 10,
   },

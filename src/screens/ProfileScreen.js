@@ -7,6 +7,8 @@ import {
   Alert,
   TouchableOpacity,
   InteractionManager,
+  ImageBackground,
+  Image,
 } from 'react-native';
 import {
   Avatar,
@@ -96,71 +98,37 @@ const ProfileScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={styles.userInfoSection}>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 10,
-              backgroundColor: '#6FC3F7',
+        <View style={styles.headerContainer}>
+          <ImageBackground
+            style={styles.headerBackgroundImage}
+            blurRadius={10}
+            source={{
+              uri: 'https://vismaifood.com/storage/app/uploads/public/9a3/26d/362/thumb__700_0_0_0_auto.jpg',
             }}>
-            <Avatar.Image
-              source={{
-                uri: 'https://img.icons8.com/bubbles/2x/360-view.png',
-              }}
-              size={80}
-            />
-            <View
-              style={{
-                marginLeft: 20,
-              }}>
-              <Title
-                style={[
-                  styles.title,
-                  {
-                    marginTop: 15,
-                    marginBottom: 5,
-                  },
-                ]}>
-                {data.length != 0 ? data.name : 'Your Name'}
-              </Title>
-              <Caption style={styles.caption}>Food 360*</Caption>
+            <View style={styles.headerColumn}>
+              <Image
+                style={styles.userImage}
+                source={require('../assets/images/ic_launcher.png')}
+              />
+              <Text style={styles.userNameText}>{data.name}</Text>
+              <View style={styles.userAddressRow}>
+                <View>
+                  <Icon
+                    name="location"
+                    underlayColor="transparent"
+                    iconStyle={styles.placeIcon}
+                    // onPress={this.onPressPlace}
+                  />
+                </View>
+                <View style={styles.userCityRow}>
+                  <Text style={styles.userCityText}>
+                    {data.number},{data.address}-{data.pinCode}
+                  </Text>
+                </View>
+              </View>
             </View>
-          </View>
+          </ImageBackground>
         </View>
-
-        <View style={styles.userInfoSection}>
-          <View style={styles.row}>
-            <Icon name="phone" color="#777777" size={20} />
-            <Text
-              style={{
-                color: '#777777',
-                marginLeft: 20,
-              }}>
-              {data.length != 0 ? data.number : '+91 9xxxxxxxxx'}
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <Icon name="map-marker-radius" color="#777777" size={20} />
-            <Text
-              style={{
-                color: '#777777',
-                marginLeft: 20,
-              }}>
-              {data.length != 0 ? data.address : 'Address'}
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <Icon name="pin" color="#777777" size={20} />
-            <Text
-              style={{
-                color: '#777777',
-                marginLeft: 20,
-              }}>
-              {data.length != 0 ? data.pinCode : 'pincode'}
-            </Text>
-          </View>
-        </View>
-
         <View style={styles.infoBoxWrapper} />
         <View style={styles.menuWrapper}>
           {data.length != 0 ? (
@@ -245,6 +213,77 @@ const ProfileScreen = ({navigation}) => {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
+  cardContainer: {
+    backgroundColor: '#FFF',
+    borderWidth: 0,
+    flex: 1,
+    margin: 0,
+    padding: 0,
+  },
+
+  emailContainer: {
+    backgroundColor: '#FFF',
+    flex: 1,
+    paddingTop: 30,
+  },
+  headerBackgroundImage: {
+    paddingBottom: 20,
+    paddingTop: 45,
+  },
+  headerContainer: {},
+  headerColumn: {
+    backgroundColor: 'transparent',
+    ...Platform.select({
+      ios: {
+        alignItems: 'center',
+        elevation: 1,
+        marginTop: -1,
+      },
+      android: {
+        alignItems: 'center',
+      },
+    }),
+  },
+  placeIcon: {
+    color: 'white',
+    fontSize: 26,
+  },
+  scroll: {
+    backgroundColor: '#FFF',
+  },
+  telContainer: {
+    backgroundColor: '#FFF',
+    flex: 1,
+    paddingTop: 30,
+  },
+  userAddressRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  userCityRow: {
+    backgroundColor: 'transparent',
+  },
+  userCityText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  userImage: {
+    borderColor: '#FFF',
+    borderRadius: 85,
+    borderWidth: 3,
+    height: 170,
+    marginBottom: 15,
+    width: 170,
+  },
+  userNameText: {
+    color: '#FFF',
+    fontSize: 22,
+    fontWeight: 'bold',
+    paddingBottom: 8,
+    textAlign: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

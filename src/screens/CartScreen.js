@@ -35,13 +35,21 @@ const CartScreen = props => {
     }
     return transformedCartItems.sort((a, b) => (a.itemId > b.itemId ? 1 : -1));
   });
-  useEffect(() => {
-    // AsyncStorage.getItem('userId')
-
+  const fetchData = () => {
     AsyncStorage.getItem('userId').then(async res => {
       console.warn('res', res);
       setId(res);
     });
+  };
+  useEffect(() => {
+    // AsyncStorage.getItem('userId')
+
+    fetchData();
+    const willFocusSubscription = props.navigation.addListener('focus', () => {
+      console.warn('refreshed');
+      fetchData();
+    });
+    return willFocusSubscription;
   }, []);
   const onPressButton = () => {
     console.warn('button clicked', cartItems, id);

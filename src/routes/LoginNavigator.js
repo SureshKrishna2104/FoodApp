@@ -48,7 +48,7 @@ const LoginNavigator = () => {
               <Icon
                 name="ios-restaurant"
                 size={25}
-                color={focused ? '#1813A2' : 'grey'}
+                color={focused ? '#6FC3F7' : 'grey'}
               />
             );
           },
@@ -64,7 +64,7 @@ const LoginNavigator = () => {
               <Icon
                 name="fast-food"
                 size={25}
-                color={focused ? '#1813A2' : 'grey'}
+                color={focused ? '#6FC3F7' : 'grey'}
               />
             );
           },
@@ -81,7 +81,7 @@ const LoginNavigator = () => {
               <Icon
                 name="ios-cart"
                 size={28}
-                color={focused ? '#1813A2' : 'grey'}
+                color={focused ? '#6FC3F7' : 'grey'}
               />
             );
           },
@@ -97,7 +97,7 @@ const LoginNavigator = () => {
               <Icon
                 name="person"
                 size={25}
-                color={focused ? '#1813A2' : 'grey'}
+                color={focused ? '#6FC3F7' : 'grey'}
               />
             );
           },
@@ -126,6 +126,20 @@ const HomeStackScreen = ({navigation}) => (
       name="Shops"
       component={ShopsList}
       options={{
+        headerLeft: () => (
+          <View style={{marginLeft: 5}}>
+            <Image
+              style={{
+                height: 60,
+                width: 50,
+              }}
+              //source={require('../assets/images/ic_launcher.png')}
+              source={{
+                uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+              }}
+            />
+          </View>
+        ),
         title: 'Hotels',
         headerTitleAlign: 'center',
       }}
@@ -174,6 +188,20 @@ const CartStackScreen = ({navigation}) => (
       name="Cart"
       component={CartScreen}
       options={{
+        headerLeft: () => (
+          <View style={{marginLeft: 5}}>
+            <Image
+              style={{
+                height: 60,
+                width: 50,
+              }}
+              //source={require('../assets/images/ic_launcher.png')}
+              source={{
+                uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+              }}
+            />
+          </View>
+        ),
         title: 'Cart',
         headerTitleAlign: 'center',
       }}
@@ -214,6 +242,20 @@ const OfferStackScreen = ({navigation}) => (
       name="Offer"
       component={OfferScreen}
       options={{
+        headerLeft: () => (
+          <View style={{marginLeft: 5}}>
+            <Image
+              style={{
+                height: 60,
+                width: 50,
+              }}
+              //source={require('../assets/images/ic_launcher.png')}
+              source={{
+                uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+              }}
+            />
+          </View>
+        ),
         title: 'Todays Offer!',
         headerTitleAlign: 'center',
       }}
@@ -246,6 +288,20 @@ const ProfileStackScreen = ({navigation}) => (
       name="Profile"
       component={ProfileScreen}
       options={{
+        headerLeft: () => (
+          <View style={{marginLeft: 5}}>
+            <Image
+              style={{
+                height: 60,
+                width: 50,
+              }}
+              //source={require('../assets/images/ic_launcher.png')}
+              source={{
+                uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+              }}
+            />
+          </View>
+        ),
         title: 'Profile',
         headerTitleAlign: 'center',
       }}

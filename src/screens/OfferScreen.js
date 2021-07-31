@@ -11,7 +11,7 @@ const OfferScreen = props => {
   // const newsCat = props.navigation.getParam('newsCat');
   // const newsUrl = props.navigation.getParam('newsUrl');
   const [data, setData] = React.useState();
-  useEffect(() => {
+  const fetchData = () => {
     fetch('http://35.224.0.195:9090/getOffers', {
       method: 'GET',
     })
@@ -23,6 +23,13 @@ const OfferScreen = props => {
       .catch(err => {
         console.error(err);
       });
+  };
+  useEffect(() => {
+    const willFocusSubscription = props.navigation.addListener('focus', () => {
+      console.warn('refreshed');
+      fetchData();
+    });
+    return willFocusSubscription;
   }, []);
   const renderGrid = itemdata => {
     return (

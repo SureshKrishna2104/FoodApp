@@ -1,7 +1,7 @@
 export const URL = 'http://35.224.0.195:9090';
 
 export const postMethod = (type, value) => {
-  console.warn('inside psot', type, value);
+  console.warn('inside post', type, value);
   let data = {
     method: 'POST',
     credentials: 'same-origin',

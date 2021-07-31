@@ -30,8 +30,8 @@ import * as Animatable from 'react-native-animatable';
 //import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-//import {postMethod} from '../services/Apiservices';
-import {putMethod} from '../services/Apiservices';
+import {postMethod} from '../services/Apiservices';
+//import {putMethod} from '../services/Apiservices';
 import {useTheme} from 'react-native-paper';
 //import { AuthContext } from '../routes'
 import ActivityLoading from '../components/ActivityLoading';
@@ -56,7 +56,7 @@ const EditProfile = props => {
 
     if (number != '') {
       setIsLoading(true);
-      putMethod('updateUser/' + id, req)
+      postMethod('updateUser/' + id, req)
         .then(response => {
           if (response) {
             console.warn('login response', response);
@@ -126,7 +126,7 @@ const EditProfile = props => {
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
-        <StatusBar backgroundColor="#009387" barStyle="light-content" />
+        {/* <StatusBar backgroundColor="#fff" barStyle="light-content" /> */}
         <View style={styles.header}>
           <Text style={styles.text_header}>Edit Your Profile!</Text>
           <Image
