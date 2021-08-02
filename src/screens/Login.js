@@ -38,11 +38,12 @@ const Login = ({navigation}) => {
   //const { signIn } = React.useContext(AuthContext);
 
   const setInfo = async data => {
-    console.warn('dataaaa-', data.data.userId);
+    console.warn('dataaaa-', data.data);
     const jsonValue = JSON.stringify(data.data);
     // const id = JSON.stringify(data.data.userId);
     await AsyncStorage.setItem('userInfo', jsonValue);
     await AsyncStorage.setItem('userId', data.data.userId);
+    await AsyncStorage.setItem('userToken', data.data.token);
   };
 
   const doLogin = () => {

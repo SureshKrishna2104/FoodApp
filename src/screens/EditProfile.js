@@ -30,7 +30,7 @@ import * as Animatable from 'react-native-animatable';
 //import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import {postMethod} from '../services/Apiservices';
+import {postMethod1} from '../services/Apiservices';
 //import {putMethod} from '../services/Apiservices';
 import {useTheme} from 'react-native-paper';
 //import { AuthContext } from '../routes'
@@ -41,22 +41,25 @@ const EditProfile = props => {
   const number1 = props.route.params.phone;
   const address1 = props.route.params.address;
   const pincode1 = props.route.params.pincode;
+  const password1 = props.route.params.pwd;
 
   const [isLoading, setIsLoading] = React.useState(false);
+  const [jwt, setJwt] = React.useState('');
 
   //const { signIn } = React.useContext(AuthContext);
 
   const doLogin = () => {
     const req = {
-      name: name,
       number: number,
+      password: password1,
       address: address,
       pinCode: pincode,
+      name: name,
     };
 
     if (number != '') {
       setIsLoading(true);
-      postMethod('updateUser/' + id, req)
+      postMethod1('/updateUser/' + id, req, jwt)
         .then(response => {
           if (response) {
             console.warn('login response', response);
@@ -118,6 +121,12 @@ const EditProfile = props => {
     AsyncStorage.getItem('userId').then(async res => {
       console.warn('res', res);
       setId(res);
+
+      // setId(res);
+    });
+    AsyncStorage.getItem('userToken').then(async res => {
+      console.warn('Token', res);
+      setJwt(res);
 
       // setId(res);
     });

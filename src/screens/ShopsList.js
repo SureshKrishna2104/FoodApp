@@ -15,6 +15,7 @@ import HeaderButton from '../components/HeaderButton';
 const ShopsList = props => {
   const [data, setData] = React.useState();
   const [count, setCount] = React.useState('');
+
   const fetchData = () => {
     fetch('http://35.224.0.195:9090/getAllHotel', {
       method: 'GET',

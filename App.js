@@ -28,7 +28,7 @@ export default function App() {
     });
     setTimeout(function () {
       Hide_Splash_Screen();
-    }, 3000);
+    }, 5000);
   }, []);
 
   return (
@@ -43,7 +43,7 @@ export default function App() {
               width: 300,
               height: 600,
               justifyContent: 'center',
-              marginLeft: 15,
+              marginLeft: 27,
             }}
           />
         </View>

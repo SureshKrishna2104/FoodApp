@@ -113,12 +113,12 @@ const ProfileScreen = ({navigation}) => {
               <Text style={styles.userNameText}>{data.name}</Text>
               <View style={styles.userAddressRow}>
                 <View>
-                  <Icon
-                    name="location"
+                  {/* <Icon
+                    name="phone"
                     underlayColor="transparent"
                     iconStyle={styles.placeIcon}
                     // onPress={this.onPressPlace}
-                  />
+                  /> */}
                 </View>
                 <View style={styles.userCityRow}>
                   <Text style={styles.userCityText}>
@@ -149,6 +149,7 @@ const ProfileScreen = ({navigation}) => {
                     phone: data.number,
                     address: data.address,
                     pincode: data.pinCode,
+                    pwd: data.password,
                   })
                 }>
                 <View style={styles.menuItem}>

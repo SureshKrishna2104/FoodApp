@@ -19,16 +19,17 @@ export const postMethod = (type, value) => {
       return responseData;
     }); // promise
 };
-export const putMethod = (type, value) => {
-  console.warn('inside psot', type, value);
+export const postMethod1 = (type, value, jwt) => {
+  console.warn('inside post', type, value, jwt);
   let data = {
-    method: 'PUT',
+    method: 'POST',
     credentials: 'same-origin',
     mode: 'same-origin',
     body: JSON.stringify(value),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`,
     },
   };
   return fetch(URL + type, data)
