@@ -34,7 +34,7 @@ const ProductDetail = ({route}, props) => {
           }}
         />
       </View>
-      <Text style={styles.price}>${productPrice}</Text>
+      <Text style={styles.price}>Rs.{productPrice}</Text>
       <Text style={styles.description}>{productName}</Text>
     </ScrollView>
   );

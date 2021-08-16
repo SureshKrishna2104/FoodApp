@@ -37,13 +37,14 @@ export default function App() {
       {isVisible === true ? (
         <View style={{backgroundColor: '#fff', alignContent: 'center'}}>
           <Image
-            source={require('./src/assets/images/ic_launcher.png')}
+            source={require('./src/assets/images/flash.jpg')}
             resizeMode="contain"
             style={{
-              width: 300,
-              height: 600,
+              width: 450,
+              height: 800,
               justifyContent: 'center',
-              marginLeft: 27,
+              marginLeft: -20,
+              //marginRight:-20,
             }}
           />
         </View>

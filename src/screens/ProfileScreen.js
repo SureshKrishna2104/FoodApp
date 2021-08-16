@@ -108,7 +108,7 @@ const ProfileScreen = ({navigation}) => {
             <View style={styles.headerColumn}>
               <Image
                 style={styles.userImage}
-                source={require('../assets/images/ic_launcher.png')}
+                source={require('../assets/images/flash.jpg')}
               />
               <Text style={styles.userNameText}>{data.name}</Text>
               <View style={styles.userAddressRow}>
@@ -122,7 +122,13 @@ const ProfileScreen = ({navigation}) => {
                 </View>
                 <View style={styles.userCityRow}>
                   <Text style={styles.userCityText}>
-                    {data.number},{data.address}-{data.pinCode}
+                    {data.number}
+                  </Text>
+                  <Text style={styles.userCityText}>
+                    {data.address} 
+                  </Text>
+                  <Text style={styles.userCityText}>
+                   {data.pinCode}
                   </Text>
                 </View>
               </View>

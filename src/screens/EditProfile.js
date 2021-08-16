@@ -137,12 +137,11 @@ const EditProfile = props => {
       <View style={styles.container}>
         {/* <StatusBar backgroundColor="#fff" barStyle="light-content" /> */}
         <View style={styles.header}>
-          <Text style={styles.text_header}>Edit Your Profile!</Text>
           <Image
-            source={require('../assets/images/login_screen.jpg')}
+            source={require('../assets/images/login.jpg')}
             resizeMode="contain"
             style={{
-              width: 135,
+              width: 165,
               height: 135,
             }}
           />
@@ -295,7 +294,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 15,
     backgroundColor: '#fff',
   },
   footer: {

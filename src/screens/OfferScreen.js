@@ -39,6 +39,7 @@ const OfferScreen = props => {
         description={itemdata.item.description}
         offer={itemdata.item.offer}
         amount={itemdata.item.amount}
+        name={itemdata.item.hotelName}
         onSelectMeal={() => {
           props.navigation.navigate('ProductDetail', {
             itemId: itemdata.item.itemId,

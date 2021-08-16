@@ -153,12 +153,11 @@ const Login = ({navigation}) => {
       <View style={styles.container}>
         {/* <StatusBar backgroundColor="#009387" barStyle="light-content" /> */}
         <View style={styles.header}>
-          <Text style={styles.text_header}>Welcome!</Text>
           <Image
-            source={require('../assets/images/login_screen.jpg')}
+            source={require('../assets/images/login.jpg')}
             resizeMode="contain"
             style={{
-              width: 125,
+              width: 190,
               height: 125,
             }}
           />

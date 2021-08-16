@@ -84,7 +84,7 @@ export default class SliderContent extends Component {
         <View style={{flex: 1}}>
           <View
             style={{
-              width: 350,
+              width: 400,
               alignItems: 'center',
               marginHorizontal: 3,
             }}>

@@ -8,21 +8,30 @@ import {
 } from 'react-native';
 
 const OfferGrid = props => {
-  return (
-    <View style={styles.mealItem}>
-      <TouchableOpacity onPress={props.onSelectMeal}>
-        <View>
-          <View style={{...styles.mealRow, ...styles.mealHeader}}>
-            <ImageBackground source={{uri: props.image}} style={styles.bgImage}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.title} numberOfLines={1}>
-                  Offer Rs.{props.offer}
-                </Text>
-              </View>
-            </ImageBackground>
-          </View>
-          <View style={{...styles.mealRow, ...styles.mealDetail}}>
-            {/* <Text
+  if (props.title === '') {
+    return (
+      <View>
+        <Text>No foods found</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.mealItem}>
+        <TouchableOpacity onPress={props.onSelectMeal}>
+          <View>
+            <View style={{...styles.mealRow, ...styles.mealHeader}}>
+              <ImageBackground
+                source={{uri: props.image}}
+                style={styles.bgImage}>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.title} numberOfLines={1}>
+                    Offer Rs.{props.offer}
+                  </Text>
+                </View>
+              </ImageBackground>
+            </View>
+            <View style={{...styles.mealRow, ...styles.mealDetail}}>
+              {/* <Text
               style={{
                 fontSize: 15,
                 color: 'white',
@@ -32,31 +41,42 @@ const OfferGrid = props => {
               }}>
               Hotel {props.hotelName.toUpperCase()}
             </Text> */}
-            <Text
-              style={{
-                fontSize: 15,
-                color: 'white',
-                fontWeight: 'bold',
-                //marginBottom: 10,
-                marginTop: 5,
-              }}>
-              Dish {props.title.toUpperCase()}
-            </Text>
-            <Text
-              style={{
-                fontSize: 15,
-                color: 'white',
-                fontWeight: 'bold',
-                //marginBottom: 10,
-                marginTop: 5,
-              }}>
-              Rs.{props.amount}
-            </Text>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  //marginBottom: 10,
+                  marginTop: 5,
+                }}>
+                Dish {props.title.toUpperCase()}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  //marginBottom: 10,
+                  marginTop: 5,
+                }}>
+                Hotel {props.name.toUpperCase()}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  //marginBottom: 10,
+                  marginTop: 5,
+                }}>
+                Rs.{props.amount}
+              </Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
+        </TouchableOpacity>
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
