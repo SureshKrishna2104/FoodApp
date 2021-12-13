@@ -6,15 +6,16 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
+  Image
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ShopGrid from '../components/ShopGrid';
 import SliderContent from '../components/SliderContent';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
-const ShopsList = props => {
+const Shops = props => {
   const [data, setData] = React.useState();
-  const [count, setCount] = React.useState('');
+  const [count, setCount] = React.useState(0);
 
   const fetchData = () => {
     fetch('http://35.224.0.195:9090/getAllHotel', {
@@ -37,8 +38,11 @@ const ShopsList = props => {
     });
     AsyncStorage.getItem('userId').then(async res => {
       console.warn('res', res);
-      setCount(res);
-
+      if (res) {
+        setCount(res);
+      } else {
+        count = 0;
+      }
       // setId(res);
     });
     props.navigation.setParams({c: count});
@@ -83,23 +87,55 @@ const ShopsList = props => {
     </View>
   );
 };
-ShopsList.navigationOptions = navData => {
-  const item = navData.navigation.getParam('c');
-  console.warn('i', item);
+export default Shops;
+// Shops.navigationOptions = {
+//   headerTitle:'Hotel'
+//   //headerShown: null,
+// };
+
+Shops.navigationOptions = navData => {
+  // const item = navData.navigation.getParam('c');
+  //  navData.navigation.setParams({c: '1'});
+  //    console.log(navData.navigation.getParam)
+  console.warn('ddd');
   return {
-    headerTitle: 'Hotels',
-    headerRight: (
+    headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>hotels</Text>,
+    headerTitleAlign: 'center',
+    headerStyle: {
+      backgroundColor: '#6FC3F7',
+      shadowColor: '#fff',
+      elevation: 0,
+    },
+    headerTintColor: 'white',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+    headerLeft: () => (
+      <View style={{marginLeft: 5}}>
+        <Image
+          style={{
+            height: 60,
+            width: 50,
+          }}
+          //source={require('../assets/images/ic_launcher.png')}
+          source={{
+            uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+          }}
+        />
+      </View>
+    ),
+    headerRight: () => (
       <View>
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
             title="Cart"
             iconName="cart-outline"
             onPress={() => {
-              navData.navigation.navigate('Cart');
+              //  navData.navigation.navigate('Cart');
             }}
           />
         </HeaderButtons>
-        {item > 0 ? (
+        {1 > 0 ? (
           <View
             style={{
               position: 'absolute',
@@ -107,8 +143,8 @@ ShopsList.navigationOptions = navData => {
               width: 16,
               height: 16,
               borderRadius: 20 / 2,
-              right: 6,
-              top: -13,
+              marginLeft: 20,
+              top: -10,
               alignItems: 'center',
               justifyContent: 'center',
             }}>
@@ -120,7 +156,7 @@ ShopsList.navigationOptions = navData => {
                 fontSize: 10,
                 fontWeight: 'bold',
               }}>
-              {item}
+              1
             </Text>
           </View>
         ) : null}
@@ -129,7 +165,6 @@ ShopsList.navigationOptions = navData => {
   };
 };
 
-export default ShopsList;
 const styles = StyleSheet.create({
   containerload: {
     flex: 1,
@@ -155,3 +190,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+// headerRight: (
+//   <View>
+//     <HeaderButtons HeaderButtonComponent={HeaderButton}>
+//       <Item
+//         title="Cart"
+//         iconName="cart-outline"
+//         onPress={() => {
+//         //  navData.navigation.navigate('Cart');
+//         }}
+//       />
+//     </HeaderButtons>
+//     {/* {1> 0 ? (
+//       <View
+//         style={{
+//           position: 'absolute',
+//           backgroundColor: 'red',
+//           width: 16,
+//           height: 16,
+//           borderRadius: 20 / 2,
+
+//           top: -13,
+//           alignItems: 'center',
+//           justifyContent: 'center',
+//         }}>
+//         <Text
+//           style={{
+//             alignItems: 'center',
+//             justifyContent: 'center',
+//             color: 'white',
+//             fontSize: 10,
+//             fontWeight: 'bold',
+//           }}>
+//           1
+//         </Text>
+//       </View>
+//     ) : null} */}
+//   </View>
+// ),

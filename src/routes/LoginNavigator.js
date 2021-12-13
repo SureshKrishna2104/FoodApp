@@ -125,24 +125,25 @@ const HomeStackScreen = ({navigation}) => (
     <HomeStack.Screen
       name="Shops"
       component={ShopsList}
-      options={{
-        headerLeft: () => (
-          <View style={{marginLeft: 5}}>
-            <Image
-              style={{
-                height: 60,
-                width: 50,
-              }}
-              //source={require('../assets/images/ic_launcher.png')}
-              source={{
-                uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
-              }}
-            />
-          </View>
-        ),
-        title: 'Hotels',
-        headerTitleAlign: 'center',
-      }}
+      options={ShopsList.navigationOptions}
+      // options={{
+      //   headerLeft: () => (
+      //     <View style={{marginLeft: 5}}>
+      //       <Image
+      //         style={{
+      //           height: 60,
+      //           width: 50,
+      //         }}
+      //         //source={require('../assets/images/ic_launcher.png')}
+      //         source={{
+      //           uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+      //         }}
+      //       />
+      //     </View>
+      //   ),
+      //   title: 'Hotels',
+      //   headerTitleAlign: 'center',
+      // }}
     />
     <HomeStack.Screen
       name="Cart"
@@ -202,7 +203,8 @@ const CartStackScreen = ({navigation}) => (
             />
           </View>
         ),
-        title: 'Cart',
+        headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>cart</Text>,
+      //  title: 'Cart',
         headerTitleAlign: 'center',
       }}
     />
@@ -256,7 +258,8 @@ const OfferStackScreen = ({navigation}) => (
             />
           </View>
         ),
-        title: 'Todays Offer!',
+        headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Todays Offer!</Text>,
+ 
         headerTitleAlign: 'center',
       }}
     />
@@ -302,7 +305,8 @@ const ProfileStackScreen = ({navigation}) => (
             />
           </View>
         ),
-        title: 'Profile',
+        headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Profile</Text>,
+        // title: 'Profile',
         headerTitleAlign: 'center',
       }}
     />
