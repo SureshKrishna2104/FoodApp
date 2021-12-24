@@ -13,6 +13,7 @@ const initialState = {
   totalAmount: 0,
   check: false,
   jwt: '',
+
 };
 
 export default (state = initialState, action) => {

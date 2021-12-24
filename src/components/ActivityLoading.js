@@ -6,23 +6,22 @@ const ActivityLoading = ({size}) => {
   const {ActivityIndicator_Style} = styles;
 
   return (
-    <View style={ActivityIndicator_Style}>
+    <View style={[styles.container, styles.horizontal]}>
       <ActivityIndicator size={size} color="blue" />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  ActivityIndicator_Style: {
+  container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+    justifyContent: "center"
   },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
+  }
 });
 
 export default ActivityLoading;

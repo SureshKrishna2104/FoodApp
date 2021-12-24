@@ -31,13 +31,13 @@ import {useSelector, useDispatch} from 'react-redux';
 // import {RadioButton} from 'react-native-paper';
 // import {CheckBox} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import ActivityLoading from '../components/ActivityLoading';
 //import {strings, setLocale} from '../locales/i18n';
 
 const ProfileScreen = ({navigation}) => {
   const [data, setData] = React.useState([]);
   const [id, setId] = React.useState('');
-
+  const [isLoading, setIsLoading] = React.useState(true);
   const getProfile = async => {
     AsyncStorage.getItem('userId').then(async res => {
       const id = await res;
@@ -48,14 +48,17 @@ const ProfileScreen = ({navigation}) => {
           .then(responseJson => {
            // console.warn('ress', responseJson.data);
             setData(responseJson.data);
+            setIsLoading(false)
           })
           .catch(error => {
+            setIsLoading(false)
             Alert.alert(
               'No Internet connection.\n Please check your internet connection \nor try again',
             );
           });
       } else {
         setData('');
+        setIsLoading(false)
       }
     });
   };
@@ -137,6 +140,7 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View style={styles.infoBoxWrapper} />
         <View style={styles.menuWrapper}>
+        {isLoading ? <ActivityLoading size="large" /> : null}
           {data.length != 0 ? (
             <View>
               <TouchableRipple

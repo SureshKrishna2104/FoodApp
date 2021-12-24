@@ -149,7 +149,7 @@ export default class SliderContent extends Component {
         {
           image_id: 1,
           image_url:
-            'https://d37ky63zmmmzfj.cloudfront.net/production/itemimages/party_order/non_veg/chickenbiryani_1kg.jpg',
+            'https://vegveganmeat.com/wp-content/uploads/2020/11/chicken-biryani-pressure-cooker-south-india-square-735x735.jpg',
         },
         {
           image_id: 2,
@@ -212,14 +212,15 @@ export default class SliderContent extends Component {
             style={{
               width: 350,
               alignItems: 'center',
-              marginHorizontal: 3,
+              marginHorizontal:-1,
+              marginTop:-30,
             }}>
             <Swiper
               style={{height: width / 1.5}}
               showsButtons={false}
               autoplay={true}
               showsPagination={true}
-              autoplayTimeout={4}>
+              autoplayTimeout={2}>
               {this.state.dataBanner.map(itembann => {
                 return (
                   <View>

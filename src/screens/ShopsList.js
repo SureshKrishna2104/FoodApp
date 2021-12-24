@@ -6,30 +6,41 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  Image
+  Image,
+  SafeAreaView
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ShopGrid from '../components/ShopGrid';
 import SliderContent from '../components/SliderContent';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
+import {useSelector, useDispatch} from 'react-redux';
+import ActivityLoading from '../components/ActivityLoading';
 const ShopsList = props => {
+  const myObj = useSelector(state => state.cart.items);
+  var size = Object.keys(myObj).length;
+
   const [data, setData] = React.useState();
   const [count, setCount] = React.useState('');
-
+  const [isLoading, setIsLoading] = React.useState(true);
   const fetchData = () => {
-    fetch('http://35.224.0.195:9090/getAllHotel', {
+    fetch('http://3.133.49.92:9090/getAllHotel', {
       method: 'GET',
     })
       .then(response => response.json())
       .then(responseData => {
         setData(responseData.data);
+        setIsLoading(false)
         //console.warn('out of ', responseData.data);
       })
       .catch(err => {
+        setIsLoading(false)
         console.error(err);
       });
   };
+  useEffect(()=>{
+    props.navigation.setParams({badge: size});
+  },[size])
   useEffect(() => {
     fetchData();
     const willFocusSubscription = props.navigation.addListener('focus', () => {
@@ -37,12 +48,12 @@ const ShopsList = props => {
       fetchData();
     });
     AsyncStorage.getItem('userId').then(async res => {
-      //console.warn('res', res);
+      console.warn('rescount', res);
       setCount(res);
 
       // setId(res);
     });
-    props.navigation.setParams({c: count});
+    
 
     return willFocusSubscription;
   }, []);
@@ -73,22 +84,21 @@ const ShopsList = props => {
   //   </View>
   // );
   return (
+    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-      <ScrollView>
-        <SliderContent />
-        <View style={styles.ListPannel}>
-          <FlatList data={data} renderItem={renderGrid} keyExtractor={(item)=>item.id}/>
+      <View style={styles.ListPannel}>
+          <FlatList data={data} renderItem={renderGrid} ListHeaderComponent={SliderContent}/>
         </View>
-      </ScrollView>
     </View>
+    {isLoading ? <ActivityLoading size="large" /> : null}
+    </SafeAreaView>
   );
 };
 ShopsList.navigationOptions = navData => {
-  // const item = navData.navigation.getParam('c');
-  //  navData.navigation.setParams({c: '1'});
-  //    console.log(navData.navigation.getParam)
- // console.warn('ddd');
+ const myObj1 = useSelector(state => state.cart.items);
+ var size = Object.keys(myObj1).length;
+
   return {
     headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>hotels</Text>,
     headerTitleAlign: 'center',
@@ -127,7 +137,7 @@ ShopsList.navigationOptions = navData => {
             }}
           />
         </HeaderButtons>
-        {1 > 0 ? (
+        {size> 0 ? (
           <View
             style={{
               position: 'absolute',
@@ -148,7 +158,7 @@ ShopsList.navigationOptions = navData => {
                 fontSize: 10,
                 fontWeight: 'bold',
               }}>
-              1
+              {size}
             </Text>
           </View>
         ) : null}

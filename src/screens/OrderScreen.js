@@ -9,13 +9,13 @@ const OrderScreen = props => {
   const fetchData = () => {
     AsyncStorage.getItem('userId').then(async res => {
       const id = await res;
-      console.warn('res', res);
+      //console.warn('res', res);
       //setId(res);
       //console.warn('orders', order);
       //setData(order);
       // setId(res);
 
-      fetch('http://35.224.0.195:9090/getOrders/' + id, {
+      fetch('http://3.133.49.92:9090/getOrders/' + id, {
         method: 'GET',
       })
         .then(response => response.json())

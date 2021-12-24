@@ -208,21 +208,22 @@ const HomeStackScreen = ({navigation}) => (
       //   headerTitleAlign: 'center',
       // }}
     />
-    <HomeStack.Screen
+    {/* <HomeStack.Screen
       name="Cart"
       component={CartScreen}
       options={{
         title: 'Cart',
         headerTitleAlign: 'center',
       }}
-    />
+    /> */}
     <HomeStack.Screen
       name="Products"
       component={ProductList}
-      options={{
-        title: 'Foods!',
-        headerTitleAlign: 'center',
-      }}
+      options={ProductList.navigationOptions}
+      // options={{
+      //   title: 'Foods!',
+      //   headerTitleAlign: 'center',
+      // }}
     />
     <HomeStack.Screen
       name="ProductDetail"
@@ -252,20 +253,32 @@ const CartStackScreen = ({navigation}) => (
       name="Cart"
       component={CartScreen}
       options={{
+        headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Cart</Text>,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#6FC3F7',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         headerLeft: () => (
-          <View style={{marginLeft: 12}}>
+          <View style={{marginLeft: 5}}>
             <Image
               style={{
                 height: 48,
                 width: 70,
               }}
-              //source={require('../assets/images/ic_launcher.png')}
               source={require('../assets/images/icon-header.jpg')}
+              //source={require('../assets/images/ic_launcher.png')}
+              // source={{
+              //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+              // }}
             />
           </View>
         ),
-        title: 'Cart',
-        headerTitleAlign: 'center',
       }}
     />
     <CartStack.Screen
@@ -303,22 +316,22 @@ const OfferStackScreen = ({navigation}) => (
     <OfferStack.Screen
       name="Offer"
       component={OfferScreen}
-      options={{
-        headerLeft: () => (
-          <View style={{marginLeft: 12}}>
-            <Image
-              style={{
-                height: 48,
-                width: 70,
-              }}
-              //source={require('../assets/images/ic_launcher.png')}
-              source={require('../assets/images/icon-header.jpg')}
-            />
-          </View>
-        ),
-        title: 'Todays Offer!',
-        headerTitleAlign: 'center',
-      }}
+      options={OfferScreen.navigationOptions}      // options={{
+      //   headerLeft: () => (
+      //     <View style={{marginLeft: 12}}>
+      //       <Image
+      //         style={{
+      //           height: 48,
+      //           width: 70,
+      //         }}
+      //         //source={require('../assets/images/ic_launcher.png')}
+      //         source={require('../assets/images/icon-header.jpg')}
+      //       />
+      //     </View>
+      //   ),
+      //   title: 'Todays Offer!',
+      //   headerTitleAlign: 'center',
+      // }}
     />
     <OfferStack.Screen
       name="ProductDetail"
@@ -347,10 +360,34 @@ const ProfileStackScreen = ({navigation}) => (
     <ProfileStack.Screen
       name="Profile"
       component={ProfileScreen}
+      //options={ProfileScreen.navigationOptions}  
       options={{
-      
-        title: 'Profile',
+        headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Profile</Text>,
         headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#6FC3F7',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerLeft: () => (
+          <View style={{marginLeft: 5}}>
+            <Image
+              style={{
+                height: 48,
+                width: 70,
+              }}
+              source={require('../assets/images/icon-header.jpg')}
+              //source={require('../assets/images/ic_launcher.png')}
+              // source={{
+              //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+              // }}
+            />
+          </View>
+        ),
       }}
     />
     <ProfileStack.Screen
