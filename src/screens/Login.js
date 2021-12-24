@@ -38,7 +38,7 @@ const Login = ({navigation}) => {
   //const { signIn } = React.useContext(AuthContext);
 
   const setInfo = async data => {
-    console.warn('dataaaa-', data.data);
+    //console.warn('dataaaa-', data.data);
     const jsonValue = JSON.stringify(data.data);
     // const id = JSON.stringify(data.data.userId);
     await AsyncStorage.setItem('userInfo', jsonValue);
@@ -57,7 +57,7 @@ const Login = ({navigation}) => {
       postMethod('/login', req)
         .then(response => {
           if (response) {
-            console.warn('login response', response);
+            //console.warn('login response', response);
 
             if (response.status == 200) {
               // const user_data = {
@@ -70,7 +70,7 @@ const Login = ({navigation}) => {
               setInfo(response);
               // signIn(user_data);
               // setIsLoading(false)
-              console.warn('login', response.data.userId);
+              //console.warn('login', response.data.userId);
               Alert.alert('Login successful');
 
               dispatch(cartActions.login(true));
@@ -153,12 +153,11 @@ const Login = ({navigation}) => {
       <View style={styles.container}>
         {/* <StatusBar backgroundColor="#009387" barStyle="light-content" /> */}
         <View style={styles.header}>
-          <Text style={styles.text_header}>Welcome!</Text>
           <Image
-            source={require('../assets/images/login_screen.jpg')}
+            source={require('../assets/images/login.jpg')}
             resizeMode="contain"
             style={{
-              width: 125,
+              width: 190,
               height: 125,
             }}
           />

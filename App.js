@@ -23,7 +23,7 @@ export default function App() {
   //const check = useSelector(state => state.cart.check);
   React.useEffect(() => {
     AsyncStorage.getItem('userId').then(async res => {
-      console.warn('resapp', res);
+     // console.warn('resapp', res);
       setId(res);
     });
     setTimeout(function () {

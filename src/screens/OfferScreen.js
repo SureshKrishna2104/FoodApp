@@ -18,7 +18,7 @@ const OfferScreen = props => {
       .then(response => response.json())
       .then(responseData => {
         setData(responseData.data);
-        console.warn('out of offer', responseData);
+        //console.warn('out of offer', responseData);
       })
       .catch(err => {
         console.error(err);
@@ -26,7 +26,7 @@ const OfferScreen = props => {
   };
   useEffect(() => {
     const willFocusSubscription = props.navigation.addListener('focus', () => {
-      console.warn('refreshed');
+      //console.warn('refreshed');
       fetchData();
     });
     return willFocusSubscription;
@@ -39,6 +39,7 @@ const OfferScreen = props => {
         description={itemdata.item.description}
         offer={itemdata.item.offer}
         amount={itemdata.item.amount}
+        name={itemdata.item.hotelName}
         onSelectMeal={() => {
           props.navigation.navigate('ProductDetail', {
             itemId: itemdata.item.itemId,

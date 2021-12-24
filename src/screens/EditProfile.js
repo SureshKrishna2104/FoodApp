@@ -62,7 +62,7 @@ const EditProfile = props => {
       postMethod1('/updateUser/' + id, req, jwt)
         .then(response => {
           if (response) {
-            console.warn('login response', response);
+            //console.warn('login response', response);
 
             if (response.status == 200) {
               // const user_data = {
@@ -119,13 +119,13 @@ const EditProfile = props => {
   const [pincode, setPincode] = React.useState(pincode1);
   useEffect(() => {
     AsyncStorage.getItem('userId').then(async res => {
-      console.warn('res', res);
+     // console.warn('res', res);
       setId(res);
 
       // setId(res);
     });
     AsyncStorage.getItem('userToken').then(async res => {
-      console.warn('Token', res);
+     // console.warn('Token', res);
       setJwt(res);
 
       // setId(res);
@@ -137,12 +137,11 @@ const EditProfile = props => {
       <View style={styles.container}>
         {/* <StatusBar backgroundColor="#fff" barStyle="light-content" /> */}
         <View style={styles.header}>
-          <Text style={styles.text_header}>Edit Your Profile!</Text>
           <Image
-            source={require('../assets/images/login_screen.jpg')}
+            source={require('../assets/images/login.jpg')}
             resizeMode="contain"
             style={{
-              width: 135,
+              width: 165,
               height: 135,
             }}
           />
@@ -295,7 +294,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 15,
     backgroundColor: '#fff',
   },
   footer: {

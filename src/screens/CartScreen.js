@@ -37,7 +37,7 @@ const CartScreen = props => {
   });
   const fetchData = () => {
     AsyncStorage.getItem('userId').then(async res => {
-      console.warn('res', res);
+      //console.warn('res', res);
       setId(res);
     });
   };
@@ -46,31 +46,31 @@ const CartScreen = props => {
 
     fetchData();
     const willFocusSubscription = props.navigation.addListener('focus', () => {
-      console.warn('refreshed');
+      //console.warn('refreshed');
       fetchData();
     });
     return willFocusSubscription;
   }, []);
   const onPressButton = () => {
-    console.warn('button clicked', cartItems, id);
+    //console.warn('button clicked', cartItems, id);
     if (!id) {
       props.navigation.navigate('Login');
     } else {
-      console.warn('foods', cartItems);
+      //console.warn('foods', cartItems);
       if (cartItems.length === 0) {
         alert('Please add items to cart');
       } else {
-        console.warn('foods', cartItems.itemId);
+        //console.warn('foods', cartItems.itemId);
         const req = {
           itemId: cartItems.itemId,
           quantity: cartItems.quantity,
         };
-        console.warn('rrq', req);
-        console.warn('id', id);
+       // console.warn('rrq', req);
+        //console.warn('id', id);
         postMethod('/orders/' + id, cartItems)
           .then(response => {
             if (response) {
-              console.warn('order response', response);
+             // console.warn('order response', response);
 
               if (response.status == 200) {
                 // const user_data = {

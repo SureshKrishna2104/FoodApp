@@ -20,7 +20,7 @@ const ProductList = props => {
       .then(response => response.json())
       .then(responseData => {
         setData(responseData.data.items);
-        console.warn('out of id', responseData.data.items);
+       // console.warn('out of id', responseData.data.items);
       })
       .catch(err => {
         console.error(err);

@@ -509,12 +509,12 @@ const SignUp = ({navigation}) => {
       <View style={styles.container}>
         {/* <StatusBar backgroundColor="#009387" barStyle="light-content" /> */}
         <View style={styles.header}>
-          <Text style={styles.text_header}>RegisterNow!</Text>
+        
           <Image
-            source={require('../assets/images/login_screen.jpg')}
+            source={require('../assets/images/login.jpg')}
             resizeMode="contain"
             style={{
-              width: 135,
+              width: 165,
               height: 135,
             }}
           />
@@ -739,7 +739,7 @@ const SignUp = ({navigation}) => {
               secureTextEntry={true}
               color="grey"
               align="center">
-              SIGN UP
+              SIGN IN
             </Text>
           </TouchableOpacity>
         </Animatable.View>
@@ -767,7 +767,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 18,
     backgroundColor: '#fff',
   },
   footer: {

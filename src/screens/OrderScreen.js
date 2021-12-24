@@ -11,7 +11,7 @@ const OrderScreen = props => {
       const id = await res;
       console.warn('res', res);
       //setId(res);
-      console.warn('orders', order);
+      //console.warn('orders', order);
       //setData(order);
       // setId(res);
 
@@ -21,7 +21,7 @@ const OrderScreen = props => {
         .then(response => response.json())
         .then(responseData => {
           setData(responseData.data);
-          console.warn('out of Orders', responseData.data);
+         // console.warn('out of Orders', responseData.data);
         })
         .catch(err => {
           console.error(err);
@@ -31,7 +31,7 @@ const OrderScreen = props => {
   useEffect(() => {
     fetchData();
     const willFocusSubscription = props.navigation.addListener('focus', () => {
-      console.warn('refreshed');
+      //console.warn('refreshed');
       fetchData();
     });
 

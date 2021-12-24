@@ -41,12 +41,12 @@ const ProfileScreen = ({navigation}) => {
   const getProfile = async => {
     AsyncStorage.getItem('userId').then(async res => {
       const id = await res;
-      console.warn('idp', id);
+      //console.warn('idp', id);
       //id = 'jBpy4f';
       if (id) {
         getAllData('/getUser/' + id)
           .then(responseJson => {
-            console.warn('ress', responseJson.data);
+           // console.warn('ress', responseJson.data);
             setData(responseJson.data);
           })
           .catch(error => {
@@ -70,21 +70,21 @@ const ProfileScreen = ({navigation}) => {
     //   navigation.navigate('Login');
     // }
     if (!data) {
-      console.warn('ifif is called', data.length);
+     // console.warn('ifif is called', data.length);
       navigation.navigate('Login');
     } else {
-      console.warn('else is called', data.length);
+     // console.warn('else is called', data.length);
     }
   };
   useEffect(() => {
     getProfile();
     const willFocusSubscription = navigation.addListener('focus', () => {
-      console.warn('profile refreshed');
+     // console.warn('profile refreshed');
       getProfile();
       // getFocus();
     });
     AsyncStorage.getItem('userId').then(async res => {
-      console.warn('res', res);
+     // console.warn('res', res);
       setId(res);
 
       // setId(res);
@@ -108,7 +108,7 @@ const ProfileScreen = ({navigation}) => {
             <View style={styles.headerColumn}>
               <Image
                 style={styles.userImage}
-                source={require('../assets/images/ic_launcher.png')}
+                source={require('../assets/images/flash.jpg')}
               />
               <Text style={styles.userNameText}>{data.name}</Text>
               <View style={styles.userAddressRow}>
@@ -122,7 +122,13 @@ const ProfileScreen = ({navigation}) => {
                 </View>
                 <View style={styles.userCityRow}>
                   <Text style={styles.userCityText}>
-                    {data.number},{data.address}-{data.pinCode}
+                    {data.number}
+                  </Text>
+                  <Text style={styles.userCityText}>
+                    {data.address} 
+                  </Text>
+                  <Text style={styles.userCityText}>
+                   {data.pinCode}
                   </Text>
                 </View>
               </View>
