@@ -12,6 +12,9 @@ import {
   Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import HeaderButton from '../components/HeaderButton';
+
 //import Colors from '../../constatnts/Colors';
 import CartItem from '../components/CartItem';
 import * as cartActions from '../store/actions/cart';
@@ -88,12 +91,12 @@ const CartScreen = props => {
       })
       
    
-        console.warn('rrq', id,req);
+        //console.warn('rrq', id,req);
         //console.warn('id', id);
         postMethod2('/orders/' + id+'/'+cartTotalAmount, req,jwt)
           .then(response => {
             if (response) {
-              console.warn('order response', response);
+              //console.warn('order response', response);
 
               if (response.status == 200) {
                 Alert.alert('Your foods ordered sucessfully');
@@ -130,6 +133,9 @@ const CartScreen = props => {
         onRemove={() => {
           dispatch(cartActions.removeFromCart(itemData.item.itemId));
         }}
+        onRemoveAll={() => {
+          dispatch(cartActions.removeFromTotalCart(itemData.item.itemId));
+        }}
         onAdd={() => {
           dispatch(
             cartActions.addToCart(
@@ -159,6 +165,79 @@ const CartScreen = props => {
     </View>
   );
 };
+
+
+CartScreen.navigationOptions = navData => {
+  const myObj1 = useSelector(state => state.cart.items);
+  var size = Object.keys(myObj1).length;
+ 
+   return {
+     headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Cart</Text>,
+     headerTitleAlign: 'center',
+     headerStyle: {
+       backgroundColor: '#6FC3F7',
+       shadowColor: '#fff',
+       elevation: 0,
+     },
+     headerTintColor: 'white',
+     headerTitleStyle: {
+       fontWeight: 'bold',
+     },
+     headerLeft: () => (
+       <View style={{marginLeft: 5}}>
+         <Image
+           style={{
+             height: 48,
+             width: 70,
+           }}
+           source={require('../assets/images/icon-header.jpg')}
+           //source={require('../assets/images/ic_launcher.png')}
+           // source={{
+           //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+           // }}
+         />
+       </View>
+     ),
+     headerRight: () => (
+       <View>
+         <HeaderButtons HeaderButtonComponent={HeaderButton}>
+           <Item
+             title="Cart"
+             iconName="cart-outline"
+             onPress={() => {
+               navData.navigation.navigate('Cart');
+             }}
+           />
+         </HeaderButtons>
+         {size> 0 ? (
+           <View
+             style={{
+               position: 'absolute',
+               backgroundColor: 'red',
+               width: 16,
+               height: 16,
+               borderRadius: 20 / 2,
+               marginLeft: 20,
+               top: -10,
+               alignItems: 'center',
+               justifyContent: 'center',
+             }}>
+             <Text
+               style={{
+                 alignItems: 'center',
+                 justifyContent: 'center',
+                 color: 'white',
+                 fontSize: 10,
+                 fontWeight: 'bold',
+               }}>
+               {size}
+             </Text>
+           </View>
+         ) : null}
+       </View>
+     ),
+   };
+ };
 const styles = StyleSheet.create({
   screen: {
     margin: 20,

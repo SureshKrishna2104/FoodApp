@@ -81,7 +81,7 @@ const Login = ({navigation}) => {
             } else if (response.status == 500) {
               setIsLoading(false);
 
-              Alert.alert('Not able to login in, Please try later');
+              Alert.alert('User Not Found!, Please SignUp');
             }
             if (response.statuscode == 404) {
               setIsLoading(false);
@@ -157,8 +157,9 @@ const Login = ({navigation}) => {
             source={require('../assets/images/login.jpg')}
             resizeMode="contain"
             style={{
-              width: 190,
-              height: 125,
+              width: 200,
+              height: 150,
+              marginTop: 10,
             }}
           />
         </View>
@@ -286,7 +287,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: "5%",
     backgroundColor: '#fff',
   },
   footer: {

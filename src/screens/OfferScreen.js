@@ -33,6 +33,7 @@ const OfferScreen = props => {
   useEffect(() => {
     const willFocusSubscription = props.navigation.addListener('focus', () => {
       //console.warn('refreshed');
+      setIsLoading(true)
       fetchData();
     });
     return willFocusSubscription;
@@ -60,17 +61,22 @@ const OfferScreen = props => {
   return (
     <View>
       <FlatList data={data} renderItem={renderGrid} />
-      {isLoading ? <ActivityLoading size="large" /> : null}
+      
+      {isLoading ? 
+      <View style={{marginTop:'50%'}}>
+      <ActivityLoading size="large" /> 
+      </View>
+      : null}
+      
       {data?.length === 0 ? <>
         <Text
                 style={{
                   fontSize: 20,
-                  alignContent:'center',
-                  justifyContent:'center',
+                  textAlign:'center',
                  // color: 'white',
                   fontWeight: 'bold',
-                  marginTop: 200,
-                  marginLeft: 100,
+                  marginTop: 0,
+                  marginTop :"50%"
                 }}>No Offer Found</Text>
         </>:
         null}

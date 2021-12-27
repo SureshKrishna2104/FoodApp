@@ -7,7 +7,7 @@ const ActivityLoading = ({size}) => {
 
   return (
     <View style={[styles.container, styles.horizontal]}>
-      <ActivityIndicator size={size} color="blue" />
+      <ActivityIndicator size={size} color="red" />
     </View>
   );
 };

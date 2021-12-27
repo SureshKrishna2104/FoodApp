@@ -48,7 +48,7 @@ const ShopsList = props => {
       fetchData();
     });
     AsyncStorage.getItem('userId').then(async res => {
-      console.warn('rescount', res);
+      //console.warn('rescount', res);
       setCount(res);
 
       // setId(res);

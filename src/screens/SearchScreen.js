@@ -23,11 +23,15 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {postMethod} from '../services/Apiservices';
 import OfferGrid from '../components/OfferGrid';
 import ActivityLoading from '../components/ActivityLoading';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import HeaderButton from '../components/HeaderButton';
+import {useSelector, useDispatch} from 'react-redux';
 const SearchScreen = props => {
   const [data, setData] = React.useState('');
   const [food, setFood] = React.useState('');
@@ -86,6 +90,7 @@ const SearchScreen = props => {
       setIsLoading(false);
 
       Alert.alert('Please type food in search bar');
+     
     }
   };
   const renderGrid = itemdata => {
@@ -118,6 +123,7 @@ const SearchScreen = props => {
           //value={food}
           underlineColorAndroid="transparent"
           placeholder="Search for food"
+          color="black"
         />
         <TouchableOpacity
           style={styles.appButtonContainer}
@@ -129,11 +135,87 @@ const SearchScreen = props => {
       </View>
       <View>
         <FlatList data={data} renderItem={renderGrid} />
-        {isLoading ? <ActivityLoading size="large" /> : null}
+        {isLoading ? 
+      <View style={{marginTop:'50%'}}>
+      <ActivityLoading size="large" /> 
+      </View>
+      : null}
       </View>
     </SafeAreaView>
   );
 };
+
+SearchScreen.navigationOptions = navData => {
+  const myObj1 = useSelector(state => state.cart.items);
+  var size = Object.keys(myObj1).length;
+ 
+   return {
+     headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Search</Text>,
+     headerTitleAlign: 'center',
+     headerStyle: {
+       backgroundColor: '#6FC3F7',
+       shadowColor: '#fff',
+       elevation: 0,
+     },
+     headerTintColor: 'white',
+     headerTitleStyle: {
+       fontWeight: 'bold',
+     },
+     headerLeft: () => (
+       <View style={{marginLeft: 5}}>
+         <Image
+           style={{
+             height: 48,
+             width: 70,
+           }}
+           source={require('../assets/images/icon-header.jpg')}
+           //source={require('../assets/images/ic_launcher.png')}
+           // source={{
+           //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+           // }}
+         />
+       </View>
+     ),
+     headerRight: () => (
+       <View>
+         <HeaderButtons HeaderButtonComponent={HeaderButton}>
+           <Item
+             title="Cart"
+             iconName="cart-outline"
+             onPress={() => {
+               navData.navigation.navigate('Cart');
+             }}
+           />
+         </HeaderButtons>
+         {size> 0 ? (
+           <View
+             style={{
+               position: 'absolute',
+               backgroundColor: 'red',
+               width: 16,
+               height: 16,
+               borderRadius: 20 / 2,
+               marginLeft: 20,
+               top: -10,
+               alignItems: 'center',
+               justifyContent: 'center',
+             }}>
+             <Text
+               style={{
+                 alignItems: 'center',
+                 justifyContent: 'center',
+                 color: 'white',
+                 fontSize: 10,
+                 fontWeight: 'bold',
+               }}>
+               {size}
+             </Text>
+           </View>
+         ) : null}
+       </View>
+     ),
+   };
+ };
 
 const styles = StyleSheet.create({
   container: {
