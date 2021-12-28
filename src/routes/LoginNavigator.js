@@ -10,11 +10,13 @@ import ProductList from '../screens/ProductList';
 import ProductDetail from '../screens/ProductDetail';
 import CartScreen from '../screens/CartScreen';
 import SignUp from '../screens/SignUp';
+import Search from '../screens/SearchScreen';
 import Login from '../screens/Login';
 import OfferScreen from '../screens/OfferScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import EditProfile from '../screens/EditProfile';
 import OrderScreen from '../screens/OrderScreen';
+import SearchScreen from '../screens/SearchScreen'
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as cartActions from '../store/actions/cart';
@@ -22,6 +24,7 @@ import * as cartActions from '../store/actions/cart';
 const HomeStack = createStackNavigator();
 const LoginStack = createStackNavigator();
 const OfferStack = createStackNavigator();
+const SearchStack = createStackNavigator();
 const CartStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,8 +34,8 @@ const LoginNavigator = () => {
 
   useEffect(() => {
     AsyncStorage.getItem('userId').then(async res => {
-      console.warn('reslog', res);
-      console.warn('rescheck', check);
+     // console.warn('reslog', res);
+      //console.warn('rescheck', check);
       setId(res);
     });
   }, [check]);
@@ -63,6 +66,22 @@ const LoginNavigator = () => {
             return (
               <Icon
                 name="fast-food"
+                size={25}
+                color={focused ? '#6FC3F7' : 'grey'}
+              />
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchStackScreen}
+        options={{
+          tabBarLabel: 'Search',
+          tabBarIcon: ({focused}) => {
+            return (
+              <Icon
+                name="search"
                 size={25}
                 color={focused ? '#6FC3F7' : 'grey'}
               />
@@ -109,6 +128,54 @@ const LoginNavigator = () => {
 
 export default LoginNavigator;
 
+
+const SearchStackScreen = ({navigation}) => (
+  <SearchStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#6FC3F7',
+        shadowColor: '#fff',
+        elevation: 0,
+      },
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
+    <SearchStack.Screen
+      name="Search"
+      component={SearchScreen}
+      options={SearchScreen.navigationOptions}
+      // options={{
+      //   headerLeft: () => (
+      //     <View style={{marginLeft: 12}}>
+      //       <Image
+      //         style={{
+      //           height: 48,
+      //           width: 70,
+      //         }}
+      //         //source={require('../assets/images/ic_launcher.png')}
+      //         source={require('../assets/images/icon-header.jpg')}
+      //       />
+      //     </View>
+      //   ),
+      //   title: 'Search Food!',
+      //   headerTitleAlign: 'center',
+      // }}
+    />
+    <SearchStack.Screen
+      name="ProductDetail"
+      component={ProductDetail}
+      options={ProductDetail.navigationOptions}
+      // options={{
+      //   title: 'Food Detail',
+      //   headerTitleAlign: 'center',
+      // }}
+    />
+  </SearchStack.Navigator>
+);
+
+
 const HomeStackScreen = ({navigation}) => (
   <HomeStack.Navigator
     screenOptions={{
@@ -125,48 +192,49 @@ const HomeStackScreen = ({navigation}) => (
     <HomeStack.Screen
       name="Shops"
       component={ShopsList}
-      options={{
-        headerLeft: () => (
-          <View style={{marginLeft: 5}}>
-            <Image
-              style={{
-                height: 60,
-                width: 50,
-              }}
-              //source={require('../assets/images/ic_launcher.png')}
-              source={{
-                uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
-              }}
-            />
-          </View>
-        ),
-        title: 'Hotels',
-        headerTitleAlign: 'center',
-      }}
+      options={ShopsList.navigationOptions}
+      // options={{
+      //   headerLeft: () => (
+      //     <View style={{marginLeft: 12}}>
+      //       <Image
+      //         style={{
+      //           height: 48,
+      //           width: 70,
+      //         }}
+      //         //source={require('../assets/images/ic_launcher.png')}
+      //         source={require('../assets/images/icon-header.jpg')}
+      //       />
+      //     </View>
+      //   ),
+      //   title: 'Hotels',
+      //   headerTitleAlign: 'center',
+      // }}
     />
-    <HomeStack.Screen
+    {/* <HomeStack.Screen
       name="Cart"
       component={CartScreen}
       options={{
         title: 'Cart',
         headerTitleAlign: 'center',
       }}
-    />
+    /> */}
     <HomeStack.Screen
       name="Products"
       component={ProductList}
-      options={{
-        title: 'Foods!',
-        headerTitleAlign: 'center',
-      }}
+      options={ProductList.navigationOptions}
+      // options={{
+      //   title: 'Foods!',
+      //   headerTitleAlign: 'center',
+      // }}
     />
     <HomeStack.Screen
       name="ProductDetail"
       component={ProductDetail}
-      options={{
-        title: 'FoodDetail',
-        headerTitleAlign: 'center',
-      }}
+      options={ProductDetail.navigationOptions}
+      // options={{
+      //   title: 'FoodDetail',
+      //   headerTitleAlign: 'center',
+      // }}
     />
   </HomeStack.Navigator>
 );
@@ -187,24 +255,36 @@ const CartStackScreen = ({navigation}) => (
     <CartStack.Screen
       name="Cart"
       component={CartScreen}
-      options={{
-        headerLeft: () => (
-          <View style={{marginLeft: 5}}>
-            <Image
-              style={{
-                height: 60,
-                width: 50,
-              }}
-              //source={require('../assets/images/ic_launcher.png')}
-              source={{
-                uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
-              }}
-            />
-          </View>
-        ),
-        title: 'Cart',
-        headerTitleAlign: 'center',
-      }}
+      options={CartScreen.navigationOptions}  
+
+      // options={{
+      //   headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Cart</Text>,
+      //   headerTitleAlign: 'center',
+      //   headerStyle: {
+      //     backgroundColor: '#6FC3F7',
+      //     shadowColor: '#fff',
+      //     elevation: 0,
+      //   },
+      //   headerTintColor: 'white',
+      //   headerTitleStyle: {
+      //     fontWeight: 'bold',
+      //   },
+      //   headerLeft: () => (
+      //     <View style={{marginLeft: 5}}>
+      //       <Image
+      //         style={{
+      //           height: 48,
+      //           width: 70,
+      //         }}
+      //         source={require('../assets/images/icon-header.jpg')}
+      //         //source={require('../assets/images/ic_launcher.png')}
+      //         // source={{
+      //         //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+      //         // }}
+      //       />
+      //     </View>
+      //   ),
+      // }}
     />
     <CartStack.Screen
       name="Login"
@@ -241,32 +321,31 @@ const OfferStackScreen = ({navigation}) => (
     <OfferStack.Screen
       name="Offer"
       component={OfferScreen}
-      options={{
-        headerLeft: () => (
-          <View style={{marginLeft: 5}}>
-            <Image
-              style={{
-                height: 60,
-                width: 50,
-              }}
-              //source={require('../assets/images/ic_launcher.png')}
-              source={{
-                uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
-              }}
-            />
-          </View>
-        ),
-        title: 'Todays Offer!',
-        headerTitleAlign: 'center',
-      }}
+      options={OfferScreen.navigationOptions}      // options={{
+      //   headerLeft: () => (
+      //     <View style={{marginLeft: 12}}>
+      //       <Image
+      //         style={{
+      //           height: 48,
+      //           width: 70,
+      //         }}
+      //         //source={require('../assets/images/ic_launcher.png')}
+      //         source={require('../assets/images/icon-header.jpg')}
+      //       />
+      //     </View>
+      //   ),
+      //   title: 'Todays Offer!',
+      //   headerTitleAlign: 'center',
+      // }}
     />
     <OfferStack.Screen
       name="ProductDetail"
       component={ProductDetail}
-      options={{
-        title: 'Food Detail',
-        headerTitleAlign: 'center',
-      }}
+      options={ProductDetail.navigationOptions}
+      // options={{
+      //   title: 'Food Detail',
+      //   headerTitleAlign: 'center',
+      // }}
     />
   </OfferStack.Navigator>
 );
@@ -287,23 +366,34 @@ const ProfileStackScreen = ({navigation}) => (
     <ProfileStack.Screen
       name="Profile"
       component={ProfileScreen}
+      //options={ProfileScreen.navigationOptions}  
       options={{
+        headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Profile</Text>,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#6FC3F7',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         headerLeft: () => (
           <View style={{marginLeft: 5}}>
             <Image
               style={{
-                height: 60,
-                width: 50,
+                height: 48,
+                width: 70,
               }}
+              source={require('../assets/images/icon-header.jpg')}
               //source={require('../assets/images/ic_launcher.png')}
-              source={{
-                uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
-              }}
+              // source={{
+              //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+              // }}
             />
           </View>
         ),
-        title: 'Profile',
-        headerTitleAlign: 'center',
       }}
     />
     <ProfileStack.Screen

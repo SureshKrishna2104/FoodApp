@@ -23,7 +23,7 @@ export default function App() {
   //const check = useSelector(state => state.cart.check);
   React.useEffect(() => {
     AsyncStorage.getItem('userId').then(async res => {
-      console.warn('resapp', res);
+     // console.warn('resapp', res);
       setId(res);
     });
     setTimeout(function () {
@@ -37,14 +37,13 @@ export default function App() {
       {isVisible === true ? (
         <View style={{backgroundColor: '#fff', alignContent: 'center'}}>
           <Image
-            source={require('./src/assets/images/ic_launcher.png')}
-            resizeMode="contain"
-            style={{
-              width: 300,
-              height: 600,
-              justifyContent: 'center',
-              marginLeft: 27,
-            }}
+             source={require('./src/assets/images/flash.jpg')}
+             resizeMode="contain"
+             style={{
+               width: '100%',
+               height: '100%',
+               justifyContent: 'center',
+             }}
           />
         </View>
       ) : (

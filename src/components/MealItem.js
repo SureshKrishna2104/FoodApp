@@ -16,7 +16,7 @@ const MealItem = props => {
             <ImageBackground source={{uri: props.image}} style={styles.bgImage}>
               <View style={styles.titleContainer}>
                 <Text style={styles.title} numberOfLines={2}>
-                  Hotel {props.hotelName.toUpperCase()}
+                 {props.title.toUpperCase()}
                 </Text>
               </View>
             </ImageBackground>
@@ -40,7 +40,7 @@ const MealItem = props => {
                 //marginBottom: 10,
                 marginTop: 5,
               }}>
-              Dish {props.title.toUpperCase()}
+              Hotel {props.hotelName.toUpperCase()}
             </Text>
             <Text
               style={{
@@ -49,6 +49,7 @@ const MealItem = props => {
                 fontWeight: 'bold',
                 //marginBottom: 10,
                 marginTop: 5,
+                marginRight: 5,
               }}>
               Rs.{props.amount}
             </Text>

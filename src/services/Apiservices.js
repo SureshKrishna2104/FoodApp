@@ -1,7 +1,7 @@
-export const URL = 'http://35.224.0.195:9090';
+export const URL = 'http://3.133.49.92:9090';
 
 export const postMethod = (type, value) => {
-  console.warn('inside post', type, value);
+  //console.warn('inside post', type, value);
   let data = {
     method: 'POST',
     credentials: 'same-origin',
@@ -15,12 +15,12 @@ export const postMethod = (type, value) => {
   return fetch(URL + type, data)
     .then(response => response.json())
     .then(responseData => {
-      console.warn('out of the', responseData);
+     // console.warn('out of the', responseData);
       return responseData;
     }); // promise
 };
 export const postMethod1 = (type, value, jwt) => {
-  console.warn('inside post', type, value, jwt);
+  //console.warn('inside post', type, value, jwt);
   let data = {
     method: 'POST',
     credentials: 'same-origin',
@@ -35,20 +35,40 @@ export const postMethod1 = (type, value, jwt) => {
   return fetch(URL + type, data)
     .then(response => response.json())
     .then(responseData => {
-      console.warn('out of the', responseData);
+   //   console.warn('out of the', responseData);
+      return responseData;
+    }); // promise
+};
+export const postMethod2= (type, value,jwt) => {
+ // console.warn('inside post', type, value,jwt);
+  let data = {
+    method: 'POST',
+    credentials: 'same-origin',
+    mode: 'same-origin',
+    body: JSON.stringify(value),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`,
+    },
+  };
+  return fetch(URL + type, data)
+    .then(response => response.json())
+    .then(responseData => {
+     // console.warn('out of the', responseData);
       return responseData;
     }); // promise
 };
 
 export const getAllData = type => {
-  console.warn('dashboard', type);
+ // console.warn('dashboard', type);
   let data = {
     method: 'GET',
   };
   return fetch(URL + type, data)
     .then(response => response.json())
     .then(responseData => {
-      console.warn('out of the', responseData);
+      //console.warn('out of the', responseData);
       return responseData;
     })
     .catch(function (error) {

@@ -12,16 +12,20 @@ import {
   Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import HeaderButton from '../components/HeaderButton';
+
 //import Colors from '../../constatnts/Colors';
 import CartItem from '../components/CartItem';
 import * as cartActions from '../store/actions/cart';
-import {postMethod} from '../services/Apiservices';
+import {postMethod2} from '../services/Apiservices';
 //import RazorpayCheckout from 'react-native-razorpay';
 
 const CartScreen = props => {
   const [id, setId] = useState();
 
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
+  const[jwt,setJwt]=useState('')
   const cartItems = useSelector(state => {
     const transformedCartItems = [];
     for (const key in state.cart.items) {
@@ -37,81 +41,76 @@ const CartScreen = props => {
   });
   const fetchData = () => {
     AsyncStorage.getItem('userId').then(async res => {
-      console.warn('res', res);
+      //console.warn('res', res);
       setId(res);
     });
   };
   useEffect(() => {
     // AsyncStorage.getItem('userId')
+    AsyncStorage.getItem('userToken').then(async res => {
+       //console.warn('Token', res);
+       setJwt(res);
+ 
+     });
 
     fetchData();
     const willFocusSubscription = props.navigation.addListener('focus', () => {
-      console.warn('refreshed');
+      //console.warn('refreshed');
       fetchData();
     });
     return willFocusSubscription;
   }, []);
   const onPressButton = () => {
-    console.warn('button clicked', cartItems, id);
+    //console.warn('button clicked', cartItems, id);
     if (!id) {
       props.navigation.navigate('Login');
     } else {
-      console.warn('foods', cartItems);
+      //console.warn('foods', cartItems);
       if (cartItems.length === 0) {
         alert('Please add items to cart');
       } else {
-        console.warn('foods', cartItems.itemId);
-        const req = {
-          itemId: cartItems.itemId,
-          quantity: cartItems.quantity,
-        };
-        console.warn('rrq', req);
-        console.warn('id', id);
-        postMethod('/orders/' + id, cartItems)
+        //console.warn('foods', cartItems.itemId);
+        // const req = {
+        //   itemId: cartItems.itemId,
+        //   totalAmount: cartItems.sum,
+        //   quantity: cartItems.quantity,
+
+        //   itemAmount: cartItems.productPrice,
+        // };
+
+        const req= [];
+    
+      cartItems.map((cartI)=>{
+       // console.log(cartI.itemId)
+        req.push({
+          itemId: cartI.itemId,
+         
+          quantity: cartI.quantity,
+         
+        });
+      })
+      
+   
+        //console.warn('rrq', id,req);
+        //console.warn('id', id);
+        postMethod2('/orders/' + id+'/'+cartTotalAmount, req,jwt)
           .then(response => {
             if (response) {
-              console.warn('order response', response);
+              //console.warn('order response', response);
 
               if (response.status == 200) {
-                // const user_data = {
-                //         token: response.data.token,
-                //         userId: response.data.userId,
-                //         roles: response.data.roles,
-                //         userName: response.data.userName,
-                //     };
-
-                // setInfo(response)
-                // signIn(user_data);
-                // setIsLoading(false)
-
                 Alert.alert('Your foods ordered sucessfully');
                 props.navigation.navigate('Shops');
                 dispatch(cartActions.emptyCart());
-                // <CartItem
-                //   quantity=""
-                //   title=""
-                //   amount=""
-                //   onRemove={() => {
-                //     dispatch(cartActions.removeFromCart(itemData.item.itemId));
-                //   }}
-                // />;
-                //cartItems = [];
-                //transformedCartItems = [];
               } else if (response.data.status == 500) {
-                //setIsLoading(false)
-
                 Alert.alert('Not able to signup, Please try later');
               }
               if (response.data.status == 404) {
-                //setIsLoading(false)
-
                 Alert.alert('User account already deactivated');
               }
             }
           })
           .catch(error => {
-            //setIsLoading(false)
-
             Alert.alert(
               'No Internet connection.\n Please check your internet connection \nor try again',
               error,
@@ -133,6 +132,9 @@ const CartScreen = props => {
         amount={itemData.item.sum}
         onRemove={() => {
           dispatch(cartActions.removeFromCart(itemData.item.itemId));
+        }}
+        onRemoveAll={() => {
+          dispatch(cartActions.removeFromTotalCart(itemData.item.itemId));
         }}
         onAdd={() => {
           dispatch(
@@ -163,6 +165,79 @@ const CartScreen = props => {
     </View>
   );
 };
+
+
+CartScreen.navigationOptions = navData => {
+  const myObj1 = useSelector(state => state.cart.items);
+  var size = Object.keys(myObj1).length;
+ 
+   return {
+     headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Cart</Text>,
+     headerTitleAlign: 'center',
+     headerStyle: {
+       backgroundColor: '#6FC3F7',
+       shadowColor: '#fff',
+       elevation: 0,
+     },
+     headerTintColor: 'white',
+     headerTitleStyle: {
+       fontWeight: 'bold',
+     },
+     headerLeft: () => (
+       <View style={{marginLeft: 5}}>
+         <Image
+           style={{
+             height: 48,
+             width: 70,
+           }}
+           source={require('../assets/images/icon-header.jpg')}
+           //source={require('../assets/images/ic_launcher.png')}
+           // source={{
+           //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+           // }}
+         />
+       </View>
+     ),
+     headerRight: () => (
+       <View>
+         <HeaderButtons HeaderButtonComponent={HeaderButton}>
+           <Item
+             title="Cart"
+             iconName="cart-outline"
+             onPress={() => {
+               navData.navigation.navigate('Cart');
+             }}
+           />
+         </HeaderButtons>
+         {size> 0 ? (
+           <View
+             style={{
+               position: 'absolute',
+               backgroundColor: 'red',
+               width: 16,
+               height: 16,
+               borderRadius: 20 / 2,
+               marginLeft: 20,
+               top: -10,
+               alignItems: 'center',
+               justifyContent: 'center',
+             }}>
+             <Text
+               style={{
+                 alignItems: 'center',
+                 justifyContent: 'center',
+                 color: 'white',
+                 fontSize: 10,
+                 fontWeight: 'bold',
+               }}>
+               {size}
+             </Text>
+           </View>
+         ) : null}
+       </View>
+     ),
+   };
+ };
 const styles = StyleSheet.create({
   screen: {
     margin: 20,

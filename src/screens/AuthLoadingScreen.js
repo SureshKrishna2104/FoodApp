@@ -10,7 +10,7 @@ class AuthLoadingScreen extends React.Component {
     let userToken;
     try {
       userToken = await AsyncStorage.getItem('userId');
-      console.warn('uT', userToken);
+      //console.warn('uT', userToken);
       //setToken(userToken);
       this.props.navigation.navigate(userToken ? 'Profile1' : 'Login');
     } catch (e) {

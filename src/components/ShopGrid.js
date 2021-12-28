@@ -10,7 +10,6 @@ import {
 
 const ShopGrid = props => {
   return (
-    <ScrollView>
       <View style={styles.mealItem}>
         <TouchableOpacity onPress={props.onSelectNews}>
           <View>
@@ -41,7 +40,7 @@ const ShopGrid = props => {
           </View>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+   
   );
 };
 
