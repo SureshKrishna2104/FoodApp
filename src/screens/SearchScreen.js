@@ -143,7 +143,7 @@ const SearchScreen = props => {
             borderRadius: 5,
             flexDirection: 'row',
             alignItems: 'center',
-            height:"65%",
+            //height:"65%",
             width:'95%',
             //marginRight:'40%'
           }}>
