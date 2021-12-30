@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-
+import Icon from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/FontAwesome5';
 const MealItem = props => {
   return (
     <View style={styles.mealItem}>
@@ -16,7 +17,7 @@ const MealItem = props => {
             <ImageBackground source={{uri: props.image}} style={styles.bgImage}>
               <View style={styles.titleContainer}>
                 <Text style={styles.title} numberOfLines={2}>
-                 {props.title.toUpperCase()}
+                  {props.title.toUpperCase()}
                 </Text>
               </View>
             </ImageBackground>
@@ -40,7 +41,19 @@ const MealItem = props => {
                 //marginBottom: 10,
                 marginTop: 5,
               }}>
-              Hotel {props.hotelName.toUpperCase()}
+              <Icon name="md-fast-food" size={23} color="#88898a" />{' '}
+              {props.hotelName.toUpperCase()}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: 'white',
+                fontWeight: 'bold',
+                //marginBottom: 10,
+                marginTop: 5,
+                marginRight: '5%',
+              }}>
+              <Icons name="shipping-fast" size={20} color="#88898a" /> 90 mins
             </Text>
             <Text
               style={{
@@ -51,7 +64,8 @@ const MealItem = props => {
                 marginTop: 5,
                 marginRight: 5,
               }}>
-              Rs.{props.amount}
+              <Icons name="rupee-sign" size={20} color="#88898a" />{' '}
+              {props.amount}
             </Text>
           </View>
         </View>

@@ -1,20 +1,19 @@
 import React, {useEffect} from 'react';
-import {Text, View, FlatList,Image} from 'react-native';
+import {Text, View, FlatList, Image, ScrollView} from 'react-native';
 import ShopGrid from '../components/ShopGrid';
 import MealItem from '../components/MealItem';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useSelector, useDispatch} from 'react-redux';
 import HeaderButton from '../components/HeaderButton';
 import ActivityLoading from '../components/ActivityLoading';
-const ProductList = ({route,navigation}, props) => {
+const ProductList = ({route, navigation}, props) => {
   const hotelId = route.params.hotelId;
   const myObj1 = useSelector(state => state.cart.items);
   var size = Object.keys(myObj1).length;
 
-  useEffect(()=>{ 
-    navigation.setParams({count: size });
-
-  },[myObj1 ])
+  useEffect(() => {
+    navigation.setParams({count: size});
+  }, [myObj1]);
   //props.navigation.getParam('hotelId');
   const hotelName = route.params.hotelName;
   const [isLoading, setIsLoading] = React.useState(true);
@@ -30,11 +29,12 @@ const ProductList = ({route,navigation}, props) => {
     })
       .then(response => response.json())
       .then(responseData => {
-        setData(responseData.data.items);setIsLoading(false)        // console.warn('out of id', responseData.data.items);
+        setData(responseData.data.items);
+        setIsLoading(false); // console.warn('out of id', responseData.data.items);
       })
       .catch(err => {
         console.error(err);
-        setIsLoading(false)
+        setIsLoading(false);
       });
   }, []);
   const renderGrid = itemdata => {
@@ -51,42 +51,57 @@ const ProductList = ({route,navigation}, props) => {
             itemAmount: itemdata.item.amount,
             itemName: itemdata.item.itemName,
             itemImage: itemdata.item.image_url,
-            length:size,
+            length: size,
           });
         }}
       />
     );
   };
   return (
-    <View>
- 
-      <FlatList data={data} renderItem={renderGrid} />
-      {isLoading ? 
-      <View style={{marginTop:'50%'}}>
-      <ActivityLoading size="large" /> 
+    <ScrollView style={{backgroundColor: '#fff'}}>
+      <View>
+        <FlatList data={data} renderItem={renderGrid}  showsVerticalScrollIndicator={false}/>
+        {isLoading ? (
+          <View style={{marginTop: '50%'}}>
+            <ActivityLoading size="large" />
+          </View>
+        ) : null}
+        {data?.length === 0 ? (
+          <>
+            <Text
+              style={{
+                fontSize: 20,
+                textAlign: 'center',
+                // color: 'white',
+                fontWeight: 'bold',
+                marginTop: 0,
+                marginTop: '50%',
+              }}>
+              No Food Found
+            </Text>
+          </>
+        ) : null}
       </View>
-      : null}
-      {data?.length === 0 ? <>
-        <Text
-                style={{
-                  fontSize: 20,
-                  textAlign:'center',
-                 // color: 'white',
-                  fontWeight: 'bold',
-                  marginTop: 0,
-                  marginTop :"50%"
-                }}>No Food Found</Text>
-        </>:
-        null}
-    </View>
+    </ScrollView>
   );
 };
-ProductList.navigationOptions = ({route,navigation},navData) => {
-
-  var size =route.params.count
- //console.log(route,size,navData)
+ProductList.navigationOptions = ({route, navigation}, navData) => {
+  var size = route.params.count;
+  //console.log(route,size,navData)
   return {
-    headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Foods</Text>,
+    headerTitle: (
+      <Text
+        style={{
+          alignContent: 'center',
+          justifyContent: 'center',
+          color: '#ffffff',
+          fontSize: 17,
+          letterSpacing: 1,
+          textTransform: 'uppercase',
+        }}>
+        Foods
+      </Text>
+    ),
     headerTitleAlign: 'center',
     headerRight: () => (
       <View>
@@ -99,7 +114,7 @@ ProductList.navigationOptions = ({route,navigation},navData) => {
             }}
           />
         </HeaderButtons>
-        {size> 0 ? (
+        {size > 0 ? (
           <View
             style={{
               position: 'absolute',
@@ -128,6 +143,5 @@ ProductList.navigationOptions = ({route,navigation},navData) => {
     ),
   };
 };
-
 
 export default ProductList;

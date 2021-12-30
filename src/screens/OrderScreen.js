@@ -60,7 +60,7 @@ const OrderScreen = props => {
   };
   return (
     <View>
-      <FlatList data={data} inverted={true} renderItem={renderGrid} />
+      <FlatList data={data} inverted={true} renderItem={renderGrid}  showsVerticalScrollIndicator={false}/>
     </View>
   );
 };

@@ -5,7 +5,6 @@ import {
   View,
   Text,
   Image,
-  Button,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -16,6 +15,8 @@ import * as cartActions from '../store/actions/cart';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
+import ImageCarousel from '../components/ImageCarousel';
+import Button from '../components/Button';
 
 const ProductDetail = ({route, navigation}, props) => {
   const [id, setId] = useState();
@@ -109,28 +110,35 @@ const ProductDetail = ({route, navigation}, props) => {
   const dispatch = useDispatch();
 
   const result = cartItems.filter(id => id.itemId === productId);
-
+  const images = [productImage];
   return (
-    <>
-      <Image style={styles.image} source={{uri: productImage}} />
-      <View style={styles.actions}>
+    <ScrollView>
+      <View style={styles.root}>
+        <Text style={styles.title}>{productName}</Text>
+        {/* <Image style={styles.image} source={{uri: productImage}} /> */}
+        <ImageCarousel images={images} />
+        <Text style={styles.price}> From Rs.{productPrice}</Text>
+        <Text style={styles.description}>
+          <Text style={styles.title}>
+            {productName}
+            {'   '}
+          </Text>
+          substance consisting essentially of protein, carbohydrate, fat, and
+          other nutrients used in the body of an organism to sustain growth and
+          vital processes and to furnish energy. The absorption and utilization
+          of food by the body is fundamental to nutrition and is facilitated by
+          digestion.
+        </Text>
+
         <FlatList
           data={result}
           keyExtractor={item => item.itemId}
           renderItem={renderGrid}
+          showsVerticalScrollIndicator={false}
         />
-        <TouchableOpacity
-          onPress={() => setFlag(!flag)}
-          style={styles.deleteButton1}>
-          {flag ? (
-            <Icon name="ios-heart" size={30} color="red" />
-          ) : (
-            <Icon name="ios-heart" size={30} color="grey" />
-          )}
-        </TouchableOpacity>
+
         <Button
-          color="red"
-          title="Add to Cart"
+          text="Add to Cart"
           onPress={() => {
             alert('Item added to cart successfully');
             dispatch(
@@ -138,11 +146,13 @@ const ProductDetail = ({route, navigation}, props) => {
             );
           }}
         />
+        <Button
+          text="Add to Favourites"
+          onPress={() => console.log('Buy Now')}
+          containerStyles={{}}
+        />
       </View>
-
-      <Text style={styles.price}>Rs.{productPrice}</Text>
-      <Text style={styles.description}>{productName}</Text>
-    </>
+    </ScrollView>
   );
 };
 
@@ -206,10 +216,32 @@ ProductDetail.navigationOptions = ({route, navigation}, navData) => {
 };
 
 const styles = StyleSheet.create({
+  root: {
+    padding: 10,
+    backgroundColor: 'white',
+  },
+  title: {
+    textTransform: 'uppercase',
+    fontSize: 18,
+    color: '#e47911',
+  },
+  description: {
+    marginVertical: 10,
+    lineHeight: 20,
+  },
   image: {
     width: '100%',
     height: 300,
     marginTop: 8,
+  },
+  price: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  oldprice: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    textDecorationLine: 'line-through',
   },
   actions: {
     marginVertical: 10,
@@ -224,12 +256,12 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     fontFamily: 'open-sans-bold',
   },
-  description: {
-    fontFamily: 'open-sans',
-    fontSize: 14,
-    textAlign: 'center',
-    marginHorizontal: 20,
-  },
+  // description: {
+  //   fontFamily: 'open-sans',
+  //   fontSize: 14,
+  //   textAlign: 'center',
+  //   marginHorizontal: 20,
+  // },
   screen: {
     margin: 20,
   },
@@ -252,8 +284,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginHorizontal: '30%',
-    marginLeft: '10%',
+    //marginHorizontal: '30%',
+    //marginLeft: '10%',
   },
   itemData: {
     flexDirection: 'row',

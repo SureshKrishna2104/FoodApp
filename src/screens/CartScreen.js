@@ -10,6 +10,7 @@ import {
   NativeModules,
   NativeEventEmitter,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
@@ -150,6 +151,7 @@ const CartScreen = props => {
   };
   const dispatch = useDispatch();
   return (
+    <ScrollView style={{backgroundColor:'#fff'}}>
     <View style={styles.screen}>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
@@ -161,8 +163,10 @@ const CartScreen = props => {
         data={cartItems}
         keyExtractor={item => item.itemId}
         renderItem={renderGrid}
+        showsVerticalScrollIndicator={false}
       />
     </View>
+    </ScrollView>
   );
 };
 
@@ -241,6 +245,7 @@ CartScreen.navigationOptions = navData => {
 const styles = StyleSheet.create({
   screen: {
     margin: 20,
+    backgroundColor:'#fff'
   },
   summary: {
     flexDirection: 'row',
