@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Text, View, FlatList,Image} from 'react-native';
+import {Text, View, FlatList,Image, ScrollView} from 'react-native';
 import OfferGrid from '../components/OfferGrid';
 import MealItem from '../components/MealItem';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
@@ -59,8 +59,9 @@ const OfferScreen = props => {
     );
   };
   return (
+    <ScrollView style={{backgroundColor:"#fff"}}>
     <View>
-      <FlatList data={data} renderItem={renderGrid} />
+      <FlatList data={data} renderItem={renderGrid}  showsVerticalScrollIndicator={false}/>
       
       {isLoading ? 
       <View style={{marginTop:'50%'}}>
@@ -81,6 +82,7 @@ const OfferScreen = props => {
         </>:
         null}
     </View>
+    </ScrollView>
   );
 };
 // OfferScreen.navigationOptions = navigationData => {

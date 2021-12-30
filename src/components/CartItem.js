@@ -38,13 +38,17 @@ const CartItem = props => {
 
 const styles = StyleSheet.create({
   cartItem: {
-    padding: 10,
+    padding: 8,
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal: 20,
+   // marginHorizontal: -10,
+    // borderWidth:1,
+    // borderColor:'grey',
+   // borderTopColor:'#fff'
   },
   itemData: {
+    padding:4,
     flexDirection: 'row',
     alignItems: 'center',
   },

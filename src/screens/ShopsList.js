@@ -7,7 +7,8 @@ import {
   StatusBar,
   ScrollView,
   Image,
-  SafeAreaView
+  SafeAreaView,
+ 
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ShopGrid from '../components/ShopGrid';
@@ -85,10 +86,11 @@ const ShopsList = props => {
   // );
   return (
     <SafeAreaView style={{flex: 1}}>
+       <StatusBar barStyle="dark-content" backgroundColor="red" />
     <View style={styles.container}>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
       <View style={styles.ListPannel}>
-          <FlatList data={data} renderItem={renderGrid} ListHeaderComponent={SliderContent}/>
+          <FlatList data={data} renderItem={renderGrid} ListHeaderComponent={SliderContent} showsVerticalScrollIndicator={false}/>
         </View>
     </View>
     {isLoading ? <ActivityLoading size="large" /> : null}
