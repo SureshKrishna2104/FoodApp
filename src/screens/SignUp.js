@@ -350,7 +350,7 @@ const SignUp = ({navigation}) => {
   //const { signIn } = React.useContext(AuthContext);
 
   const setInfo = async data => {
-    console.warn('dataaaa-', data.data.userId);
+   // console.warn('dataaaa-', data.data.userId);
     const jsonValue = JSON.stringify(data.data);
     const id = JSON.stringify(data.data.userId);
     await AsyncStorage.setItem('userInfo', jsonValue);
@@ -514,8 +514,8 @@ const SignUp = ({navigation}) => {
             source={require('../assets/images/login.jpg')}
             resizeMode="contain"
             style={{
-              width: 165,
-              height: 135,
+              width: 200,
+              height: 150,
             }}
           />
         </View>

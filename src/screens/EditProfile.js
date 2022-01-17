@@ -62,7 +62,7 @@ const EditProfile = props => {
       postMethod1('/updateUser/' + id, req, jwt)
         .then(response => {
           if (response) {
-            console.warn('login response', response);
+            //console.warn('login response', response);
 
             if (response.status == 200) {
               // const user_data = {
@@ -119,13 +119,13 @@ const EditProfile = props => {
   const [pincode, setPincode] = React.useState(pincode1);
   useEffect(() => {
     AsyncStorage.getItem('userId').then(async res => {
-      console.warn('res', res);
+     // console.warn('res', res);
       setId(res);
 
       // setId(res);
     });
     AsyncStorage.getItem('userToken').then(async res => {
-      console.warn('Token', res);
+     // console.warn('Token', res);
       setJwt(res);
 
       // setId(res);

@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   ImageBackground,
   ScrollView,
+  StatusBar
 } from 'react-native';
 
 const ShopGrid = props => {
   return (
-    <ScrollView>
       <View style={styles.mealItem}>
+         <StatusBar barStyle="dark-content" backgroundColor='#86e4fc'/>
         <TouchableOpacity onPress={props.onSelectNews}>
           <View>
             <View style={{...styles.newsRow, ...styles.newsHeader}}>
@@ -41,7 +42,7 @@ const ShopGrid = props => {
           </View>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+   
   );
 };
 

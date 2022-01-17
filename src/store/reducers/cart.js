@@ -1,6 +1,7 @@
 import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  REMOVE_FROM_TOTALCART,
   EMPTY_CART,
   LOGIN,
   JWT,
@@ -13,6 +14,7 @@ const initialState = {
   totalAmount: 0,
   check: false,
   jwt: '',
+
 };
 
 export default (state = initialState, action) => {
@@ -60,6 +62,21 @@ export default (state = initialState, action) => {
         ...state,
         items: updatedCartItems,
         totalAmount: state.totalAmount - selectedCartItem.productPrice,
+        check: false,
+      };
+
+      case REMOVE_FROM_TOTALCART:
+      const selectedCartItem1 = state.items[action.pid];
+   
+      let updatedCartItems1;
+      
+        updatedCartItems1 = {...state.items};
+        delete updatedCartItems1[action.pid];
+     
+      return {
+        ...state,
+        items: updatedCartItems1,
+        totalAmount: state.totalAmount - selectedCartItem1.sum,
         check: false,
       };
     case EMPTY_CART:

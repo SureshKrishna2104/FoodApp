@@ -23,11 +23,16 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Image,
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {postMethod} from '../services/Apiservices';
 import OfferGrid from '../components/OfferGrid';
 import ActivityLoading from '../components/ActivityLoading';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import HeaderButton from '../components/HeaderButton';
+import {useSelector, useDispatch} from 'react-redux';
 const SearchScreen = props => {
   const [data, setData] = React.useState('');
   const [food, setFood] = React.useState('');
@@ -42,7 +47,7 @@ const SearchScreen = props => {
       postMethod('/filterItems', req)
         .then(response => {
           if (response) {
-            console.warn('login response', response);
+            //console.warn('login response', response);
 
             if (response.status == 200) {
               // const user_data = {
@@ -111,13 +116,15 @@ const SearchScreen = props => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={{...styles.itemRow}}>
+      <ScrollView style={{backgroundColor: '#fff'}}>
+        {/* <View style={styles.itemRow}>
         <TextInput
           style={styles.textInputStyle}
           onChangeText={text => setFood(text)}
           //value={food}
           underlineColorAndroid="transparent"
           placeholder="Search for food"
+          color="black"
         />
         <TouchableOpacity
           style={styles.appButtonContainer}
@@ -126,13 +133,138 @@ const SearchScreen = props => {
             <Icon name="ios-search" size={28} color="grey" />
           </View>
         </TouchableOpacity>
-      </View>
-      <View>
-        <FlatList data={data} renderItem={renderGrid} />
-        {isLoading ? <ActivityLoading size="large" /> : null}
-      </View>
+      </View> */}
+        <View
+          style={{
+            margin: 5,
+            padding: 5,
+            borderWidth:1,
+            borderColor: '#e3e3e3',
+            borderRadius: 5,
+            flexDirection: 'row',
+            alignItems: 'center',
+            //height:"65%",
+            width:'95%',
+            //marginRight:'40%'
+          }}>
+         
+          {/* <TextInput
+          style={{height: 40, marginLeft: 10}}
+          placeholder="Search Amazon.in"
+          value={searchValue}
+          onChangeText={setSearchValue}
+        /> */}
+
+          <TextInput
+            style={{height:'140%',width:'90%', marginLeft: 10,}}
+            onChangeText={text => setFood(text)}
+            //value={food}
+            placeholderTextColor='black'
+            underlineColorAndroid="transparent"
+            placeholder="Search Food"
+            color="black"
+          />
+           <TouchableOpacity onPress={() => doLogin()}>
+            <View style={styles.appButtonText}>
+              <Icon name="ios-search" size={26} color="grey" />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <FlatList data={data} renderItem={renderGrid}  showsVerticalScrollIndicator={false}/>
+          {isLoading ? (
+            <View style={{marginTop: '50%'}}>
+              <ActivityLoading size="large" />
+            </View>
+          ) : null}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
+};
+
+SearchScreen.navigationOptions = navData => {
+  const myObj1 = useSelector(state => state.cart.items);
+  var size = Object.keys(myObj1).length;
+
+  return {
+    headerTitle: (
+      <Text
+        style={{
+          alignContent: 'center',
+          justifyContent: 'center',
+          color: '#ffffff',
+          fontSize: 17,
+          letterSpacing: 1,
+          textTransform: 'uppercase',
+        }}>
+        Search
+      </Text>
+    ),
+    headerTitleAlign: 'center',
+    headerStyle: {
+      backgroundColor: '#6FC3F7',
+      shadowColor: '#fff',
+      elevation: 0,
+    },
+    headerTintColor: 'white',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+    headerLeft: () => (
+      <View style={{marginLeft: 5}}>
+        <Image
+          style={{
+            height: 48,
+            width: 70,
+          }}
+          source={require('../assets/images/icon-header.jpg')}
+          //source={require('../assets/images/ic_launcher.png')}
+          // source={{
+          //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
+          // }}
+        />
+      </View>
+    ),
+    headerRight: () => (
+      <View>
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Cart"
+            iconName="cart-outline"
+            onPress={() => {
+              navData.navigation.navigate('Cart');
+            }}
+          />
+        </HeaderButtons>
+        {size > 0 ? (
+          <View
+            style={{
+              position: 'absolute',
+              backgroundColor: 'red',
+              width: 16,
+              height: 16,
+              borderRadius: 20 / 2,
+              marginLeft: 20,
+              top: -10,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: 10,
+                fontWeight: 'bold',
+              }}>
+              {size}
+            </Text>
+          </View>
+        ) : null}
+      </View>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({
@@ -150,26 +282,27 @@ const styles = StyleSheet.create({
   },
   appButtonContainer: {
     //elevation: 1,
-    backgroundColor: '#fff',
-    // borderRadius: 6,
+    backgroundColor: '#bdbdbd',
+    borderRadius: 5,
+    height: '100%',
     // paddingVertical: 8,
     // paddingHorizontal: 15,
     // width: 20,
     // height: 50,
     // paddingBottom: 20,
   },
-  appButtonText: {
-    fontSize: 15,
-    color: 'blue',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    paddingBottom: 6,
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-    // width: 20,
-    // height: 50,
-    // paddingBottom: 20,
-  },
+  // appButtonText: {
+  //   fontSize: 15,
+  //   color: 'blue',
+  //   fontWeight: 'bold',
+  //   textAlign: 'center',
+  //   paddingBottom: 6,
+  //   paddingVertical: 10,
+  //   paddingHorizontal: 8,
+  //   // width: 20,
+  //   // height: 50,
+  //   // paddingBottom: 20,
+  // },
   textInputStyle: {
     //flex: 1,
     borderWidth: 1,
@@ -183,12 +316,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     width: '88%',
     height: '100%',
-    color:'black',
-    borderRadius: 0,
+    color: 'black',
+    borderRadius: 5,
     justifyContent: 'flex-end',
     borderColor: '#fff',
-    backgroundColor: '#FFFFFF',
-    
+    backgroundColor: '#bdbdbd',
   },
 });
 
