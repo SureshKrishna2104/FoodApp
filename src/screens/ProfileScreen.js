@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+//import AsyncStorage from '@react-native-community/async-storage';
 import {
   View,
   SafeAreaView,
@@ -38,15 +39,16 @@ const ProfileScreen = ({navigation}) => {
   const [data, setData] = React.useState([]);
   const [id, setId] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
+  const[jwt,setJwt]=React.useState('');
   const getProfile = async => {
     AsyncStorage.getItem('userId').then(async res => {
       const id = await res;
       //console.warn('idp', id);
       //id = 'jBpy4f';
       if (id) {
-        getAllData('/getUser/' + id)
+        getAllData('/getUser/' + id,jwt)
           .then(responseJson => {
-           // console.warn('ress', responseJson.data);
+            console.warn('ress', responseJson.data);
             setData(responseJson.data);
             setIsLoading(false)
           })
@@ -81,6 +83,11 @@ const ProfileScreen = ({navigation}) => {
   };
   useEffect(() => {
     getProfile();
+    AsyncStorage.getItem('userToken').then(async res => {
+      //console.warn('Token', res);
+      setJwt(res);
+
+    });
     const willFocusSubscription = navigation.addListener('focus', () => {
      // console.warn('profile refreshed');
       getProfile();
@@ -96,6 +103,7 @@ const ProfileScreen = ({navigation}) => {
 
     return willFocusSubscription;
   }, []);
+ 
   const dispatch = useDispatch;
 
   return (

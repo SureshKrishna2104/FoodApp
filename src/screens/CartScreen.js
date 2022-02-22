@@ -78,35 +78,44 @@ const CartScreen = props => {
 
         //   itemAmount: cartItems.productPrice,
         // };
-
-        const req= [];
-    
-      cartItems.map((cartI)=>{
-       // console.log(cartI.itemId)
-        req.push({
-          itemId: cartI.itemId,
-         
-          quantity: cartI.quantity,
-         
-        });
-      })
-      
+        const z=[]
+        cartItems.map((cartI)=>{
+         z.push({
+             "itemId":cartI.itemId,
+             "quantity":cartI.quantity
+         });
+         })
+        const req= [{"totAmt":cartTotalAmount ,
+         "orderDtos":z
+      }];
+      //   const orderDots=[]
+      // cartItems.map((cartI)=>{
+      //  // console.log(cartI.itemId)
+      // // req.push({
+      // //     "oderDots":[
+      // //     {"itemId":cartI.itemId,
+      // //     "quantity":cartI.quantity}
+      // //     ]
+      // // });
+      // })
+      //req.push({"orderDots":orderDots})
+      //console.log(req[0].totAmt,req[0].orderDots[0],req)
    
         //console.warn('rrq', id,req);
         //console.warn('id', id);
-        postMethod2('/orders/' + id+'/'+cartTotalAmount, req,jwt)
+        postMethod2('/orders/' + id, req,jwt)
           .then(response => {
             if (response) {
-              //console.warn('order response', response);
+              console.warn('order response', response);
 
               if (response.status == 200) {
                 Alert.alert('Your foods ordered sucessfully');
                 props.navigation.navigate('Shops');
                 dispatch(cartActions.emptyCart());
-              } else if (response.data.status == 500) {
-                Alert.alert('Not able to signup, Please try later');
+              } else if (response.status == 500) {
+                Alert.alert('Something went wrong, Please try again later');
               }
-              if (response.data.status == 404) {
+              if (response.status == 404) {
                 Alert.alert('User account already deactivated');
               }
             }

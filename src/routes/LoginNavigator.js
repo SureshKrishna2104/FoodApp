@@ -41,7 +41,7 @@ const LoginNavigator = () => {
   }, [check]);
   return (
     <>
-      <StatusBar backgroundColor="red" />
+      
       <Tab.Navigator initialRouteName="Hotels" activeColor="white">
         <Tab.Screen
           name="Hotels"

@@ -688,6 +688,41 @@ const SignUp = ({navigation}) => {
                 color: colors.text,
               },
             ]}>
+            City
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  color: 'red',
+                },
+              ]}>
+              {' '}
+              *
+            </Text>
+          </Text>
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color={colors.text} size={20} />
+            <TextInput
+              placeholder="Enter Your PinCode"
+              placeholderTextColor="#666666"
+              style={[
+                styles.textInput,
+                {
+                  color: colors.text,
+                },
+              ]}
+              autoCapitalize="none"
+              onChangeText={val => handleValidPinCode(val)}
+            />
+          </View>
+
+          <Text
+            style={[
+              styles.text_footer,
+              {
+                color: colors.text,
+              },
+            ]}>
             PinCode
             <Text
               style={[

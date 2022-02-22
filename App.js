@@ -4,7 +4,7 @@ import {useSelector, useDispatch, Provider} from 'react-redux';
 import ShopNavigator from './src/routes/ShopNavigator';
 import LoginNavigator from './src/routes/LoginNavigator';
 import {NavigationContainer} from '@react-navigation/native';
-import {View, Text, ScrollView, Image, StyleSheet, StatusBar} from 'react-native';
+import {View, Text, ScrollView, Image, StyleSheet, StatusBar,NetInfo} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {createStore, combineReducers} from 'redux';
 //import {Provider} from 'react-redux';

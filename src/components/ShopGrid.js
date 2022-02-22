@@ -12,7 +12,7 @@ import {
 const ShopGrid = props => {
   return (
       <View style={styles.mealItem}>
-         <StatusBar barStyle="dark-content" backgroundColor='#86e4fc'/>
+         <StatusBar barStyle="dark-content" backgroundColor='#FFFF'/>
         <TouchableOpacity onPress={props.onSelectNews}>
           <View>
             <View style={{...styles.newsRow, ...styles.newsHeader}}>

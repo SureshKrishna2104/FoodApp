@@ -5,6 +5,7 @@ import MealItem from '../components/MealItem';
 import AsyncStorage from '@react-native-community/async-storage';
 const OrderScreen = props => {
   const order = props.route.params.order;
+  console.log(order)
   const [data, setData] = React.useState();
   const fetchData = () => {
     AsyncStorage.getItem('userId').then(async res => {
@@ -60,7 +61,7 @@ const OrderScreen = props => {
   };
   return (
     <View>
-      <FlatList data={data} inverted={true} renderItem={renderGrid}  showsVerticalScrollIndicator={false}/>
+      <FlatList data={order} inverted={true} renderItem={renderGrid}  showsVerticalScrollIndicator={false}/>
     </View>
   );
 };

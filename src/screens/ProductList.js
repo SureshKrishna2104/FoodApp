@@ -29,11 +29,12 @@ const ProductList = ({route, navigation}, props) => {
     })
       .then(response => response.json())
       .then(responseData => {
+        
         setData(responseData.data.items);
         setIsLoading(false); // console.warn('out of id', responseData.data.items);
       })
       .catch(err => {
-        console.error(err);
+        console.error(err,"error");
         setIsLoading(false);
       });
   }, []);

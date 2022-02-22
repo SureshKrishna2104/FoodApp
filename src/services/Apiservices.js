@@ -40,7 +40,7 @@ export const postMethod1 = (type, value, jwt) => {
     }); // promise
 };
 export const postMethod2= (type, value,jwt) => {
- // console.warn('inside post', type, value,jwt);
+ console.warn('inside post', type, value,jwt);
   let data = {
     method: 'POST',
     credentials: 'same-origin',
@@ -60,15 +60,20 @@ export const postMethod2= (type, value,jwt) => {
     }); // promise
 };
 
-export const getAllData = type => {
+export const getAllData = (type,jwt)=> {
  // console.warn('dashboard', type);
   let data = {
     method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`,
+    },
   };
   return fetch(URL + type, data)
     .then(response => response.json())
     .then(responseData => {
-      //console.warn('out of the', responseData);
+      console.warn('out of the', responseData);
       return responseData;
     })
     .catch(function (error) {
