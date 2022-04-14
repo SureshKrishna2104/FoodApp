@@ -16,6 +16,8 @@ import OfferScreen from '../screens/OfferScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import EditProfile from '../screens/EditProfile';
 import OrderScreen from '../screens/OrderScreen';
+import BillDetail from '../components/BillDetail';
+import FavouriteScreen from '../screens/FavouriteScreen';
 import SearchScreen from '../screens/SearchScreen';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -41,7 +43,6 @@ const LoginNavigator = () => {
   }, [check]);
   return (
     <>
-      
       <Tab.Navigator initialRouteName="Hotels" activeColor="white">
         <Tab.Screen
           name="Hotels"
@@ -414,6 +415,22 @@ const ProfileStackScreen = ({navigation}) => (
       component={OrderScreen}
       options={{
         title: 'Your Orders',
+        headerTitleAlign: 'center',
+      }}
+    />
+    <ProfileStack.Screen
+      name="BillDetail"
+      component={BillDetail}
+      options={{
+        title: 'Bill Details',
+        headerTitleAlign: 'center',
+      }}
+    />
+    <ProfileStack.Screen
+      name="Favourites"
+      component={FavouriteScreen}
+      options={{
+        title: 'Your Favourites',
         headerTitleAlign: 'center',
       }}
     />

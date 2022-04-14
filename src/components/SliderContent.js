@@ -223,7 +223,7 @@ export default class SliderContent extends Component {
               autoplayTimeout={2}>
               {this.state.dataBanner.map(itembann => {
                 return (
-                  <View>
+                  <View key={itembann.image_id}> 
                     <Image
                       style={styles.imageBanner}
                       resizeMode="cover"

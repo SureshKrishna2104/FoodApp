@@ -10,31 +10,26 @@ const ProductList = ({route, navigation}, props) => {
   const hotelId = route.params.hotelId;
   const myObj1 = useSelector(state => state.cart.items);
   var size = Object.keys(myObj1).length;
-
   useEffect(() => {
     navigation.setParams({count: size});
   }, [myObj1]);
-  //props.navigation.getParam('hotelId');
+
   const hotelName = route.params.hotelName;
   const [isLoading, setIsLoading] = React.useState(true);
-  //props.navigation.getParam('hotelName');
-  // const hotelImage = props.navigation.getParam('hotelImage');
-  // const hotelItems = props.navigation.getParam('hotelItems');
-  // const newsCat = props.navigation.getParam('newsCat');
-  // const newsUrl = props.navigation.getParam('newsUrl');
+
   const [data, setData] = React.useState([]);
   useEffect(() => {
-    fetch('http://3.133.49.92:9090/getHotel/' + hotelId, {
+    fetch('https://food-order-ver-1.herokuapp.com/getHotel/' + hotelId, {
       method: 'GET',
     })
       .then(response => response.json())
       .then(responseData => {
-        
-        setData(responseData.data.items);
-        setIsLoading(false); // console.warn('out of id', responseData.data.items);
+       
+        setData(responseData.data.item);
+        setIsLoading(false); 
       })
       .catch(err => {
-        console.error(err,"error");
+        console.error(err, 'error');
         setIsLoading(false);
       });
   }, []);
@@ -52,6 +47,7 @@ const ProductList = ({route, navigation}, props) => {
             itemAmount: itemdata.item.amount,
             itemName: itemdata.item.itemName,
             itemImage: itemdata.item.image_url,
+            itemHotel: hotelId,
             length: size,
           });
         }}
@@ -59,36 +55,40 @@ const ProductList = ({route, navigation}, props) => {
     );
   };
   return (
-    <ScrollView style={{backgroundColor: '#fff'}}>
-      <View>
-        <FlatList data={data} renderItem={renderGrid}  showsVerticalScrollIndicator={false}/>
-        {isLoading ? (
-          <View style={{marginTop: '50%'}}>
-            <ActivityLoading size="large" />
-          </View>
-        ) : null}
-        {data?.length === 0 ? (
-          <>
-            <Text
-              style={{
-                fontSize: 20,
-                textAlign: 'center',
-                // color: 'white',
-                fontWeight: 'bold',
-                marginTop: 0,
-                marginTop: '50%',
-              }}>
-              No Food Found
-            </Text>
-          </>
-        ) : null}
-      </View>
-    </ScrollView>
+    <FlatList
+      data={data}
+      renderItem={renderGrid}
+      keyExtractor={(item, index) => index.toString()}
+      showsVerticalScrollIndicator={false}
+      ListFooterComponent={
+        <>
+          {isLoading ? (
+            <View style={{marginTop: '50%'}}>
+              <ActivityLoading size="large" />
+            </View>
+          ) : null}
+          {data?.length === 0 && !isLoading ? (
+            <>
+              <Text
+                style={{
+                  fontSize: 20,
+                  textAlign: 'center',
+                  // color: 'white',
+                  fontWeight: 'bold',
+                  marginTop: 0,
+                  marginTop: '50%',
+                }}>
+                No Food Found
+              </Text>
+            </>
+          ) : null}
+        </>
+      }
+    />
   );
 };
 ProductList.navigationOptions = ({route, navigation}, navData) => {
   var size = route.params.count;
-  //console.log(route,size,navData)
   return {
     headerTitle: (
       <Text

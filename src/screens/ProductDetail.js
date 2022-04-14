@@ -8,21 +8,34 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import CartItem from '../components/CartItem';
 import * as cartActions from '../store/actions/cart';
+import {postMethod2} from '../services/Apiservices';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
 import ImageCarousel from '../components/ImageCarousel';
 import Button from '../components/Button';
+import ActivityLoading from '../components/ActivityLoading';
+import {isJwtExpired} from 'jwt-check-expiration';
 
 const ProductDetail = ({route, navigation}, props) => {
   const [id, setId] = useState();
+  const [buttonStatus, setButtonStatus] = useState(false);
   const myObj1 = useSelector(state => state.cart.items);
-  const [flag, setFlag] = useState(false);
+  const [favStatus, setFavStatus] = useState('');
+  const [isFav, setIsFav] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   var size = Object.keys(myObj1).length;
+  const productId = route.params.itemId;
+  const productImage = route.params.itemImage;
+  const productPrice = route.params.itemAmount;
+  const productName = route.params.itemName;
+  const prodHotel = route.params.itemHotel;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     navigation.setParams({count: size});
@@ -43,30 +56,86 @@ const ProductDetail = ({route, navigation}, props) => {
     }
     return transformedCartItems.sort((a, b) => (a.itemId > b.itemId ? 1 : -1));
   });
-  const fetchData = () => {
-    AsyncStorage.getItem('userId').then(async res => {
-      //console.warn('res', res);
-      setId(res);
-    });
-  };
+  const result = cartItems.filter(id => id.itemId === productId);
+ 
   useEffect(() => {
-    // AsyncStorage.getItem('userId')
-    AsyncStorage.getItem('userToken').then(async res => {
-      //console.warn('Token', res);
-      setJwt(res);
-    });
-
-    fetchData();
-    // const willFocusSubscription = props.navigation.addListener('focus', () => {
-    //   //console.warn('refreshed');
-    //   fetchData();
-    // });
-    // return willFocusSubscription;
+    FvtData();
   }, []);
 
+  useEffect(() => {
+    FvtData();
+  }, [favStatus]);
+
+  const FvtData = () => {
+    AsyncStorage.getItem('userToken').then(async resJwt => {
+      if (!isJwtExpired(resJwt)) {
+        setJwt(resJwt);
+        AsyncStorage.getItem('userId').then(async res => {
+          setId(res);
+          fetch('https://food-order-ver-1.herokuapp.com/getFvtItem/' + res, {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${resJwt}`,
+            },
+          })
+            .then(response => response.json())
+            .then(responseJson => {
+              setIsFav(responseJson.data.some(e => e.itemId === productId));
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        });
+      } else {
+        setButtonStatus(true);
+        AsyncStorage.removeItem('userToken');
+      }
+    });
+  };
+
+  const onAddToFvt = () => {
+    const req = {
+      itemId: productId,
+      hotelId: prodHotel,
+    };
+    setIsLoading(true);
+    AsyncStorage.getItem('userId').then(async res => {
+      postMethod2('/updateFvtItem/' + res, req, jwt)
+        .then(response => {
+          if (response) {
+            if (response.status == 200) {
+              setIsLoading(false);
+              setFavStatus(response.data);
+              Alert.alert(response.data);
+            } else if (response.status == 500) {
+              setIsLoading(false);
+              Alert.alert('Something went wrong');
+            }
+            if (response.statuscode == 404) {
+              setIsLoading(false);
+              Alert.alert('Please Login to add Items');
+            }
+          }
+        })
+        .catch(error => {
+          setIsLoading(false);
+
+          Alert.alert(
+            'No Internet connection.\n Please check your internet connection \nor try again',
+            error,
+          );
+          console.warn(
+            'No Internet connection.\n Please check your internet connection \nor try again',
+            error,
+          );
+        });
+    });
+  };
+
+  const images = [productImage];
   const renderGrid = itemData => {
-    AsyncStorage.setItem('count', itemData.item.quantity);
-    // console.log(itemData.item)
     return (
       <View style={styles.cartItem}>
         <View style={styles.itemData}>
@@ -95,70 +164,59 @@ const ProductDetail = ({route, navigation}, props) => {
       </View>
     );
   };
-
-  const productId = route.params.itemId;
-  //props.navigation.getParam('itemId');
-  const productImage = route.params.itemImage;
-  //props.navigation.getParam('itemImage');
-  const productPrice = route.params.itemAmount;
-  //props.navigation.getParam('itemAmount');
-  const productName = route.params.itemName;
-  //props.navigation.getParam('itemName');
-  // const selectedProduct = useSelector(state =>
-  //   state.products.availableProducts.find(prod => prod.id === productId),
-  // );
-  const dispatch = useDispatch();
-
-  const result = cartItems.filter(id => id.itemId === productId);
-  const images = [productImage];
   return (
-    <ScrollView>
-      <View style={styles.root}>
-        <Text style={styles.title}>{productName}</Text>
-        {/* <Image style={styles.image} source={{uri: productImage}} /> */}
-        <ImageCarousel images={images} />
-        <Text style={styles.price}> From Rs.{productPrice}</Text>
-        <Text style={styles.description}>
-          <Text style={styles.title}>
-            {productName}
-            {'   '}
+    <FlatList
+      data={result}
+      keyExtractor={item => item.itemId}
+      renderItem={renderGrid}
+      ListHeaderComponent={
+        <View style={styles.root}>
+          <Text style={styles.title}>{productName}</Text>
+          <ImageCarousel images={images} />
+          <Text style={styles.price}> From Rs.{productPrice}</Text>
+          <Text style={styles.description}>
+            <Text style={styles.title}>
+              {productName}
+              {'   '}
+            </Text>
+            substance consisting essentially of protein, carbohydrate, fat, and
+            other nutrients used in the body of an organism to sustain growth
+            and vital processes and to furnish energy. The absorption and
+            utilization of food by the body is fundamental to nutrition and is
+            facilitated by digestion.
           </Text>
-          substance consisting essentially of protein, carbohydrate, fat, and
-          other nutrients used in the body of an organism to sustain growth and
-          vital processes and to furnish energy. The absorption and utilization
-          of food by the body is fundamental to nutrition and is facilitated by
-          digestion.
-        </Text>
+        </View>
+      }
+      ListFooterComponent={
+        <View style={styles.root}>
+          <Button
+            text="Add to Cart"
+            onPress={() => {
+              alert('Item added to cart successfully');
+              dispatch(
+                cartActions.addToCart(productId, productPrice, productName),
+              );
+            }}
+          />
 
-        <FlatList
-          data={result}
-          keyExtractor={item => item.itemId}
-          renderItem={renderGrid}
-          showsVerticalScrollIndicator={false}
-        />
-
-        <Button
-          text="Add to Cart"
-          onPress={() => {
-            alert('Item added to cart successfully');
-            dispatch(
-              cartActions.addToCart(productId, productPrice, productName),
-            );
-          }}
-        />
-        <Button
-          text="Add to Favourites"
-          onPress={() => console.log('Buy Now')}
-          containerStyles={{}}
-        />
-      </View>
-    </ScrollView>
+          {isLoading ? <ActivityLoading size="large" /> : null}
+          {isFav ? (
+            <Button
+              text="Remove From Favourites"
+              onPress={() => onAddToFvt()}
+            />
+          ) : (
+            <Button text="Add to Favourites" onPress={() => onAddToFvt()} />
+          )}
+        </View>
+      }
+      showsVerticalScrollIndicator={false}
+    />
   );
 };
 
 ProductDetail.navigationOptions = ({route, navigation}, navData) => {
   var size = route.params.count;
-  // console.log(route,size,navData)
   return {
     headerTitle: (
       <Text

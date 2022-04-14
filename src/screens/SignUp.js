@@ -309,7 +309,7 @@
 
 // //   }
 // // })
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -330,6 +330,7 @@ import Feather from 'react-native-vector-icons/Feather';
 //import {postMethod} from '../services/Apiservices';
 import {postMethod} from '../services/Apiservices';
 import {useTheme} from 'react-native-paper';
+import {Picker} from '@react-native-picker/picker';
 //import { AuthContext } from '../routes'
 import ActivityLoading from '../components/ActivityLoading';
 const SignUp = ({navigation}) => {
@@ -344,53 +345,58 @@ const SignUp = ({navigation}) => {
     isValidUser: true,
     isValidPassword: true,
   });
-
+  const [selectedState, setselectedState] = useState();
+  const [selectedPincode, setSelectedPincode] = useState();
   const [isLoading, setIsLoading] = React.useState(false);
-
+  const [cityData, setCityData] = useState([]);
+  const [pinData, setPinData] = useState([]);
   //const { signIn } = React.useContext(AuthContext);
 
   const setInfo = async data => {
-   // console.warn('dataaaa-', data.data.userId);
     const jsonValue = JSON.stringify(data.data);
     const id = JSON.stringify(data.data.userId);
     await AsyncStorage.setItem('userInfo', jsonValue);
     await AsyncStorage.setItem('userId', id);
   };
-
+  useEffect(() => {
+    fetch('https://food-order-ver-1.herokuapp.com/getCity', {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(responseData => {
+        setCityData(responseData.data);
+      })
+      .catch(err => {
+        setIsLoading(false);
+        //console.error(err);
+      });
+  }, []);
   const doLogin = () => {
     const req = {
       name: data.name,
       number: data.number,
       password: data.password,
       address: data.address,
-      pinCode: data.pincode,
-    };
+      city:selectedState,
+      pinCode: selectedPincode,
 
+    };
+  console.log(req);
     if (
       data.number != '' &&
       data.name != '' &&
       data.password != '' &&
-      data.address != '' &&
-      data.pincode != ''
+      data.address!=''&&
+      setCityData != '' &&
+      selectedPincode != ''
     ) {
       setIsLoading(true);
       postMethod('/signup', req)
         .then(response => {
           if (response) {
-            console.warn('login response', response);
+            //console.warn('login response', response);
 
             if (response.status == 200) {
-              // const user_data = {
-              //         token: response.data.token,
-              //         userId: response.data.userId,
-              //         roles: response.data.roles,
-              //         number: response.data.number,
-              //     };
-              //AsyncStorage.setItem('userInfo', response.data);
-              //setInfo(response);
-              // signIn(user_data);
-              // setIsLoading(false)
-
               Alert.alert('User Added Successfully');
               navigation.navigate('Login');
             } else if (response.status == 500) {
@@ -504,12 +510,26 @@ const SignUp = ({navigation}) => {
       });
     }
   };
+  let stateArray = cityData?.map((s, i) => {
+    return <Picker.Item key={i} value={s.cityName} label={s.cityName} />;
+  });
+
+  useEffect(() => {
+    cityData.map((e, i) => {
+      if (e.cityName === selectedState) {
+        setPinData(e.pinCodes);
+      }
+    });
+  }, [selectedState]);
+  let pinArray = pinData?.map((s, i) => {
+    return <Picker.Item key={i} value={s.pinCode} label={s.pinCode} />;
+  });
   return (
-    <ScrollView style={{backgroundColor: '#fff'}}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
-        {/* <StatusBar backgroundColor="#009387" barStyle="light-content" /> */}
         <View style={styles.header}>
-        
           <Image
             source={require('../assets/images/login.jpg')}
             resizeMode="contain"
@@ -701,21 +721,21 @@ const SignUp = ({navigation}) => {
             </Text>
           </Text>
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Enter Your PinCode"
-              placeholderTextColor="#666666"
-              style={[
-                styles.textInput,
-                {
-                  color: colors.text,
-                },
-              ]}
-              autoCapitalize="none"
-              onChangeText={val => handleValidPinCode(val)}
-            />
+            <Feather name="lock" color={colors.text} size={20} />
+            <Picker
+              selectedValue={selectedState}
+              style={{width: 300, marginTop: -15}}
+              onValueChange={(itemValue, itemIndex) =>
+                setselectedState(itemValue)
+              }>
+              {stateArray != '' ? (
+                <Picker.Item label="Select City" value="" />
+              ) : (
+                <Picker.Item label="xyz" value="xyz" />
+              )}
+              {stateArray}
+            </Picker>
           </View>
-
           <Text
             style={[
               styles.text_footer,
@@ -723,7 +743,7 @@ const SignUp = ({navigation}) => {
                 color: colors.text,
               },
             ]}>
-            PinCode
+            Pincode
             <Text
               style={[
                 styles.text_footer,
@@ -736,19 +756,20 @@ const SignUp = ({navigation}) => {
             </Text>
           </Text>
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
-            <TextInput
-              placeholder="Enter Your PinCode"
-              placeholderTextColor="#666666"
-              style={[
-                styles.textInput,
-                {
-                  color: colors.text,
-                },
-              ]}
-              autoCapitalize="none"
-              onChangeText={val => handleValidPinCode(val)}
-            />
+            <Feather name="lock" color={colors.text} size={20} />
+            <Picker
+              selectedValue={selectedPincode}
+              style={{width: 300, marginTop: -15}}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedPincode(itemValue)
+              }>
+              {pinArray != '' ? (
+                <Picker.Item label="Select PinCode" value="" />
+              ) : (
+                <Picker.Item label="xyz" value="xyz" />
+              )}
+              {pinArray}
+            </Picker>
           </View>
 
           <TouchableOpacity
@@ -764,8 +785,9 @@ const SignUp = ({navigation}) => {
           </TouchableOpacity>
           {isLoading ? <ActivityLoading size="large" /> : null}
 
-          <Text> </Text>
-          <Text>Already have an account! Please SignIn</Text>
+          <Text style={{fontSize: 15, marginTop: 10}}>
+            Already have an account! Please SignIn
+          </Text>
           <TouchableOpacity
             style={styles.appButtonContainer}
             onPress={() => navigation.navigate('Login')}>

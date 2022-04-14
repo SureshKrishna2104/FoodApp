@@ -248,9 +248,9 @@ const Login = ({navigation}) => {
             </Text>
           </TouchableOpacity>
           {isLoading ? <ActivityLoading size="large" /> : null}
-
-          <Text> </Text>
-          <Text>Are you New! Please SignUp</Text>
+          <Text style={{fontSize: 15, marginTop: 10}}>
+           New User! Please SignUP
+          </Text>
           <TouchableOpacity
             style={styles.appButtonContainer}
             onPress={() => navigation.navigate('SignUp')}>

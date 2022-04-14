@@ -27,7 +27,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {getAllData} from '../services/Apiservices';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useSelector, useDispatch} from 'react-redux';
+import {isJwtExpired} from 'jwt-check-expiration';
 // import Modal from 'react-native-modal';
 // import {RadioButton} from 'react-native-paper';
 // import {CheckBox} from 'react-native-elements';
@@ -37,74 +37,75 @@ import ActivityLoading from '../components/ActivityLoading';
 
 const ProfileScreen = ({navigation}) => {
   const [data, setData] = React.useState([]);
+  const [fvtData, setFvtData] = React.useState([]);
   const [id, setId] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
-  const[jwt,setJwt]=React.useState('');
+  const [jwt, setJwt] = React.useState('');
+
   const getProfile = async => {
     AsyncStorage.getItem('userId').then(async res => {
       const id = await res;
-      //console.warn('idp', id);
-      //id = 'jBpy4f';
       if (id) {
-        getAllData('/getUser/' + id,jwt)
-          .then(responseJson => {
-            console.warn('ress', responseJson.data);
-            setData(responseJson.data);
-            setIsLoading(false)
-          })
-          .catch(error => {
-            setIsLoading(false)
-            Alert.alert(
-              'No Internet connection.\n Please check your internet connection \nor try again',
-            );
-          });
+        AsyncStorage.getItem('userToken').then(async res => {
+          console.log(res);
+          if (!isJwtExpired(res)) {
+            fetch('https://food-order-ver-1.herokuapp.com/getUser/' + id, {
+              method: 'GET',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${res}`,
+              },
+            })
+              .then(response => response.json())
+              .then(responseData => {
+                setData(responseData.data);
+              })
+              .catch(err => {
+                setIsLoading(false);
+                console.error(err, 'kk');
+              });
+
+            fetch('https://food-order-ver-1.herokuapp.com/getFvtItem/' + id, {
+              method: 'GET',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${res}`,
+              },
+            })
+              .then(response => response.json())
+              .then(responseData => {
+                setFvtData(responseData.data);
+                setIsLoading(false);
+              })
+              .catch(err => {
+                setIsLoading(false);
+                console.error(err, 'kk');
+              });
+          } else {
+            setIsLoading(false);
+            AsyncStorage.removeItem('userToken');
+            AsyncStorage.removeItem('userId');
+          }
+        });
       } else {
         setData('');
-        setIsLoading(false)
+        setIsLoading(false);
       }
     });
   };
-  //const isfocus = useIsFocused();
-  // useEffect(() => {
-  //   getProfile();
-  //   //console.warn('userche', userCheck);
-  // }, []);
-  const getFocus = () => {
-    // if (data.length === 0) {
-    //   console.warn('this is called', data.length);
-    //   navigation.navigate('Login');
-    // }
-    if (!data) {
-     // console.warn('ifif is called', data.length);
-      navigation.navigate('Login');
-    } else {
-     // console.warn('else is called', data.length);
-    }
-  };
-  useEffect(() => {
-    getProfile();
-    AsyncStorage.getItem('userToken').then(async res => {
-      //console.warn('Token', res);
-      setJwt(res);
 
-    });
+  useEffect(() => {
     const willFocusSubscription = navigation.addListener('focus', () => {
-     // console.warn('profile refreshed');
       getProfile();
-      // getFocus();
     });
     AsyncStorage.getItem('userId').then(async res => {
-     // console.warn('res', res);
       setId(res);
-
-      // setId(res);
     });
-    // props.navigation.setParams({c: count});
 
     return willFocusSubscription;
   }, []);
- 
-  const dispatch = useDispatch;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -121,25 +122,17 @@ const ProfileScreen = ({navigation}) => {
                 style={styles.userImage}
                 source={require('../assets/images/flash.jpg')}
               />
-              <Text style={styles.userNameText}>{data.name}</Text>
+              <Text style={styles.userNameText}>{data ? data.name : ''}</Text>
               <View style={styles.userAddressRow}>
-                <View>
-                  {/* <Icon
-                    name="phone"
-                    underlayColor="transparent"
-                    iconStyle={styles.placeIcon}
-                    // onPress={this.onPressPlace}
-                  /> */}
-                </View>
                 <View style={styles.userCityRow}>
                   <Text style={styles.userCityText}>
-                    {data.number}
+                    {data ? data.number : ''}
                   </Text>
                   <Text style={styles.userCityText}>
-                    {data.address} 
+                    {data ? data.address : ''}
                   </Text>
                   <Text style={styles.userCityText}>
-                   {data.pinCode}
+                    {data ? data.pinCode : ''}
                   </Text>
                 </View>
               </View>
@@ -148,7 +141,7 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View style={styles.infoBoxWrapper} />
         <View style={styles.menuWrapper}>
-        {isLoading ? <ActivityLoading size="large" /> : null}
+          {isLoading ? <ActivityLoading size="large" /> : null}
           {data.length != 0 ? (
             <View>
               <TouchableRipple
@@ -158,6 +151,17 @@ const ProfileScreen = ({navigation}) => {
                 <View style={styles.menuItem}>
                   <Icon name="cart-arrow-right" color="#F05E23" size={25} />
                   <Text style={styles.menuItemText}>Your Orders</Text>
+                </View>
+              </TouchableRipple>
+              <TouchableRipple
+                onPress={() =>
+                  navigation.navigate('Favourites', {
+                    id: id,
+                  })
+                }>
+                <View style={styles.menuItem}>
+                  <Icon name="heart" color="#F05E23" size={25} />
+                  <Text style={styles.menuItemText}>Your Favourites</Text>
                 </View>
               </TouchableRipple>
               <TouchableRipple
@@ -191,11 +195,8 @@ const ProfileScreen = ({navigation}) => {
                       {
                         text: 'Confirm',
                         onPress: () => {
-                          //AsyncStorage.clear();
-                          // getProfile();
                           AsyncStorage.removeItem('userId');
-                          // dispatch(cartActions.login(false));
-                          // navigation.navigate('Shops');
+
                           getProfile();
                         },
                       },
@@ -224,9 +225,6 @@ const ProfileScreen = ({navigation}) => {
       </ScrollView>
     </SafeAreaView>
   );
-  // } else {
-  //   navigation.navigate('Login');
-  // }
 };
 
 export default ProfileScreen;
@@ -356,7 +354,8 @@ const styles = StyleSheet.create({
     color: '#777777',
     marginLeft: 20,
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 18,
     lineHeight: 26,
+    letterSpacing: 1,
   },
 });

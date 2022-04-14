@@ -34,63 +34,42 @@ import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
 import {useSelector, useDispatch} from 'react-redux';
 const SearchScreen = props => {
-  const [data, setData] = React.useState('');
-  const [food, setFood] = React.useState('');
+  const [search, setSearch] = useState('');
+  const [data, setData] = React.useState([]);
+  const [error, setError] = React.useState(false);
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const doLogin = () => {
-    const req = {
-      itemName: food,
-    };
+  useEffect(() => {
+    fetch('https://food-order-ver-1.herokuapp.com/getAllItems')
+      .then(response => response.json())
+      .then(responseJson => {
+        // console.log(responseJson.data);
+        //setFilteredDataSource(responseJson.data);
+        setData(responseJson.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
-    if (food != '') {
-      setIsLoading(true);
-      postMethod('/filterItems', req)
-        .then(response => {
-          if (response) {
-            //console.warn('login response', response);
-
-            if (response.status == 200) {
-              // const user_data = {
-              //         token: response.data.token,
-              //         userId: response.data.userId,
-              //         roles: response.data.roles,
-              //         number: response.data.number,
-              //     };
-              //AsyncStorage.setItem('userInfo', response.data);
-              //setInfo(response);
-              // signIn(user_data);
-              // setIsLoading(false)
-              setData(response.data);
-              //   Alert.alert('User Updated Successfully');
-              //   //navigation.navigate('Login');
-              //   props.navigation.goBack();
-              setIsLoading(false);
-            }
-            if (response.data.length === 0) {
-              setIsLoading(false);
-
-              Alert.alert(
-                'No ' + food + ' found now,please search some other foods!',
-              );
-            }
-          }
-        })
-        .catch(error => {
-          setIsLoading(false);
-
-          Alert.alert(
-            'No Internet connection.\n Please check your internet connection \nor try again',
-            error,
-          );
-          console.warn(
-            'No Internet connection.\n Please check your internet connection \nor try again',
-            error,
-          );
-        });
+  const searchFilterFunction = text => {
+    if (text) {
+      const newData = data.filter(function (item) {
+        const itemData = item.itemName
+          ? item.itemName.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      if (newData) {
+        setError(true);
+      }
+      setFilteredDataSource(newData);
+      setSearch(text);
     } else {
-      setIsLoading(false);
-
-      Alert.alert('Please type food in search bar');
+      setFilteredDataSource('');
+      setError(false);
+      setSearch(text);
     }
   };
   const renderGrid = itemdata => {
@@ -115,70 +94,65 @@ const SearchScreen = props => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ScrollView style={{backgroundColor: '#fff'}}>
-        {/* <View style={styles.itemRow}>
-        <TextInput
-          style={styles.textInputStyle}
-          onChangeText={text => setFood(text)}
-          //value={food}
-          underlineColorAndroid="transparent"
-          placeholder="Search for food"
-          color="black"
-        />
-        <TouchableOpacity
-          style={styles.appButtonContainer}
-          onPress={() => doLogin()}>
-          <View style={styles.appButtonText}>
-            <Icon name="ios-search" size={28} color="grey" />
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <FlatList
+        data={filteredDataSource}
+        renderItem={renderGrid}
+        keyExtractor={(item, index) => index.toString()}
+        ListHeaderComponent={
+          <View
+            style={{
+              margin: 5,
+              padding: 5,
+              borderWidth: 1,
+              borderColor: '#e3e3e3',
+              borderRadius: 5,
+              flexDirection: 'row',
+              alignItems: 'center',
+              //height:"65%",
+              width: '95%',
+              //marginRight:'40%'
+            }}>
+            <TextInput
+              style={{height: '140%', width: '90%', marginLeft: 10}}
+              onChangeText={text => searchFilterFunction(text)}
+              value={search}
+              placeholderTextColor="black"
+              underlineColorAndroid="transparent"
+              placeholder="Search Food"
+              color="black"
+            />
+            <TouchableOpacity>
+              <View style={styles.appButtonText}>
+                <Icon name="ios-search" size={26} color="grey" />
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </View> */}
-        <View
-          style={{
-            margin: 5,
-            padding: 5,
-            borderWidth:1,
-            borderColor: '#e3e3e3',
-            borderRadius: 5,
-            flexDirection: 'row',
-            alignItems: 'center',
-            //height:"65%",
-            width:'95%',
-            //marginRight:'40%'
-          }}>
-         
-          {/* <TextInput
-          style={{height: 40, marginLeft: 10}}
-          placeholder="Search Amazon.in"
-          value={searchValue}
-          onChangeText={setSearchValue}
-        /> */}
-
-          <TextInput
-            style={{height:'140%',width:'90%', marginLeft: 10,}}
-            onChangeText={text => setFood(text)}
-            //value={food}
-            placeholderTextColor='black'
-            underlineColorAndroid="transparent"
-            placeholder="Search Food"
-            color="black"
-          />
-           <TouchableOpacity onPress={() => doLogin()}>
-            <View style={styles.appButtonText}>
-              <Icon name="ios-search" size={26} color="grey" />
-            </View>
-          </TouchableOpacity>
+        }
+        ListFooterComponent={
+          error && filteredDataSource.length <= 0 ? (
+            <>
+              <Text
+                style={{
+                  fontSize: 20,
+                  textAlign: 'center',
+                  // color: 'white',
+                  fontWeight: 'bold',
+                  marginTop: 0,
+                  marginTop: '50%',
+                }}>
+                No Food Found
+              </Text>
+            </>
+          ) : null
+        }
+        showsVerticalScrollIndicator={false}
+      />
+      {isLoading ? (
+        <View style={{marginTop: '50%'}}>
+          <ActivityLoading size="large" />
         </View>
-        <View>
-          <FlatList data={data} renderItem={renderGrid}  showsVerticalScrollIndicator={false}/>
-          {isLoading ? (
-            <View style={{marginTop: '50%'}}>
-              <ActivityLoading size="large" />
-            </View>
-          ) : null}
-        </View>
-      </ScrollView>
+      ) : null}
     </SafeAreaView>
   );
 };

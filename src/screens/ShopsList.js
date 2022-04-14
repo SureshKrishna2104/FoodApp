@@ -8,7 +8,6 @@ import {
   ScrollView,
   Image,
   SafeAreaView,
- 
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ShopGrid from '../components/ShopGrid';
@@ -25,42 +24,32 @@ const ShopsList = props => {
   const [count, setCount] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const fetchData = () => {
-    fetch('http://3.133.49.92:9090/getAllHotel', {
+    fetch('https://food-order-ver-1.herokuapp.com/getAllHotel', {
       method: 'GET',
     })
       .then(response => response.json())
       .then(responseData => {
         setData(responseData.data);
-        setIsLoading(false)
-        //console.warn('out of ', responseData.data);
+        setIsLoading(false);
       })
       .catch(err => {
-        setIsLoading(false)
+        setIsLoading(false);
         console.error(err);
       });
   };
-  useEffect(()=>{
-    props.navigation.setParams({badge: size});
-  },[size])
+
   useEffect(() => {
     fetchData();
     const willFocusSubscription = props.navigation.addListener('focus', () => {
-     // console.warn('refreshed');
       fetchData();
     });
     AsyncStorage.getItem('userId').then(async res => {
-      //console.warn('rescount', res);
       setCount(res);
-
-      // setId(res);
     });
-    
 
     return willFocusSubscription;
   }, []);
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+
   const renderGrid = itemdata => {
     return (
       <ShopGrid
@@ -78,31 +67,43 @@ const ShopsList = props => {
       />
     );
   };
-  // return (
-  //   <View>
-  //     <SliderContent />
-  //     <FlatList data={data} renderItem={renderGrid} />
-  //   </View>
-  // );
+
   return (
     <SafeAreaView style={{flex: 1}}>
-       <StatusBar barStyle="dark-content" backgroundColor="red" />
-    <View style={styles.container}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-      <View style={styles.ListPannel}>
-          <FlatList data={data} renderItem={renderGrid} ListHeaderComponent={SliderContent} showsVerticalScrollIndicator={false}/>
+      <View style={styles.container}>
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <View style={styles.ListPannel}>
+          <FlatList
+            data={data}
+            renderItem={renderGrid}
+            keyExtractor={item => item.hotelId}
+            ListHeaderComponent={SliderContent}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
-    </View>
-    {isLoading ? <ActivityLoading size="large" /> : null}
+      </View>
+      {isLoading ? <ActivityLoading size="large" /> : null}
     </SafeAreaView>
   );
 };
 ShopsList.navigationOptions = navData => {
- const myObj1 = useSelector(state => state.cart.items);
- var size = Object.keys(myObj1).length;
+  const myObj1 = useSelector(state => state.cart.items);
+  var size = Object.keys(myObj1).length;
 
   return {
-    headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>hotels</Text>,
+    headerTitle: (
+      <Text
+        style={{
+          alignContent: 'center',
+          justifyContent: 'center',
+          color: '#ffffff',
+          fontSize: 17,
+          letterSpacing: 1,
+          textTransform: 'uppercase',
+        }}>
+        hotels
+      </Text>
+    ),
     headerTitleAlign: 'center',
     headerStyle: {
       backgroundColor: '#6FC3F7',
@@ -121,10 +122,6 @@ ShopsList.navigationOptions = navData => {
             width: 70,
           }}
           source={require('../assets/images/icon-header.jpg')}
-          //source={require('../assets/images/ic_launcher.png')}
-          // source={{
-          //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
-          // }}
         />
       </View>
     ),
@@ -139,7 +136,7 @@ ShopsList.navigationOptions = navData => {
             }}
           />
         </HeaderButtons>
-        {size> 0 ? (
+        {size > 0 ? (
           <View
             style={{
               position: 'absolute',
