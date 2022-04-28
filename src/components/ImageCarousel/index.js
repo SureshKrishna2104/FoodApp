@@ -10,9 +10,10 @@ import {
 import {FlatList} from 'react-native';
 
 const ImageCarousel = ({images}) => {
+  console.log(images,"ii");
   const windowWidth = useWindowDimensions().width;
   const [activeIndex, setActiveIndex] = useState(0);
-
+ //console.log(images,"images")
   const onFlatlistUpdate = useCallback(({viewableItems}) => {
     if (viewableItems.length > 0) {
       setActiveIndex(viewableItems[0].index || 0);
@@ -24,6 +25,7 @@ const ImageCarousel = ({images}) => {
       <FlatList
         data={images}
         //renderItem={renderItem}
+        keyExtractor={id=>JSON.stringify(id)}
         renderItem={({item}) => (
           <Image
             source={{uri: item}}

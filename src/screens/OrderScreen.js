@@ -6,23 +6,25 @@ import MealItem from '../components/MealItem';
 import AsyncStorage from '@react-native-community/async-storage';
 import {isJwtExpired} from 'jwt-check-expiration';
 const OrderScreen = props => {
-  const order = props.route.params.order;
+//const order = props.route.params.order;
   const [data, setData] = React.useState([]);
   const [orgdata, setOrgData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   useEffect(() => {
     fetchData();
-    // const willFocusSubscription = props.navigation.addListener('focus', () => {
-    //   //console.warn('refreshed');
-    //   fetchData();
-    // });
+    const willFocusSubscription = props.navigation.addListener('focus', () => {
+      //console.warn('refreshed');
+      fetchData();
+    });
 
-    // return willFocusSubscription;
+     return willFocusSubscription;
   }, []);
   const fetchData = () => {
     AsyncStorage.getItem('userToken').then(async resJwt => {
+     
       if (!isJwtExpired(resJwt)) {
         AsyncStorage.getItem('userId').then(async res => {
+          console.log(res)
           setIsLoading(true);
           fetch('https://food-order-ver-1.herokuapp.com/getOrders/' + res, {
             method: 'GET',
@@ -35,8 +37,9 @@ const OrderScreen = props => {
             .then(response => response.json())
             .then(responseJson => {
               makeData(responseJson.data);
+              console.log(responseJson)
               setIsLoading(false);
-              //setIsFav(responseJson.data.some(e => e.itemId === productId));
+            
             })
             .catch(error => {
               setIsLoading(false);
@@ -84,7 +87,7 @@ const OrderScreen = props => {
         title={itemdata.item.hotelName}
         totalAmount={itemdata.item.totalAmount}
         orderDate={itemdata.item.orderDate}
-        //amount={itemdata.item.itemAmount}
+       
         status={itemdata.item.status}
         onSelectMeal={() => {
           props.navigation.navigate('BillDetail', {
@@ -122,17 +125,12 @@ const OrderScreen = props => {
           showsVerticalScrollIndicator={false}
         />
       )}
-      {/* <FlatList
-        data={data}
-        keyExtractor={item => JSON.stringify(item)}
-        renderItem={renderGrid}
-        showsVerticalScrollIndicator={false}
-      /> */}
+    
     </View>
   );
 };
 OrderScreen.navigationOptions = navigationData => {
-  //const hotelName = navigationData.navigation.getParam('hotelName');
+
   return {
     headerTitle: "Today's totalAmount!",
   };

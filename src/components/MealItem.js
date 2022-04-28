@@ -23,16 +23,6 @@ const MealItem = props => {
             </ImageBackground>
           </View>
           <View style={{...styles.mealRow, ...styles.mealDetail}}>
-            {/* <Text
-              style={{
-                fontSize: 15,
-                color: 'white',
-                fontWeight: 'bold',
-                //marginBottom: 10,
-                marginTop: 5,
-              }}>
-              Hotel {props.hotelName.toUpperCase()}
-            </Text> */}
             <Text
               style={{
                 fontSize: 15,

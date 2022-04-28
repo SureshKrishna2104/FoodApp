@@ -51,16 +51,17 @@ const ShopsList = props => {
   }, []);
 
   const renderGrid = itemdata => {
+    console.log(itemdata,"it");
     return (
       <ShopGrid
-        image={itemdata.item.image_url}
+        image={itemdata.item.image_url[0]}
         title={itemdata.item.hotelName}
         description={itemdata.item.description}
         onSelectNews={() => {
           props.navigation.navigate('Products', {
             hotelId: itemdata.item.hotelId,
             hotelName: itemdata.item.hotelName,
-            hotelImage: itemdata.item.image_url,
+            hotelImage: itemdata.item.image_url[0],
             hotelItems: itemdata.item.items,
           });
         }}

@@ -17,10 +17,7 @@ const OfferScreen = props => {
       .then(responseData => {
         setData(responseData.data);
         setIsLoading(false);
-        console.warn('out of offer', responseData);
-        // if(responseData.status=500){
-        //   Alert.alert('Something went wrong, Please try again later');
-        // }
+      
       })
       .catch(err => {
         console.error(err);
@@ -38,18 +35,20 @@ const OfferScreen = props => {
   const renderGrid = itemdata => {
     return (
       <OfferGrid
-        image={itemdata.item.image_url}
+        image={itemdata.item.image_url[0]}
         title={itemdata.item.itemName}
         description={itemdata.item.description}
         offer={itemdata.item.offer}
-        amount={itemdata.item.amount}
+        amount={itemdata.item.amount-itemdata.item.offer}
+        originalamount={itemdata.item.amount}
         name={itemdata.item.hotelName}
         onSelectMeal={() => {
           props.navigation.navigate('ProductDetail', {
             itemId: itemdata.item.itemId,
-            itemAmount: itemdata.item.amount,
+            itemAmount: itemdata.item.amount-itemdata.item.offer,
             itemName: itemdata.item.itemName,
             itemImage: itemdata.item.image_url,
+            originalamount:itemdata.item.amount
           });
         }}
       />

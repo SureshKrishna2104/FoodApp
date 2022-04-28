@@ -75,7 +75,7 @@ const SearchScreen = props => {
   const renderGrid = itemdata => {
     return (
       <OfferGrid
-        image={itemdata.item.image_url}
+        image={itemdata.item.image_url[0]}
         title={itemdata.item.itemName}
         description={itemdata.item.description}
         offer={itemdata.item.offer}

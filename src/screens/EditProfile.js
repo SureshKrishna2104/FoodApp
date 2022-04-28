@@ -62,31 +62,15 @@ const EditProfile = props => {
       postMethod1('/updateUser/' + id, req, jwt)
         .then(response => {
           if (response) {
-            //console.warn('login response', response);
-
             if (response.status == 200) {
-              // const user_data = {
-              //         token: response.data.token,
-              //         userId: response.data.userId,
-              //         roles: response.data.roles,
-              //         number: response.data.number,
-              //     };
-              //AsyncStorage.setItem('userInfo', response.data);
-              //setInfo(response);
-              // signIn(user_data);
-              // setIsLoading(false)
-
               Alert.alert('User Updated Successfully');
-              //navigation.navigate('Login');
               props.navigation.goBack();
             } else if (response.status == 500) {
               setIsLoading(false);
-
               Alert.alert('Not able to login in, Please try later');
             }
             if (response.statuscode == 404) {
               setIsLoading(false);
-
               Alert.alert('User account already deactivated');
             }
           }
@@ -119,23 +103,21 @@ const EditProfile = props => {
   const [pincode, setPincode] = React.useState(pincode1);
   useEffect(() => {
     AsyncStorage.getItem('userId').then(async res => {
-     // console.warn('res', res);
+    
       setId(res);
 
-      // setId(res);
     });
     AsyncStorage.getItem('userToken').then(async res => {
-     // console.warn('Token', res);
+ 
       setJwt(res);
 
-      // setId(res);
     });
   }, []);
 
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
-        {/* <StatusBar backgroundColor="#fff" barStyle="light-content" /> */}
+     
         <View style={styles.header}>
           <Image
             source={require('../assets/images/login.jpg')}
@@ -227,10 +209,7 @@ const EditProfile = props => {
                   color: colors.text,
                 },
               ]}
-              // autoCapitalize="none"
-              // autoCorrect={false}
               value={address}
-              //editable={true}
               onChangeText={text => setAddress(text)}
             />
           </View>
@@ -278,9 +257,7 @@ const EditProfile = props => {
     </ScrollView>
   );
 };
-// Login.navigationOptions = {
-//   headerTitle: 'Login',
-// };
+
 
 export default EditProfile;
 const styles = StyleSheet.create({

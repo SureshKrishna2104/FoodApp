@@ -19,9 +19,11 @@ import OrderScreen from '../screens/OrderScreen';
 import BillDetail from '../components/BillDetail';
 import FavouriteScreen from '../screens/FavouriteScreen';
 import SearchScreen from '../screens/SearchScreen';
-import AuthLoadingScreen from '../screens/AuthLoadingScreen';
+import TermsAndConditions from '../components/TermsAndConditions';
+//import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as cartActions from '../store/actions/cart';
+import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 
 const HomeStack = createStackNavigator();
 const LoginStack = createStackNavigator();
@@ -224,19 +226,25 @@ const HomeStackScreen = ({navigation}) => (
       name="Products"
       component={ProductList}
       options={ProductList.navigationOptions}
-      // options={{
-      //   title: 'Foods!',
-      //   headerTitleAlign: 'center',
-      // }}
+      
+    />
+    <HomeStack.Screen
+      name="TermsAndConditions"
+      component={TermsAndConditions}
+     // options={ProductList.navigationOptions}
+      
+    />
+    <HomeStack.Screen
+      name="AuthLoading"
+      component={AuthLoadingScreen}
+      options={ProductList.navigationOptions}
+      
     />
     <HomeStack.Screen
       name="ProductDetail"
       component={ProductDetail}
       options={ProductDetail.navigationOptions}
-      // options={{
-      //   title: 'FoodDetail',
-      //   headerTitleAlign: 'center',
-      // }}
+      
     />
   </HomeStack.Navigator>
 );
@@ -258,35 +266,6 @@ const CartStackScreen = ({navigation}) => (
       name="Cart"
       component={CartScreen}
       options={CartScreen.navigationOptions}
-
-      // options={{
-      //   headerTitle:<Text style={{ alignContent:'center',justifyContent:"center", color: '#ffffff', fontSize : 17, letterSpacing : 1,   textTransform: 'uppercase'}}>Cart</Text>,
-      //   headerTitleAlign: 'center',
-      //   headerStyle: {
-      //     backgroundColor: '#6FC3F7',
-      //     shadowColor: '#fff',
-      //     elevation: 0,
-      //   },
-      //   headerTintColor: 'white',
-      //   headerTitleStyle: {
-      //     fontWeight: 'bold',
-      //   },
-      //   headerLeft: () => (
-      //     <View style={{marginLeft: 5}}>
-      //       <Image
-      //         style={{
-      //           height: 48,
-      //           width: 70,
-      //         }}
-      //         source={require('../assets/images/icon-header.jpg')}
-      //         //source={require('../assets/images/ic_launcher.png')}
-      //         // source={{
-      //         //   uri: 'https://icon-library.com/images/360-icon-png/360-icon-png-15.jpg',
-      //         // }}
-      //       />
-      //     </View>
-      //   ),
-      // }}
     />
     <CartStack.Screen
       name="Login"
@@ -417,6 +396,12 @@ const ProfileStackScreen = ({navigation}) => (
         title: 'Your Orders',
         headerTitleAlign: 'center',
       }}
+    />
+    <ProfileStack.Screen
+      name="TermsAndConditions"
+      component={TermsAndConditions}
+     // options={ProductList.navigationOptions}
+      
     />
     <ProfileStack.Screen
       name="BillDetail"

@@ -146,45 +146,62 @@ export default class SliderContent extends Component {
       loading: false,
       jwtoken: '',
       dataBanner: [
-        {
-          image_id: 1,
-          image_url:
-            'https://vegveganmeat.com/wp-content/uploads/2020/11/chicken-biryani-pressure-cooker-south-india-square-735x735.jpg',
-        },
-        {
-          image_id: 2,
-          image_url:
-            'http://pizzamexico.pk/wp-content/uploads/2021/04/pizza-002.jpg',
-        },
-        {
-          image_id: 3,
-          image_url:
-            'https://loveincorporated.blob.core.windows.net/contentimages/gallery/70bc81c8-b277-407d-8c3a-5c1a3e501732-4-hamburger.jpg',
-        },
-        {
-          image_id: 4,
-          image_url:
-            'https://i.pinimg.com/564x/df/2e/0c/df2e0ccc2d5f810bcafca7e42bac6390.jpg',
-        },
-
-        {
-          image_id: 5,
-          image_url:
-            'https://i.pinimg.com/564x/ab/37/07/ab37079669ca3212c9fb5fa9aad765e2.jpg',
-        },
+        // {
+        //   image_id: 1,
+        //   image_url:
+        //     'https://vegveganmeat.com/wp-content/uploads/2020/11/chicken-biryani-pressure-cooker-south-india-square-735x735.jpg',
+        // },
+        // {
+        //   image_id: 2,
+        //   image_url:
+        //     'http://pizzamexico.pk/wp-content/uploads/2021/04/pizza-002.jpg',
+        // },
+        // {
+        //   image_id: 3,
+        //   image_url:
+        //     'https://loveincorporated.blob.core.windows.net/contentimages/gallery/70bc81c8-b277-407d-8c3a-5c1a3e501732-4-hamburger.jpg',
+        // },
+        // {
+        //   image_id: 4,
+        //   image_url:
+        //     'https://i.pinimg.com/564x/df/2e/0c/df2e0ccc2d5f810bcafca7e42bac6390.jpg',
+        // },
+        // {
+        //   image_id: 5,
+        //   image_url:
+        //     'https://i.pinimg.com/564x/ab/37/07/ab37079669ca3212c9fb5fa9aad765e2.jpg',
+        // },
       ],
     };
   }
 
-  // componentDidMount() {
-  //   AsyncStorage.getItem("userToken").then(async (res) => {
-  //     const t = await res;
-  //     // console.warn("get async", t);
-  //     this.setState({ jwtoken: t });
-  //     //this.getData();
-  //   });
-  //   // this.getData();
-  // }
+  componentDidMount() {
+    fetch('https://food-order-ver-1.herokuapp.com/getAllImage', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(responseData => {
+        this.setState(prevState => ({
+          ...prevState,
+          dataBanner: responseData.data[0].image_url,
+        }));
+        
+      })
+      .catch(err => {
+        console.error(err, 'kk');
+      });
+    // AsyncStorage.getItem("userToken").then(async (res) => {
+    //   const t = await res;
+    //   // console.warn("get async", t);
+    //   this.setState({ jwtoken: t });
+    //   //this.getData();
+    // });
+    // this.getData();
+  }
 
   // getData = async () => {
   //   this.setState({ loading: true });
@@ -205,29 +222,31 @@ export default class SliderContent extends Component {
   // };
 
   render() {
-    return (
+    return !this.state.dataBanner?.length ? (
+      <></>
+    ) : (
       <ScrollView>
         <View style={{flex: 1}}>
           <View
             style={{
-              width: "100%",
+              width: '100%',
               alignItems: 'center',
-              marginHorizontal:-1,
-              marginTop:-30,
+              marginHorizontal: -1,
+              marginTop: -30,
             }}>
             <Swiper
               style={{height: width / 1.5}}
               showsButtons={false}
               autoplay={true}
-              showsPagination={true}
+              loop={true}
               autoplayTimeout={2}>
               {this.state.dataBanner.map(itembann => {
                 return (
-                  <View key={itembann.image_id}> 
+                  <View key={itembann}>
                     <Image
                       style={styles.imageBanner}
                       resizeMode="cover"
-                      source={{uri: itembann.image_url}}
+                      source={{uri: itembann}}
                     />
                   </View>
                 );

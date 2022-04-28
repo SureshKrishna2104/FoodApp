@@ -37,7 +37,6 @@ const FavouriteScreen = props => {
             });
         });
       } else {
-       
         AsyncStorage.removeItem('userToken');
       }
     });
@@ -78,12 +77,11 @@ const FavouriteScreen = props => {
                   style={{
                     fontSize: 20,
                     textAlign: 'center',
-                    // color: 'white',
                     fontWeight: 'bold',
                     marginTop: 0,
                     marginTop: '50%',
                   }}>
-                  No Offer Found
+                  No Favourites Found
                 </Text>
               </>
             ) : null}

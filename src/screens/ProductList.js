@@ -36,7 +36,7 @@ const ProductList = ({route, navigation}, props) => {
   const renderGrid = itemdata => {
     return (
       <MealItem
-        image={itemdata.item.image_url}
+        image={itemdata.item.image_url[0]}
         title={itemdata.item.itemName}
         description={itemdata.item.description}
         hotelName={hotelName}
@@ -88,7 +88,7 @@ const ProductList = ({route, navigation}, props) => {
   );
 };
 ProductList.navigationOptions = ({route, navigation}, navData) => {
-  var size = route.params.count;
+  var size = route?.params?.count;
   return {
     headerTitle: (
       <Text

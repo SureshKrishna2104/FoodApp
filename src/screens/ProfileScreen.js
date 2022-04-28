@@ -23,7 +23,7 @@ import {
 import * as cartActions from '../store/actions/cart';
 // import {AuthContext} from '../components/context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {getAllData} from '../services/Apiservices';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -45,51 +45,61 @@ const ProfileScreen = ({navigation}) => {
   const getProfile = async => {
     AsyncStorage.getItem('userId').then(async res => {
       const id = await res;
+      console.log(id, 'id');
       if (id) {
-        AsyncStorage.getItem('userToken').then(async res => {
-          console.log(res);
-          if (!isJwtExpired(res)) {
-            fetch('https://food-order-ver-1.herokuapp.com/getUser/' + id, {
-              method: 'GET',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${res}`,
-              },
-            })
-              .then(response => response.json())
-              .then(responseData => {
-                setData(responseData.data);
-              })
-              .catch(err => {
-                setIsLoading(false);
-                console.error(err, 'kk');
-              });
+        console.log('if');
 
-            fetch('https://food-order-ver-1.herokuapp.com/getFvtItem/' + id, {
-              method: 'GET',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${res}`,
-              },
-            })
-              .then(response => response.json())
-              .then(responseData => {
-                setFvtData(responseData.data);
-                setIsLoading(false);
+        AsyncStorage.getItem('userToken')
+          .then(async res => {
+            console.log(isJwtExpired(res), 'res');
+            if (!isJwtExpired(res)) {
+              fetch('https://food-order-ver-1.herokuapp.com/getUser/' + id, {
+                method: 'GET',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${res}`,
+                },
               })
-              .catch(err => {
-                setIsLoading(false);
-                console.error(err, 'kk');
-              });
-          } else {
+                .then(response => response.json())
+                .then(responseData => {
+                  setData(responseData.data);
+                  console.log(responseData.data,"dataaa")
+                })
+                .catch(err => {
+                  setIsLoading(false);
+                  console.error(err, 'kk');
+                });
+
+              fetch('https://food-order-ver-1.herokuapp.com/getFvtItem/' + id, {
+                method: 'GET',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${res}`,
+                },
+              })
+                .then(response => response.json())
+                .then(responseData => {
+                  setFvtData(responseData.data);
+                  setIsLoading(false);
+                })
+                .catch(err => {
+                  setIsLoading(false);
+                  console.error(err, 'kk');
+                });
+            } else {
+              setIsLoading(false);
+              AsyncStorage.removeItem('userToken');
+              AsyncStorage.removeItem('userId');
+            }
+          })
+          .catch(err => {
             setIsLoading(false);
-            AsyncStorage.removeItem('userToken');
-            AsyncStorage.removeItem('userId');
-          }
-        });
+            console.error(err, 'kk');
+          });
       } else {
+        console.log('else');
         setData('');
         setIsLoading(false);
       }
@@ -149,7 +159,7 @@ const ProfileScreen = ({navigation}) => {
                   navigation.navigate('Orders', {order: data.orders})
                 }>
                 <View style={styles.menuItem}>
-                  <Icon name="cart-arrow-right" color="#F05E23" size={25} />
+                  <Icon name="cart-arrow-right" color="#6FC3F7"size={25} />
                   <Text style={styles.menuItemText}>Your Orders</Text>
                 </View>
               </TouchableRipple>
@@ -160,7 +170,7 @@ const ProfileScreen = ({navigation}) => {
                   })
                 }>
                 <View style={styles.menuItem}>
-                  <Icon name="heart" color="#F05E23" size={25} />
+                  <Icon name="heart" color="#6FC3F7" size={25} />
                   <Text style={styles.menuItemText}>Your Favourites</Text>
                 </View>
               </TouchableRipple>
@@ -175,8 +185,17 @@ const ProfileScreen = ({navigation}) => {
                   })
                 }>
                 <View style={styles.menuItem}>
-                  <Icon name="account-edit" color="#F05E23" size={25} />
+                  <Icon name="account-edit" color="#6FC3F7" size={25} />
                   <Text style={styles.menuItemText}>Edit Profile</Text>
+                </View>
+              </TouchableRipple>
+              <TouchableRipple
+                onPress={() => {
+                  navigation.navigate('TermsAndConditions');
+                }}>
+                <View style={styles.menuItem}>
+                  <FontAwesome name="file-contract" color="#6FC3F7" size={25} />
+                  <Text style={styles.menuItemText}>Terms And Condtions</Text>
                 </View>
               </TouchableRipple>
 
@@ -205,21 +224,32 @@ const ProfileScreen = ({navigation}) => {
                   )
                 }>
                 <View style={styles.menuItem}>
-                  <AntDesign name="logout" color="#F05E23" size={25} />
+                  <AntDesign name="logout" color="#6FC3F7" size={25} />
                   <Text style={styles.menuItemText}>LogOut</Text>
                 </View>
               </TouchableOpacity>
             </View>
           ) : (
-            <TouchableRipple
-              onPress={() => {
-                navigation.navigate('Login');
-              }}>
-              <View style={styles.menuItem}>
-                <AntDesign name="login" color="#F05E23" size={25} />
-                <Text style={styles.menuItemText}>SignIn</Text>
-              </View>
-            </TouchableRipple>
+            <>
+              <TouchableRipple
+                onPress={() => {
+                  navigation.navigate('TermsAndConditions');
+                }}>
+                <View style={styles.menuItem}>
+                  <FontAwesome name="file-contract" color="#6FC3F7" size={25} />
+                  <Text style={styles.menuItemText}>Terms And Condtions</Text>
+                </View>
+              </TouchableRipple>
+              <TouchableRipple
+                onPress={() => {
+                  navigation.navigate('Login');
+                }}>
+                <View style={styles.menuItem}>
+                  <AntDesign name="login" color="#F05E23" size={25} />
+                  <Text style={styles.menuItemText}>SignIn</Text>
+                </View>
+              </TouchableRipple>
+            </>
           )}
         </View>
       </ScrollView>

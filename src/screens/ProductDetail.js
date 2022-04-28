@@ -35,7 +35,9 @@ const ProductDetail = ({route, navigation}, props) => {
   const productPrice = route.params.itemAmount;
   const productName = route.params.itemName;
   const prodHotel = route.params.itemHotel;
+  const originalamount=route.params.originalamount?route.params.originalamount:'';
   const dispatch = useDispatch();
+  console.log(productImage,"pi")
 
   useEffect(() => {
     navigation.setParams({count: size});
@@ -68,6 +70,7 @@ const ProductDetail = ({route, navigation}, props) => {
 
   const FvtData = () => {
     AsyncStorage.getItem('userToken').then(async resJwt => {
+      //console.log(isJwtExpired(resJwt),"jjj")
       if (!isJwtExpired(resJwt)) {
         setJwt(resJwt);
         AsyncStorage.getItem('userId').then(async res => {
@@ -102,6 +105,7 @@ const ProductDetail = ({route, navigation}, props) => {
     };
     setIsLoading(true);
     AsyncStorage.getItem('userId').then(async res => {
+      if(res){
       postMethod2('/updateFvtItem/' + res, req, jwt)
         .then(response => {
           if (response) {
@@ -131,10 +135,17 @@ const ProductDetail = ({route, navigation}, props) => {
             error,
           );
         });
+      }else{
+        setIsLoading(false);
+        navigation.navigate('Login');
+        Alert.alert('Please Login to add Favourites');
+      }
+    }).catch(err=>{
+      console.log(err,"err")
     });
   };
 
-  const images = [productImage];
+  //const images = [productImage];
   const renderGrid = itemData => {
     return (
       <View style={styles.cartItem}>
@@ -172,8 +183,22 @@ const ProductDetail = ({route, navigation}, props) => {
       ListHeaderComponent={
         <View style={styles.root}>
           <Text style={styles.title}>{productName}</Text>
-          <ImageCarousel images={images} />
-          <Text style={styles.price}> From Rs.{productPrice}</Text>
+          <ImageCarousel images={productImage} />
+          <Text style={styles.price}> From ₹ {productPrice} <Text
+                  style={{
+                    fontSize: 15,
+                    color: 'black',
+                    fontWeight: 'bold',
+                    //marginBottom: 10,
+                    paddingLeft: 3,
+                    paddingBottom: 4,
+                    //marginTop: 5,
+                    textDecorationLine: 'line-through',
+                    // textDecorationStyle: '',
+                    // textDecorationColor: 'red',
+                  }}>
+                  {originalamount}
+                </Text> </Text>
           <Text style={styles.description}>
             <Text style={styles.title}>
               {productName}
@@ -216,7 +241,7 @@ const ProductDetail = ({route, navigation}, props) => {
 };
 
 ProductDetail.navigationOptions = ({route, navigation}, navData) => {
-  var size = route.params.count;
+  var size = route?.params?.count;
   return {
     headerTitle: (
       <Text

@@ -10,6 +10,7 @@ import {
   Alert,
   Image,
   ScrollView,
+  DevSettings
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Animatable from 'react-native-animatable';
@@ -21,6 +22,7 @@ import {postMethod} from '../services/Apiservices';
 import {useTheme} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import * as cartActions from '../store/actions/cart';
+import App from '../../App';
 //import { AuthContext } from '../routes'
 import ActivityLoading from '../components/ActivityLoading';
 const Login = ({navigation}) => {
@@ -38,12 +40,17 @@ const Login = ({navigation}) => {
   //const { signIn } = React.useContext(AuthContext);
 
   const setInfo = async data => {
-    //console.warn('dataaaa-', data.data);
+    console.warn('dataaaa-', data.data);
     const jsonValue = JSON.stringify(data.data);
     // const id = JSON.stringify(data.data.userId);
     await AsyncStorage.setItem('userInfo', jsonValue);
     await AsyncStorage.setItem('userId', data.data.userId);
     await AsyncStorage.setItem('userToken', data.data.token);
+    if (data.data.role) {
+      await AsyncStorage.setItem('role', data.data.role);
+    }else{
+      await AsyncStorage.setItem('role', "user");
+    } 
   };
 
   const doLogin = () => {
@@ -57,33 +64,24 @@ const Login = ({navigation}) => {
       postMethod('/login', req)
         .then(response => {
           if (response) {
-            //console.warn('login response', response);
-
             if (response.status == 200) {
-              // const user_data = {
-              //         token: response.data.token,
-              //         userId: response.data.userId,
-              //         roles: response.data.roles,
-              //         number: response.data.number,
-              //     };
-              //AsyncStorage.setItem('userInfo', response.data);
               setInfo(response);
-              // signIn(user_data);
-              // setIsLoading(false)
-              //console.warn('login', response.data.userId);
+
+              console.log(response.data, 'login data');
+
               Alert.alert('Login successful');
 
-              dispatch(cartActions.login(true));
-              //dispatch(cartActions.jwt(response.data.userId));
-              //navigation.navigate('Profile');
-              navigation.navigate('Shops');
+            //  dispatch(cartActions.login(true));s
+              if(response.data.role){
+              DevSettings.reload()
+              }
+             navigation.navigate('Shops');
               navigation.goBack();
             } else if (response.status == 500) {
               setIsLoading(false);
-
               Alert.alert('User Not Found!, Please SignUp');
             }
-            if (response.statuscode == 404) {
+            if (response.status == 404) {
               setIsLoading(false);
 
               Alert.alert('User account already deactivated');
@@ -151,7 +149,6 @@ const Login = ({navigation}) => {
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
-        {/* <StatusBar backgroundColor="#009387" barStyle="light-content" /> */}
         <View style={styles.header}>
           <Image
             source={require('../assets/images/login.jpg')}
@@ -249,7 +246,7 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
           {isLoading ? <ActivityLoading size="large" /> : null}
           <Text style={{fontSize: 15, marginTop: 10}}>
-           New User! Please SignUP
+            New User! Please SignUP
           </Text>
           <TouchableOpacity
             style={styles.appButtonContainer}
@@ -267,9 +264,7 @@ const Login = ({navigation}) => {
     </ScrollView>
   );
 };
-// Login.navigationOptions = {
-//   headerTitle: 'Login',
-// };
+
 Login.navigationOptions = navigationData => {
   return {
     headerTitle: 'Login',
@@ -287,7 +282,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
-    paddingTop: "5%",
+    paddingTop: '5%',
     backgroundColor: '#fff',
   },
   footer: {

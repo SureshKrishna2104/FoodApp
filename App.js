@@ -7,14 +7,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import {View, Text, ScrollView, Image, StyleSheet, StatusBar,NetInfo} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {createStore, combineReducers} from 'redux';
+import RootNavigator from './src/routes/index'
 //import {Provider} from 'react-redux';
 import cartReducer from './src/store/reducers/cart';
+import OfflineNotice from './src/components/OfflineNotice';
 
 const rootReducer = combineReducers({
   cart: cartReducer,
 });
 const store = createStore(rootReducer);
 export default function App() {
+  
   const [isVisible, setIsVisible] = React.useState(true);
   const [id, setId] = React.useState('');
   Hide_Splash_Screen = () => {
@@ -50,7 +53,8 @@ export default function App() {
       ) : (
         <NavigationContainer>
           <Provider store={store}>
-            <LoginNavigator />
+            <RootNavigator />
+            <OfflineNotice/>
           </Provider>
         </NavigationContainer>
       )}

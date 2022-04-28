@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-
+import Icon from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/FontAwesome5';
+import Icon2 from 'react-native-vector-icons/Fontisto';
 const OfferGrid = props => {
   if (props.title === '') {
     return (
@@ -23,9 +25,11 @@ const OfferGrid = props => {
               <ImageBackground
                 source={{uri: props.image}}
                 style={styles.bgImage}>
+                <View style={{}} />
                 <View style={styles.titleContainer}>
                   <Text style={styles.title} numberOfLines={1}>
-                    Offer Rs.{props.offer}
+                    <Icons name="rupee-sign" size={20} color="#fff" />{' '}
+                    {props.offer} Offer
                   </Text>
                 </View>
               </ImageBackground>
@@ -49,7 +53,8 @@ const OfferGrid = props => {
                   //marginBottom: 10,
                   marginTop: 5,
                 }}>
-                Dish {props.title.toUpperCase()}
+                <Icon name="restaurant-outline" size={23} color="#88898a" />{' '}
+                {props.name.toUpperCase()}
               </Text>
               <Text
                 style={{
@@ -59,18 +64,39 @@ const OfferGrid = props => {
                   //marginBottom: 10,
                   marginTop: 5,
                 }}>
-                Hotel {props.name.toUpperCase()}
+                <Icon name="md-fast-food" size={23} color="#88898a" />{' '}
+                {props.title.toUpperCase()}
               </Text>
-              <Text
-                style={{
-                  fontSize: 15,
-                  color: 'white',
-                  fontWeight: 'bold',
-                  //marginBottom: 10,
-                  marginTop: 5,
-                }}>
-                Rs.{props.amount}
-              </Text>
+              <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: 'white',
+                    fontWeight: 'bold',
+                    //marginBottom: 10,
+                    marginTop: 5,
+
+                    padding: 2,
+                  }}>
+                  <Icons name="rupee-sign" size={20} color="#88898a" />{' '}
+                  {props.amount}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    color: 'black',
+                    fontWeight: 'bold',
+                    //marginBottom: 10,
+                    paddingLeft: 3,
+                    paddingBottom: 4,
+                    //marginTop: 5,
+                    textDecorationLine: 'line-through',
+                    // textDecorationStyle: '',
+                    // textDecorationColor: 'red',
+                  }}>
+                  {props.originalamount}
+                </Text>
+              </View>
             </View>
           </View>
         </TouchableOpacity>

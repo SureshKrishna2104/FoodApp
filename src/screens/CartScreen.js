@@ -23,7 +23,6 @@ import {isJwtExpired} from 'jwt-check-expiration';
 
 const CartScreen = props => {
   const [id, setId] = useState();
-  const [tokenCheck, setTokenCheck] = useState(false);
 
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const [jwt, setJwt] = useState('');
@@ -51,8 +50,6 @@ const CartScreen = props => {
     AsyncStorage.getItem('userToken').then(async res => {
       if (!isJwtExpired(res)) {
         setJwt(res);
-      } else {
-        setTokenCheck(true);
       }
     });
 
@@ -65,7 +62,7 @@ const CartScreen = props => {
   }, []);
 
   const onPressButton = () => {
-    if (!id && tokenCheck) {
+    if (jwt.length <= 0 || !id) {
       props.navigation.navigate('Login');
     } else {
       if (cartItems.length === 0) {
@@ -150,13 +147,13 @@ const CartScreen = props => {
               Total:<Text>{cartTotalAmount.toFixed(2)}</Text>
             </Text>
             {isLoading ? <ActivityLoading size="large" /> : null}
-            <View style={{flexDirection: 'column',marginTop:10}}>
+            <View style={{flexDirection: 'column', marginTop: 10}}>
               <Button
                 color="red"
                 title="Proceed to Pay"
                 onPress={onPressButton}
               />
-              <View style={{flexDirection: 'row',padding:2}}>
+              <View style={{flexDirection: 'row', padding: 2}}>
                 <View
                   style={{
                     height: 22,
@@ -166,8 +163,8 @@ const CartScreen = props => {
                     borderColor: '#000',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginTop:7,
-                    marginRight:3
+                    marginTop: 7,
+                    marginRight: 3,
                   }}>
                   <View
                     style={{
@@ -175,11 +172,10 @@ const CartScreen = props => {
                       width: 10,
                       borderRadius: 5,
                       backgroundColor: '#000',
-                      
                     }}
                   />
                 </View>
-                <Text style={{  marginTop:7}}>Cash On Delivery</Text>
+                <Text style={{marginTop: 7}}>Cash On Delivery</Text>
               </View>
             </View>
           </View>
