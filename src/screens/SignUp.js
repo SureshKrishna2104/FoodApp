@@ -20,6 +20,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import {postMethod} from '../services/Apiservices';
 import {useTheme} from 'react-native-paper';
 import {Picker} from '@react-native-picker/picker';
+import {useToast} from 'react-native-toast-notifications';
+
 //import { AuthContext } from '../routes'
 import ActivityLoading from '../components/ActivityLoading';
 const SignUp = ({navigation}) => {
@@ -39,6 +41,7 @@ const SignUp = ({navigation}) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [cityData, setCityData] = useState([]);
   const [pinData, setPinData] = useState([]);
+  const toast = useToast();
   //const { signIn } = React.useContext(AuthContext);
 
   const setInfo = async data => {
@@ -85,7 +88,7 @@ const SignUp = ({navigation}) => {
             //console.warn('login response', response);
 
             if (response.status == 200) {
-              Alert.alert('User Added Successfully');
+              showtoast();
               navigation.navigate('Login');
             } else if (response.status == 500) {
               setIsLoading(false);
@@ -212,6 +215,24 @@ const SignUp = ({navigation}) => {
   let pinArray = pinData?.map((s, i) => {
     return <Picker.Item key={i} value={s.pinCode} label={s.pinCode} />;
   });
+  const showtoast = () => {
+    // ToastAndroid.show('hiihhi', ToastAndroid.SHORT);
+    //toast.show("hoii")
+    
+    
+    toast.show('Account created Sucessfully', {
+    type: ' success',
+    placement: 'top',
+    duration: 2000,
+    offset: 10,
+    animationType: 'zoom-in ',
+    normalColor: '#5F9B8C',
+    successColor: 'green',
+    textStyle: {fontSize: 18},
+    
+    //textStyle:''
+    });
+    };
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}

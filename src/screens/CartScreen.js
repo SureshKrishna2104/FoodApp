@@ -20,10 +20,11 @@ import CartItem from '../components/CartItem';
 import * as cartActions from '../store/actions/cart';
 import {postMethod2} from '../services/Apiservices';
 import {isJwtExpired} from 'jwt-check-expiration';
+import {useToast} from 'react-native-toast-notifications';
 
 const CartScreen = props => {
   const [id, setId] = useState();
-
+  const toast = useToast();
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const [jwt, setJwt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -65,14 +66,32 @@ const CartScreen = props => {
     });
     return willFocusSubscription;
   }, []);
- 
+  const showtoast = (msg,type) => {
+   
+    
+    
+    toast.show(msg, {
+    type: type,
+    placement: 'top',
+    duration: 2000,
+    offset: 10,
+    animationType: 'zoom-in ',
+    normalColor: '#5F9B8C',
+    warningColor:'#FAC846',
+    //successColor: 'green',
+    textStyle: {fontSize: 20},
+    
+    
+    });
+    };
   const onPressButton = () => {
     console.log(jwt.length,"iff");
     if (jwt.length <= 0) {
       props.navigation.navigate('Login');
     } else {
       if (cartItems.length === 0) {
-        alert('Please add items to cart');
+       // alert('Please add items to cart');
+        showtoast("Please add items to cart","warning")
       } else {
         const z = [];
         cartItems.map(cartI => {
@@ -89,7 +108,9 @@ const CartScreen = props => {
             if (response) {
               if (response.status == 200) {
                 setIsLoading(false);
-                Alert.alert('Your foods ordered sucessfully');
+                //Alert.alert('Your foods ordered sucessfully');
+                showtoast("Your foods ordered sucessfully","success")
+
                 props.navigation.navigate('Orders');
                 dispatch(cartActions.emptyCart());
               } else if (response.status == 500) {

@@ -21,7 +21,7 @@ import ImageCarousel from '../components/ImageCarousel';
 import Button from '../components/Button';
 import ActivityLoading from '../components/ActivityLoading';
 import {isJwtExpired} from 'jwt-check-expiration';
-
+import {useToast} from 'react-native-toast-notifications';
 const ProductDetail = ({route, navigation}, props) => {
   const [id, setId] = useState();
   const [buttonStatus, setButtonStatus] = useState(false);
@@ -35,9 +35,11 @@ const ProductDetail = ({route, navigation}, props) => {
   const productPrice = route.params.itemAmount;
   const productName = route.params.itemName;
   const prodHotel = route.params.itemHotel;
-  const originalamount=route.params.originalamount?route.params.originalamount:'';
+  const originalamount = route.params.originalamount
+    ? route.params.originalamount
+    : '';
   const dispatch = useDispatch();
- 
+  const toast = useToast();
 
   useEffect(() => {
     navigation.setParams({count: size});
@@ -59,7 +61,7 @@ const ProductDetail = ({route, navigation}, props) => {
     return transformedCartItems.sort((a, b) => (a.itemId > b.itemId ? 1 : -1));
   });
   const result = cartItems.filter(id => id.itemId === productId);
- 
+
   useEffect(() => {
     FvtData();
   }, []);
@@ -104,45 +106,48 @@ const ProductDetail = ({route, navigation}, props) => {
       hotelId: prodHotel,
     };
     setIsLoading(true);
-    AsyncStorage.getItem('userId').then(async res => {
-      if(res){
-      postMethod2('/updateFvtItem/' + res, req, jwt)
-        .then(response => {
-          if (response) {
-            if (response.status == 200) {
+    AsyncStorage.getItem('userId')
+      .then(async res => {
+        if (res) {
+          postMethod2('/updateFvtItem/' + res, req, jwt)
+            .then(response => {
+              if (response) {
+                if (response.status == 200) {
+                  setIsLoading(false);
+                  setFavStatus(response.data);
+                  showtoast(response.data)
+                  //Alert.alert(response.data);
+                } else if (response.status == 500) {
+                  setIsLoading(false);
+                  Alert.alert('Something went wrong');
+                }
+                if (response.statuscode == 404) {
+                  setIsLoading(false);
+                  Alert.alert('Please Login to add Items');
+                }
+              }
+            })
+            .catch(error => {
               setIsLoading(false);
-              setFavStatus(response.data);
-              Alert.alert(response.data);
-            } else if (response.status == 500) {
-              setIsLoading(false);
-              Alert.alert('Something went wrong');
-            }
-            if (response.statuscode == 404) {
-              setIsLoading(false);
-              Alert.alert('Please Login to add Items');
-            }
-          }
-        })
-        .catch(error => {
-          setIsLoading(false);
 
-          Alert.alert(
-            'No Internet connection.\n Please check your internet connection \nor try again',
-            error,
-          );
-          console.warn(
-            'No Internet connection.\n Please check your internet connection \nor try again',
-            error,
-          );
-        });
-      }else{
-        setIsLoading(false);
-        navigation.navigate('Login');
-        Alert.alert('Please Login to add Favourites');
-      }
-    }).catch(err=>{
-      console.log(err,"err")
-    });
+              Alert.alert(
+                'No Internet connection.\n Please check your internet connection \nor try again',
+                error,
+              );
+              console.warn(
+                'No Internet connection.\n Please check your internet connection \nor try again',
+                error,
+              );
+            });
+        } else {
+          setIsLoading(false);
+          navigation.navigate('Login');
+          Alert.alert('Please Login to add Favourites');
+        }
+      })
+      .catch(err => {
+        console.log(err, 'err');
+      });
   };
 
   //const images = [productImage];
@@ -175,6 +180,23 @@ const ProductDetail = ({route, navigation}, props) => {
       </View>
     );
   };
+  const showtoast = msg => {
+    // ToastAndroid.show('hiihhi', ToastAndroid.SHORT);
+    //toast.show("hoii")
+
+    toast.show(msg, {
+      type: ' success',
+      placement: 'bottom',
+      duration: 2000,
+      offset: 10,
+      animationType: 'zoom-in ',
+      normalColor: '#5F9B8C',
+      successColor: 'green',
+      textStyle: {fontSize: 18},
+
+      //textStyle:''
+    });
+  };
   return (
     <FlatList
       data={result}
@@ -184,21 +206,25 @@ const ProductDetail = ({route, navigation}, props) => {
         <View style={styles.root}>
           <Text style={styles.title}>{productName}</Text>
           <ImageCarousel images={productImage} />
-          <Text style={styles.price}> From ₹ {productPrice} <Text
-                  style={{
-                    fontSize: 15,
-                    color: 'black',
-                    fontWeight: 'bold',
-                    //marginBottom: 10,
-                    paddingLeft: 3,
-                    paddingBottom: 4,
-                    //marginTop: 5,
-                    textDecorationLine: 'line-through',
-                    // textDecorationStyle: '',
-                    // textDecorationColor: 'red',
-                  }}>
-                  {originalamount}
-                </Text> </Text>
+          <Text style={styles.price}>
+            {' '}
+            From ₹ {productPrice}{' '}
+            <Text
+              style={{
+                fontSize: 15,
+                color: 'black',
+                fontWeight: 'bold',
+                //marginBottom: 10,
+                paddingLeft: 3,
+                paddingBottom: 4,
+                //marginTop: 5,
+                textDecorationLine: 'line-through',
+                // textDecorationStyle: '',
+                // textDecorationColor: 'red',
+              }}>
+              {originalamount}
+            </Text>{' '}
+          </Text>
           <Text style={styles.description}>
             <Text style={styles.title}>
               {productName}
@@ -217,10 +243,12 @@ const ProductDetail = ({route, navigation}, props) => {
           <Button
             text="Add to Cart"
             onPress={() => {
-              alert('Item added to cart successfully');
-              dispatch(
-                cartActions.addToCart(productId, productPrice, productName),
-              );
+              showtoast('Item added to cart successfully'),
+                //alert('Item added to cart successfully');
+
+                dispatch(
+                  cartActions.addToCart(productId, productPrice, productName),
+                );
             }}
           />
 

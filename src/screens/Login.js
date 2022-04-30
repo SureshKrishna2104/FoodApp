@@ -10,7 +10,8 @@ import {
   Alert,
   Image,
   ScrollView,
-  DevSettings
+  DevSettings,
+  ToastAndroid,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Animatable from 'react-native-animatable';
@@ -19,13 +20,15 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 //import {postMethod} from '../services/Apiservices';
 import {postMethod} from '../services/Apiservices';
-import {useTheme} from 'react-native-paper';
+import {Button, useTheme} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import * as cartActions from '../store/actions/cart';
+import {useToast} from 'react-native-toast-notifications';
+
 import App from '../../App';
 //import { AuthContext } from '../routes'
 import ActivityLoading from '../components/ActivityLoading';
-const Login = ({navigation}) => {
+const Login = ({navigation}, props) => {
   const [data, setData] = React.useState({
     number: '',
     password: '',
@@ -34,7 +37,7 @@ const Login = ({navigation}) => {
     isValidUser: true,
     isValidPassword: true,
   });
-
+  const toast = useToast();
   const [isLoading, setIsLoading] = React.useState(false);
   const dispatch = useDispatch();
   //const { signIn } = React.useContext(AuthContext);
@@ -48,9 +51,9 @@ const Login = ({navigation}) => {
     await AsyncStorage.setItem('userToken', data.data.token);
     if (data.data.role) {
       await AsyncStorage.setItem('role', data.data.role);
-    }else{
-      await AsyncStorage.setItem('role', "user");
-    } 
+    } else {
+      await AsyncStorage.setItem('role', 'user');
+    }
   };
 
   const doLogin = () => {
@@ -67,15 +70,14 @@ const Login = ({navigation}) => {
             if (response.status == 200) {
               setInfo(response);
 
+              // Alert.alert('Login successful');
+              showtoast();
 
-
-              Alert.alert('Login successful');
-
-            //  dispatch(cartActions.login(true));s
-              if(response.data.role){
-              DevSettings.reload()
+              //  dispatch(cartActions.login(true));s
+              if (response.data.role) {
+                DevSettings.reload();
               }
-             navigation.navigate('Shops');
+              navigation.navigate('Shops');
               navigation.goBack();
             } else if (response.status == 500) {
               setIsLoading(false);
@@ -145,7 +147,23 @@ const Login = ({navigation}) => {
       });
     }
   };
+  const showtoast = () => {
+    // ToastAndroid.show('hiihhi', ToastAndroid.SHORT);
+    //toast.show("hoii")
 
+    toast.show('Login successfully', {
+      type: ' success',
+      placement: 'top',
+      duration: 2000,
+      offset: 10,
+      animationType: 'zoom-in ',
+      normalColor: '#5F9B8C',
+      successColor: 'green',
+      textStyle: {fontSize: 18},
+
+      //textStyle:''
+    });
+  };
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
@@ -227,9 +245,7 @@ const Login = ({navigation}) => {
           </View>
           {data.isValidPassword ? null : (
             <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>
-                Password not be empty.
-              </Text>
+              <Text style={styles.errorMsg}>Password not be empty.</Text>
             </Animatable.View>
           )}
           <Text> </Text>
@@ -259,6 +275,8 @@ const Login = ({navigation}) => {
               SIGN UP
             </Text>
           </TouchableOpacity>
+
+          {/* <Button title="totast" onPress={showtoast()} /> */}
         </Animatable.View>
       </View>
     </ScrollView>

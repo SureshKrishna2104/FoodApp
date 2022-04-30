@@ -4,20 +4,28 @@ import {useSelector, useDispatch, Provider} from 'react-redux';
 import ShopNavigator from './src/routes/ShopNavigator';
 import LoginNavigator from './src/routes/LoginNavigator';
 import {NavigationContainer} from '@react-navigation/native';
-import {View, Text, ScrollView, Image, StyleSheet, StatusBar,NetInfo} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  StyleSheet,
+  StatusBar,
+  NetInfo,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {createStore, combineReducers} from 'redux';
-import RootNavigator from './src/routes/index'
+import RootNavigator from './src/routes/index';
 //import {Provider} from 'react-redux';
 import cartReducer from './src/store/reducers/cart';
 import OfflineNotice from './src/components/OfflineNotice';
+import {ToastProvider} from 'react-native-toast-notifications';
 
 const rootReducer = combineReducers({
   cart: cartReducer,
 });
 const store = createStore(rootReducer);
 export default function App() {
-  
   const [isVisible, setIsVisible] = React.useState(true);
   const [id, setId] = React.useState('');
   Hide_Splash_Screen = () => {
@@ -26,7 +34,7 @@ export default function App() {
   //const check = useSelector(state => state.cart.check);
   React.useEffect(() => {
     AsyncStorage.getItem('userId').then(async res => {
-     // console.warn('resapp', res);
+      // console.warn('resapp', res);
       setId(res);
     });
     setTimeout(function () {
@@ -37,26 +45,27 @@ export default function App() {
   return (
     // <View >
     <View style={styles.MainContainer}>
-     
       {isVisible === true ? (
         <View style={{backgroundColor: '#fff', alignContent: 'center'}}>
           <Image
-             source={require('./src/assets/images/flash.jpg')}
-             resizeMode="contain"
-             style={{
-               width: '100%',
-               height: '100%',
-               justifyContent: 'center',
-             }}
+            source={require('./src/assets/images/flash.jpg')}
+            resizeMode="contain"
+            style={{
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+            }}
           />
         </View>
       ) : (
-        <NavigationContainer>
-          <Provider store={store}>
-            <RootNavigator />
-            <OfflineNotice/>
-          </Provider>
-        </NavigationContainer>
+        <ToastProvider>
+          <NavigationContainer>
+            <Provider store={store}>
+              <RootNavigator />
+              <OfflineNotice />
+            </Provider>
+          </NavigationContainer>
+        </ToastProvider>
       )}
     </View>
   );

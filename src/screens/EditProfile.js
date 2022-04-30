@@ -35,6 +35,9 @@ import {postMethod1} from '../services/Apiservices';
 import {useTheme} from 'react-native-paper';
 //import { AuthContext } from '../routes'
 import ActivityLoading from '../components/ActivityLoading';
+import {useToast} from 'react-native-toast-notifications';
+
+
 import {Value} from 'react-native-reanimated';
 const EditProfile = props => {
   const name1 = props.route.params.name;
@@ -42,7 +45,7 @@ const EditProfile = props => {
   const address1 = props.route.params.address;
   const pincode1 = props.route.params.pincode;
   const password1 = props.route.params.pwd;
-
+  const toast = useToast();
   const [isLoading, setIsLoading] = React.useState(false);
   const [jwt, setJwt] = React.useState('');
 
@@ -63,7 +66,8 @@ const EditProfile = props => {
         .then(response => {
           if (response) {
             if (response.status == 200) {
-              Alert.alert('User Updated Successfully');
+             // Alert.alert('User Updated Successfully');
+             showtoast()
               props.navigation.goBack();
             } else if (response.status == 500) {
               setIsLoading(false);
@@ -113,6 +117,24 @@ const EditProfile = props => {
 
     });
   }, []);
+  const showtoast = () => {
+    // ToastAndroid.show('hiihhi', ToastAndroid.SHORT);
+    //toast.show("hoii")
+    
+    
+    toast.show('Account Updated Successfully', {
+    type: ' success',
+    placement: 'top',
+    duration: 2000,
+    offset: 10,
+    animationType: 'zoom-in ',
+    normalColor: '#5F9B8C',
+    successColor: 'green',
+    textStyle: {fontSize: 18},
+    
+    //textStyle:''
+    });
+    };
 
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
