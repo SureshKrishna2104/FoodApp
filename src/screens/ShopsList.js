@@ -51,7 +51,7 @@ const ShopsList = props => {
   }, []);
 
   const renderGrid = itemdata => {
-    console.log(itemdata,"it");
+    
     return (
       <ShopGrid
         image={itemdata.item.image_url[0]}

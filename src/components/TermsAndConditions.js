@@ -6,31 +6,31 @@ const TermsAndConditions = () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.text}>
-        Please read the terms and conditions ("Terms and Conditions") set out
+      <Text style={{fontWeight:'bold',fontSize:20}}> Please read the terms and conditions</Text> ("Terms and Conditions") set out
         below carefully before ordering any Goods or Services from this Website.
         By ordering any Goods or Services from this Website, by phone, or by our
-        mobile applications you agree to be bound by these Terms and Conditions.
+        mobile applications you agree to be bound by these Terms and Conditions.{"\n"}
         Section 1: Introduction We are threesixty, a brand of
-        http://www.threesixty.com, unless otherwise stated. Section 2:
-        Definitions 2.1. "Agreement" is a reference to these Terms and
+        http://www.threesixty.com, unless otherwise stated.{"\n"} Section 2:
+        Definitions{"\n"} 2.1. "Agreement" is a reference to these Terms and
         Conditions, the Privacy Policy, any order form and payment instructions
-        provided to you; 2.2. "Privacy Policy" means the policy displayed on our
-        Website which details how we collect and store your personal data; 2.3.
+        provided to you;{"\n"} 2.2. "Privacy Policy" means the policy displayed on our
+        Website which details how we collect and store your personal data; {"\n"}2.3.
         "you", "your" and "yours" are references to you the person accessing
         this Website and ordering any Goods or Services from the Website or from
-        any other channel provided by threesixty; 2.4. "we", "us", "our", and
-        "threesixty" are references to the Company; 2.5. "Goods" is a reference
+        any other channel provided by threesixty; {"\n"}2.4. "we", "us", "our", and
+        "threesixty" are references to the Company; {"\n"}2.5. "Goods" is a reference
         to any goods which we may offer for sale from our Website from time to
-        time; 2.6. "Service" or "Services" is a reference to any service which
-        we may supply and which you may request via our Website; 2.7.
+        time; {"\n"}2.6. "Service" or "Services" is a reference to any service which
+        we may supply and which you may request via our Website;{"\n"} 2.7.
         "Participating Restaurant" is a third party, which has agreed to
         co-operate with the Company to prepare and/or deliver the Goods or
-        Services. 2.8. "Food Delivery" is a reference to perishable goods and to
+        Services.{"\n"} 2.8. "Food Delivery" is a reference to perishable goods and to
         any form of delivery service, which both are provided by our
         Participating Restaurants and for both of which our Participating
-        Restaurants take full responsibility; and 2.9. "Website" is a reference
+        Restaurants take full responsibility; and {"\n"}2.9. "Website" is a reference
         to our Website http://www.threesixty.com or our mobile applications on
-        which we offer our Goods or Services. Section 3: Ordering 3.1. Any
+        which we offer our Goods or Services. Section{"\n"} 3: Ordering {"\n"}3.1. Any
         contract for the supply of Food Delivery from this Website is between
         you and the Participating Restaurant; for the supply of Goods or
         Services from this Website any contact is between you and threesixty.
@@ -38,22 +38,22 @@ const TermsAndConditions = () => {
         and warrant that these details are accurate and complete at the time of
         ordering. You also warrant that the credit or debit card details that
         you provide are for your own credit or debit card and that you have
-        sufficient funds to make the payment. 3.2. Food Delivery, Goods and
+        sufficient funds to make the payment. {"\n"}3.2. Food Delivery, Goods and
         Services purchased from this Website are intended for your use only and
         you warrant that any Goods purchased by you are not for resale and that
         you are acting as principal only and not as agent for another party when
-        receiving the Services. 3.3. Please note that some of our Goods may be
+        receiving the Services.{"\n"} 3.3. Please note that some of our Goods may be
         suitable for certain age ranges only. You should check that the product
-        you are ordering is suitable for the intended recipient. 3.4. When
+        you are ordering is suitable for the intended recipient.{"\n"} 3.4. When
         ordering from this Website you may be required to provide an e-mail
         address and password. You must ensure that you keep the combination of
         these details secure and do not provide this information to a third
-        party. 3.5. We will take all reasonable care, in so far as it is in our
+        party. {"\n"}3.5. We will take all reasonable care, in so far as it is in our
         power to do so, to keep the details of your order and payment secure,
         but in the absence of negligence on our part we cannot be held liable
         for any loss you may suffer if a third party procures unauthorized
         access to any data you provide when accessing or ordering from the
-        Website. 3.6. Any order that you place with us is subject to product
+        Website.{"\n"} 3.6. Any order that you place with us is subject to product
         availability, delivery capacity and acceptance by us and the
         Participating Restaurant. When you place your order online, we will send
         you an email to confirm that we have received it. This email
@@ -63,94 +63,94 @@ const TermsAndConditions = () => {
         confirmation does not necessarily mean that either we or the
         Participating Restaurant will be able to fill your order. Once we have
         sent the confirmation email we will check availability and delivery
-        capacity. 3.7. If the ordered Food Delivery and delivery capacity is
+        capacity. {"\n"}3.7. If the ordered Food Delivery and delivery capacity is
         available, the Participating Restaurant will accept the contract and
         confirm it to threesixty. If the details of the order are correct, the
         contract for the Food Delivery, Goods or Services will be confirmed by
-        text message (SMS). 3.8. In the case that Goods offered by threesixty
+        text message (SMS). {"\n"}3.8. In the case that Goods offered by threesixty
         were ordered, threesixty will confirm availability together with or
-        separately from Food Delivery. 3.9. The confirmation message will
+        separately from Food Delivery.{"\n"} 3.9. The confirmation message will
         specify delivery details including the approximate delivery time
         specified by the Participating Restaurant and confirm the price of the
-        Food Delivery, Goods and Services ordered. 3.10. If the Food Delivery
+        Food Delivery, Goods and Services ordered.{"\n"} 3.10. If the Food Delivery
         and/or Goods are not available or if there is no delivery capacity, we
-        will also let you know by text message (SMS) or phone call. Section 4:
-        Prices and Payment 4.1. Any contract for the supply of Food Delivery
+        will also let you know by text message (SMS) or phone call. Section {"\n"}4:
+        Prices and Payment {"\n"}4.1. Any contract for the supply of Food Delivery
         from this Website is between you and the Participating Restaurant; for
         the supply of Goods or Services from this Website any contact is between
         you and threesixty. You agree to take particular care when providing us
         with your details and warrant that these details are accurate and
         complete at the time of ordering. You also warrant that the credit or
         debit card details that you provide are for your own credit or debit
-        card and that you have sufficient funds to make the payment. 4.2. All
+        card and that you have sufficient funds to make the payment.{"\n"} 4.2. All
         prices listed on the Website are correct at the time of publication and
         have been input as received by the restaurant; While we give great care
         to keep them up to date, the final price charged to you by the
         restaurant can change at the time of delivery based on the latest menu
         and prices of the restaurant. We also reserve the right to alter the
         Goods or Services available for sale on the Website and to stop listing
-        restaurants, Goods or Services. 4.3. All prices listed on the Website
+        restaurants, Goods or Services. {"\n"}4.3. All prices listed on the Website
         for Food Delivery by the Participating Restaurant reflect the price the
         Participating Restaurant charges at the time of listing. In case the
         price listed is not current and the restaurant informs us immediately
         after placing the order, we will put our best effort to contact you to
         inform you about the price difference and you can choose to opt-out of
-        the order at that time. 4.4. All prices for delivery by threesixty or a
+        the order at that time.{"\n"} 4.4. All prices for delivery by threesixty or a
         third party provider assigned by threesixty listed on the Website are
         correct at the time of publication, however, we reserve the right to
-        alter these in the future 4.5. The total price for Food Delivery, Goods
+        alter these in the future{"\n"} 4.5. The total price for Food Delivery, Goods
         or Services ordered, including delivery charges and other charges, will
         be displayed on the Website when you place your order. Full payment must
         be made for all Goods despatched and Services provided. Payment has to
         be made in cash or, if available on the website, by online payment, e.g.
-        credit or debit card. 4.6. If you choose online payment, you must pay
+        credit or debit card.{"\n"} 4.6. If you choose online payment, you must pay
         for your order before it is delivered. To ensure that shopping online is
         secure, your debit/credit card details will be encrypted to prevent the
         possibility of someone being able to read them as they are sent over the
         internet. Your credit card company may also conduct security checks to
-        confirm it is you placing the order. 4.7. The prices reflected on the
+        confirm it is you placing the order. {"\n"}4.7. The prices reflected on the
         website/mobile application/email are determined solely by the
         Participating Restaurant and informed to threesixty at the time of
         listing or afterwards. Any change in the prices of menu at the time of
         placing order is at the sole discretion of the Participating restaurant.
-        4.8. All applicable taxes and levies, the rates thereof and the manner
+        {"\n"}4.8. All applicable taxes and levies, the rates thereof and the manner
         of applicability of such taxes are being charged and determined by the
         Participating Restaurant and threesixty is merely collecting the same on
-        behalf of such Participating Restaurant. 4.9. The entire amount of
+        behalf of such Participating Restaurant. {"\n"}4.9. The entire amount of
         applicable taxes collected by threesixty is directly remitted as it is
         to Participating Restaurants and threesixty does not retain any amounts
-        thereof 4.10. threesixty is not responsible for validating the legal
+        thereof{"\n"} 4.10. threesixty is not responsible for validating the legal
         sanctity of the applicable taxes and the manner of its applicability on
         behalf of the Participating Restaurant. threesixty holds no
         responsibility for the legal correctness/validity of the levy of such
         taxes. The sole responsibility for any legal issue arising on the taxes
-        shall reside with the Participating Restaurant. 4.11. The prices
+        shall reside with the Participating Restaurant. {"\n"}4.11. The prices
         reflected on the website/mobile application are determined solely by the
         Participating Restaurant and informed to threesixty at the time of
         listing. Any change in the prices of menu at the time of placing order
-        is at the sole discretion of the Participating restaurant. 4.12. The
+        is at the sole discretion of the Participating restaurant. {"\n"}4.12. The
         transaction of sale of food or food items is between Participating
         Restaurant and the customer, and accordingly, threesixty is not liable
-        to charge or deposit any taxes applicable on such transaction 4.13. The
+        to charge or deposit any taxes applicable on such transaction {"\n"}4.13. The
         final tax invoice will be issued by the Participating Restaurant and
-        delivered to the customer along with the order Section 5: Delivery 5.1.
+        delivered to the customer along with the order Section{"\n"} 5: Delivery {"\n"}5.1.
         Delivery periods quoted at the time of ordering are approximate only and
         may vary. Goods will be delivered to the address designated by you at
-        the time of ordering. 5.2. If delivery is done by the Participating
+        the time of ordering. {"\n"}5.2. If delivery is done by the Participating
         Restaurant, it is the Participating Restaurants sole responsibility to
-        provide Food Delivery in a timely manner. 5.3. In the case delivery is
+        provide Food Delivery in a timely manner.{"\n"} 5.3. In the case delivery is
         done by threesixty, we will give great care to deliver in a timely
         manner. No responsibility is taken for late delivery by threesixty in
-        either case. 5.4. All orders are delivered by a reputable courier. We
+        either case.{"\n"} 5.4. All orders are delivered by a reputable courier. We
         and the Participating Restaurant will make every effort to deliver
         within the time stated, however, we will not be liable for any loss
         caused to you by ordering late. If the Goods are not delivered within
         the estimated delivery time quoted by us, please contact the
         participating restaurant first. You may also contact us by telephone or
         email and we will try to ensure that you receive your order as quickly
-        as possible. 5.5. In case of a late delivery, the delivery charge will
-        neither be voided nor refunded by threesixty. 5.6. All risk in the Goods
-        and the Food Delivery shall pass to you upon delivery. 5.7. If you fail
+        as possible. {"\n"}5.5. In case of a late delivery, the delivery charge will
+        neither be voided nor refunded by threesixty.{"\n"} 5.6. All risk in the Goods
+        and the Food Delivery shall pass to you upon delivery.{"\n"} 5.7. If you fail
         to accept delivery of Food Delivery and/or Goods at the time they are
         ready for delivery, or we are unable to deliver at the nominated time
         due to your failure to provide appropriate instructions, or
@@ -158,25 +158,25 @@ const TermsAndConditions = () => {
         to you and all risk and responsibility in relation to such goods shall
         pass to you. Any storage, insurance and other costs which we incur as a
         result of the inability to deliver shall be your responsibility and you
-        shall indemnify us in full for such cost. 5.8. You must ensure that at
+        shall indemnify us in full for such cost.{"\n"} 5.8. You must ensure that at
         the time of delivery of Food Delivery and/or Goods adequate
         arrangements, including access where necessary, are in place for the
         safe delivery of such goods. We cannot be held liable for any damage,
         cost or expense incurred to such goods or premises where this arises as
         a result of a failure to provide adequate access or arrangements for
-        delivery. 5.9. Participating restaurants, who will prepare your order,
-        aim 5.9.1. to deliver the product to you at the place of delivery
-        requested by you in your order; 5.9.2. to deliver within the time
-        confirmed by the restaurant; 5.9.3. to inform you if they expect that
-        they are unable to meet the estimated delivery time. 5.10. Participating
+        delivery. {"\n"}5.9. Participating restaurants, who will prepare your order,
+        aim {"\n"}5.9.1. to deliver the product to you at the place of delivery
+        requested by you in your order; {"\n"}5.9.2. to deliver within the time
+        confirmed by the restaurant; {"\n"}5.9.3. to inform you if they expect that
+        they are unable to meet the estimated delivery time. {"\n"}5.10. Participating
         Restaurants and we shall not be liable to you for any losses,
         liabilities, costs, damages, charges or expenses arising out of late
-        delivery; 5.11. Please note that it might not be possible for
+        delivery; {"\n"}5.11. Please note that it might not be possible for
         Participating Restaurants to deliver to some locations. If this is the
         case, our Participating Restaurants or we will inform you using the
         contact details that you provide to us when you make your order and
         arrange for cancellation of the order or delivery to an alternative
-        delivery address; Section 6: Cancellation 6.1. You must notify the
+        delivery address;{"\n"} Section 6: Cancellation{"\n"} 6.1. You must notify the
         participating restaurant immediately if you decide to cancel your order,
         preferably by phone, and quote your order number. If the restaurant
         accepts your cancellation, no cancellation fee applies. If the

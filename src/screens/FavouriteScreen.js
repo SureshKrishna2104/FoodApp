@@ -43,16 +43,25 @@ const FavouriteScreen = props => {
   };
 
   const renderGrid = itemdata => {
-    console.log(itemdata)
+    
     return (
       <FavouriteGrid
-        image={itemdata.item.image_url}
+        image={itemdata.item.image_url[0]}
         title={itemdata.item.hotelName}
         quantity={itemdata.item.quantity}
         totalAmount={itemdata.item.totalAmount}
         name={itemdata.item.itemName}
         amount={itemdata.item.amount}
-       
+        onSelectMeal={() => {
+          props.navigation.navigate('ProductDetail', {
+            itemId: itemdata.item.itemId,
+            itemAmount: itemdata.item.amount,
+            itemName: itemdata.item.itemName,
+            itemImage: itemdata.item.image_url,
+             itemHotel: "",
+             length: "",
+          });
+        }}
       />
     );
   };

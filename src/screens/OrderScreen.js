@@ -6,7 +6,7 @@ import MealItem from '../components/MealItem';
 import AsyncStorage from '@react-native-community/async-storage';
 import {isJwtExpired} from 'jwt-check-expiration';
 const OrderScreen = props => {
-//const order = props.route.params.order;
+  //const order = props.route.params.order;
   const [data, setData] = React.useState([]);
   const [orgdata, setOrgData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -17,14 +17,13 @@ const OrderScreen = props => {
       fetchData();
     });
 
-     return willFocusSubscription;
+    return willFocusSubscription;
   }, []);
   const fetchData = () => {
     AsyncStorage.getItem('userToken').then(async resJwt => {
-     
       if (!isJwtExpired(resJwt)) {
         AsyncStorage.getItem('userId').then(async res => {
-          console.log(res)
+         
           setIsLoading(true);
           fetch('https://food-order-ver-1.herokuapp.com/getOrders/' + res, {
             method: 'GET',
@@ -37,9 +36,8 @@ const OrderScreen = props => {
             .then(response => response.json())
             .then(responseJson => {
               makeData(responseJson.data);
-              console.log(responseJson)
-              setIsLoading(false);
             
+              setIsLoading(false);
             })
             .catch(error => {
               setIsLoading(false);
@@ -63,12 +61,12 @@ const OrderScreen = props => {
           orderDate: e[6],
           hotelName: e[7],
           hotelImage: e[8],
-          itemAmount: e[9],
-          itemName: e[10],
-          itemQuantity: e[11],
+          itemName: e[9],
+          itemQuantity: e[10],
+          itemAmount: e[11],
         };
       });
-     setOrgData(obj);
+      setOrgData(obj);
       let newArray = [];
       let uniqueObject = {};
       for (let i in obj) {
@@ -79,7 +77,7 @@ const OrderScreen = props => {
       setData(newArray);
     }
   };
- 
+
   const renderGrid = itemdata => {
     
     return (
@@ -87,14 +85,13 @@ const OrderScreen = props => {
         title={itemdata.item.hotelName}
         totalAmount={itemdata.item.totalAmount}
         orderDate={itemdata.item.orderDate}
-       
         status={itemdata.item.status}
         onSelectMeal={() => {
           props.navigation.navigate('BillDetail', {
             itemId: itemdata.item.id,
             data: orgdata,
             status: itemdata.item.status,
-            totalAmount:itemdata.item.totalAmount
+            totalAmount: itemdata.item.totalAmount,
           });
         }}
       />
@@ -125,12 +122,10 @@ const OrderScreen = props => {
           showsVerticalScrollIndicator={false}
         />
       )}
-    
     </View>
   );
 };
 OrderScreen.navigationOptions = navigationData => {
-
   return {
     headerTitle: "Today's totalAmount!",
   };

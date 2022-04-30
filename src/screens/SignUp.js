@@ -1,4 +1,3 @@
-
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -67,16 +66,15 @@ const SignUp = ({navigation}) => {
       number: data.number,
       password: data.password,
       address: data.address,
-      city:selectedState,
+      city: selectedState,
       pinCode: selectedPincode,
-
     };
-  console.log(req);
+
     if (
       data.number != '' &&
       data.name != '' &&
       data.password != '' &&
-      data.address!=''&&
+      data.address != '' &&
       setCityData != '' &&
       selectedPincode != ''
     ) {

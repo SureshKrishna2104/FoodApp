@@ -37,7 +37,7 @@ const ProductDetail = ({route, navigation}, props) => {
   const prodHotel = route.params.itemHotel;
   const originalamount=route.params.originalamount?route.params.originalamount:'';
   const dispatch = useDispatch();
-  console.log(productImage,"pi")
+ 
 
   useEffect(() => {
     navigation.setParams({count: size});

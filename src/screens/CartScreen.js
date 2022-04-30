@@ -56,13 +56,19 @@ const CartScreen = props => {
     fetchData();
     const willFocusSubscription = props.navigation.addListener('focus', () => {
       //console.warn('refreshed');
+      AsyncStorage.getItem('userToken').then(async res => {
+        if (!isJwtExpired(res)) {
+          setJwt(res);
+        }
+      });
       fetchData();
     });
     return willFocusSubscription;
   }, []);
-
+ 
   const onPressButton = () => {
-    if (jwt.length <= 0 || !id) {
+    console.log(jwt.length,"iff");
+    if (jwt.length <= 0) {
       props.navigation.navigate('Login');
     } else {
       if (cartItems.length === 0) {
@@ -84,7 +90,7 @@ const CartScreen = props => {
               if (response.status == 200) {
                 setIsLoading(false);
                 Alert.alert('Your foods ordered sucessfully');
-                props.navigation.navigate('Shops');
+                props.navigation.navigate('Orders');
                 dispatch(cartActions.emptyCart());
               } else if (response.status == 500) {
                 setIsLoading(false);

@@ -24,6 +24,7 @@ import TermsAndConditions from '../components/TermsAndConditions';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as cartActions from '../store/actions/cart';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
+import ReturnPolicy from '../components/RetunPolicy';
 
 const HomeStack = createStackNavigator();
 const LoginStack = createStackNavigator();
@@ -228,11 +229,21 @@ const HomeStackScreen = ({navigation}) => (
       options={ProductList.navigationOptions}
       
     />
-    <HomeStack.Screen
-      name="TermsAndConditions"
-      component={TermsAndConditions}
-     // options={ProductList.navigationOptions}
-      
+     <HomeStack.Screen
+      name="Orders"
+      component={OrderScreen}
+      options={{
+        title: 'Your Orders',
+        headerTitleAlign: 'center',
+      }}
+    />
+     <HomeStack.Screen
+      name="BillDetail"
+      component={BillDetail}
+      options={{
+        title: 'Bill Details',
+        headerTitleAlign: 'center',
+      }}
     />
     <HomeStack.Screen
       name="AuthLoading"
@@ -266,6 +277,22 @@ const CartStackScreen = ({navigation}) => (
       name="Cart"
       component={CartScreen}
       options={CartScreen.navigationOptions}
+    />
+     <CartStack.Screen
+      name="Orders"
+      component={OrderScreen}
+      options={{
+        title: 'Your Orders',
+        headerTitleAlign: 'center',
+      }}
+    />
+     <CartStack.Screen
+      name="BillDetail"
+      component={BillDetail}
+      options={{
+        title: 'Bill Details',
+        headerTitleAlign: 'center',
+      }}
     />
     <CartStack.Screen
       name="Login"
@@ -398,11 +425,15 @@ const ProfileStackScreen = ({navigation}) => (
       }}
     />
     <ProfileStack.Screen
-      name="TermsAndConditions"
-      component={TermsAndConditions}
-     // options={ProductList.navigationOptions}
-      
+      name="ProductDetail"
+      component={ProductDetail}
+      options={ProductDetail.navigationOptions}
+      // options={{
+      //   title: 'Food Detail',
+      //   headerTitleAlign: 'center',
+      // }}
     />
+   
     <ProfileStack.Screen
       name="BillDetail"
       component={BillDetail}
@@ -418,6 +449,24 @@ const ProfileStackScreen = ({navigation}) => (
         title: 'Your Favourites',
         headerTitleAlign: 'center',
       }}
+    />
+    <ProfileStack.Screen
+      name="ReturnPolicy"
+      component={ReturnPolicy}
+      options={{
+        title: 'Return and Refund policy',
+        headerTitleAlign: 'center',
+      }}
+    />
+     <ProfileStack.Screen
+      name="TermsAndConditions"
+      component={TermsAndConditions}
+     // options={ProductList.navigationOptions}
+     options={{
+      title: 'Terms And Condtions',
+      headerTitleAlign: 'center',
+    }}
+      
     />
     <ProfileStack.Screen
       name="EditProfile"

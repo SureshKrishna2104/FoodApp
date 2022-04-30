@@ -3,7 +3,7 @@ import {ActivityIndicator, StatusBar, StyleSheet, View} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 function AuthLoadingScreen({navigation}) {
   useEffect(() => {
-    console.log('hihihi');
+    
     AsyncStorage.getItem('role').then(async res => {
       if (res == 'deliveryboy') {
         //navigation.navigate('App');

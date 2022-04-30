@@ -45,13 +45,10 @@ const ProfileScreen = ({navigation}) => {
   const getProfile = async => {
     AsyncStorage.getItem('userId').then(async res => {
       const id = await res;
-      console.log(id, 'id');
-      if (id) {
-        console.log('if');
 
+      if (id) {
         AsyncStorage.getItem('userToken')
           .then(async res => {
-            console.log(isJwtExpired(res), 'res');
             if (!isJwtExpired(res)) {
               fetch('https://food-order-ver-1.herokuapp.com/getUser/' + id, {
                 method: 'GET',
@@ -64,7 +61,6 @@ const ProfileScreen = ({navigation}) => {
                 .then(response => response.json())
                 .then(responseData => {
                   setData(responseData.data);
-                  console.log(responseData.data,"dataaa")
                 })
                 .catch(err => {
                   setIsLoading(false);
@@ -99,7 +95,6 @@ const ProfileScreen = ({navigation}) => {
             console.error(err, 'kk');
           });
       } else {
-        console.log('else');
         setData('');
         setIsLoading(false);
       }
@@ -159,7 +154,7 @@ const ProfileScreen = ({navigation}) => {
                   navigation.navigate('Orders', {order: data.orders})
                 }>
                 <View style={styles.menuItem}>
-                  <Icon name="cart-arrow-right" color="#6FC3F7"size={25} />
+                  <Icon name="cart-arrow-right" color="#6FC3F7" size={25} />
                   <Text style={styles.menuItemText}>Your Orders</Text>
                 </View>
               </TouchableRipple>
@@ -196,6 +191,18 @@ const ProfileScreen = ({navigation}) => {
                 <View style={styles.menuItem}>
                   <FontAwesome name="file-contract" color="#6FC3F7" size={25} />
                   <Text style={styles.menuItemText}>Terms And Condtions</Text>
+                </View>
+              </TouchableRipple>
+
+              <TouchableRipple
+                onPress={() => {
+                  navigation.navigate('ReturnPolicy');
+                }}>
+                <View style={styles.menuItem}>
+                  <Icon name="cash-refund" color="#6FC3F7" size={25} />
+                  <Text style={styles.menuItemText}>
+                    Refund and Return Policy
+                  </Text>
                 </View>
               </TouchableRipple>
 
@@ -242,10 +249,21 @@ const ProfileScreen = ({navigation}) => {
               </TouchableRipple>
               <TouchableRipple
                 onPress={() => {
+                  navigation.navigate('ReturnPolicy');
+                }}>
+                <View style={styles.menuItem}>
+                  <Icon name="cash-refund" color="#6FC3F7" size={25} />
+                  <Text style={styles.menuItemText}>
+                    Refund and Return Policy
+                  </Text>
+                </View>
+              </TouchableRipple>
+              <TouchableRipple
+                onPress={() => {
                   navigation.navigate('Login');
                 }}>
                 <View style={styles.menuItem}>
-                  <AntDesign name="login" color="#F05E23" size={25} />
+                  <AntDesign name="login" color="#6FC3F7" size={25} />
                   <Text style={styles.menuItemText}>SignIn</Text>
                 </View>
               </TouchableRipple>

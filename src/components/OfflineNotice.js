@@ -29,7 +29,7 @@ class OfflineNotice extends PureComponent {
 
   componentDidMount() {
     const unsubscribe = NetInfo.addEventListener(state => {
-      console.log('Connection type', state.type);
+      //console.log('Connection type', state.type);
       // alert("Is connected?EVENT "+ state.isConnected);
       this.handleConnectivityChange(state.isConnected);
       // if (state.isConnected) {
@@ -80,11 +80,11 @@ class OfflineNotice extends PureComponent {
         isConnected: isConnected,
       }));
     }
-    console.log(isConnected);
+   // console.log(isConnected);
   };
 
   render() {
-    console.log(this.state.unsubscribe, 'subs');
+   // console.log(this.state.unsubscribe, 'subs');
     if (!this.state.isConnected) {
       return <MiniOfflineSign />;
     }

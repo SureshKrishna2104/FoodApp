@@ -40,7 +40,7 @@ const Login = ({navigation}) => {
   //const { signIn } = React.useContext(AuthContext);
 
   const setInfo = async data => {
-    console.warn('dataaaa-', data.data);
+    //console.warn('dataaaa-', data.data);
     const jsonValue = JSON.stringify(data.data);
     // const id = JSON.stringify(data.data.userId);
     await AsyncStorage.setItem('userInfo', jsonValue);
@@ -67,7 +67,7 @@ const Login = ({navigation}) => {
             if (response.status == 200) {
               setInfo(response);
 
-              console.log(response.data, 'login data');
+
 
               Alert.alert('Login successful');
 
@@ -110,7 +110,7 @@ const Login = ({navigation}) => {
   const {colors} = useTheme();
 
   const handlePasswordChange = val => {
-    if (val.trim().length >= 3) {
+    if (val.trim().length >= 0) {
       setData({
         ...data,
         password: val,
@@ -228,7 +228,7 @@ const Login = ({navigation}) => {
           {data.isValidPassword ? null : (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
-                Password must be 8 characters long.
+                Password not be empty.
               </Text>
             </Animatable.View>
           )}

@@ -26,7 +26,8 @@ const BillDetail = props => {
               marginTop: 5,
               marginLeft: '5%',
             }}>
-            {itemdata.item.itemName.toUpperCase()} x {itemdata.item.itemQuantity}
+            {itemdata.item?.itemName?.toUpperCase()} x{' '}
+            {itemdata.item.itemQuantity}
           </Text>
 
           <Text
@@ -45,9 +46,9 @@ const BillDetail = props => {
             borderStyle: 'dashed',
             borderWidth: 0.5,
             borderRadius: 1,
-            width:'80%',
-            marginLeft:'5%',
-            marginTop:'1%'
+            width: '80%',
+            marginLeft: '5%',
+            marginTop: '1%',
           }}></View>
       </View>
     );
@@ -58,7 +59,6 @@ const BillDetail = props => {
         data={billdata}
         keyExtractor={item => item.itemName}
         renderItem={renderGrid}
-       
         ListHeaderComponent={
           <View style={{margin: 2, flexDirection: 'column'}}>
             <Text
