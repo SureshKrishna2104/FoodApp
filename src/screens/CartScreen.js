@@ -56,42 +56,42 @@ const CartScreen = props => {
 
     fetchData();
     const willFocusSubscription = props.navigation.addListener('focus', () => {
-      //console.warn('refreshed');
+      console.log('refreshed');
       AsyncStorage.getItem('userToken').then(async res => {
+        if (!res) {
+          console.log('ll');
+          setJwt('');
+        }
         if (!isJwtExpired(res)) {
           setJwt(res);
+          console.log('call', res, jwt);
         }
       });
       fetchData();
     });
     return willFocusSubscription;
   }, []);
-  const showtoast = (msg,type) => {
-   
-    
-    
+  const showtoast = (msg, type) => {
     toast.show(msg, {
-    type: type,
-    placement: 'top',
-    duration: 2000,
-    offset: 10,
-    animationType: 'zoom-in ',
-    normalColor: '#5F9B8C',
-    warningColor:'#FAC846',
-    //successColor: 'green',
-    textStyle: {fontSize: 20},
-    
-    
+      type: type,
+      placement: 'top',
+      duration: 2000,
+      offset: 10,
+      animationType: 'zoom-in ',
+      normalColor: '#5F9B8C',
+      warningColor: '#FAC846',
+      //successColor: 'green',
+      textStyle: {fontSize: 20},
     });
-    };
+  };
   const onPressButton = () => {
-    console.log(jwt.length,"iff");
+    console.log("button PResee")
     if (jwt.length <= 0) {
       props.navigation.navigate('Login');
     } else {
       if (cartItems.length === 0) {
-       // alert('Please add items to cart');
-        showtoast("Please add items to cart","warning")
+        // alert('Please add items to cart');
+        showtoast('Please add items to cart', 'warning');
       } else {
         const z = [];
         cartItems.map(cartI => {
@@ -109,7 +109,7 @@ const CartScreen = props => {
               if (response.status == 200) {
                 setIsLoading(false);
                 //Alert.alert('Your foods ordered sucessfully');
-                showtoast("Your foods ordered sucessfully","success")
+                showtoast('Your foods ordered sucessfully', 'success');
 
                 props.navigation.navigate('Orders');
                 dispatch(cartActions.emptyCart());
@@ -162,51 +162,94 @@ const CartScreen = props => {
     );
   };
   const dispatch = useDispatch();
+
   return (
     <FlatList
       data={cartItems}
       keyExtractor={item => item.itemId}
       renderItem={renderGrid}
       ListHeaderComponent={
-        <View style={styles.screen}>
-          <View style={styles.summary}>
-            <Text style={styles.summaryText}>
-              Total:<Text>{cartTotalAmount.toFixed(2)}</Text>
+        cartItems.length === 0 ? (
+          <>
+            <Text
+              style={{
+                fontSize: 20,
+                textAlign: 'center',
+                // color: 'white',
+                fontWeight: 'bold',
+                marginTop: 0,
+                marginTop: '50%',
+              }}>
+              No Foods in Cart
             </Text>
-            {isLoading ? <ActivityLoading size="large" /> : null}
-            <View style={{flexDirection: 'column', marginTop: 10}}>
-              <Button
-                color="red"
-                title="Proceed to Pay"
-                onPress={onPressButton}
-              />
-              <View style={{flexDirection: 'row', padding: 2}}>
-                <View
-                  style={{
-                    height: 22,
-                    width: 22,
-                    borderRadius: 12,
-                    borderWidth: 2,
-                    borderColor: '#000',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginTop: 7,
-                    marginRight: 3,
-                  }}>
+          </>
+        ) : (
+          <View style={styles.screen}>
+            <View style={styles.summary}>
+              <Text style={styles.summaryText}>
+                Total:<Text>{cartTotalAmount.toFixed(2)}</Text>
+              </Text>
+              {isLoading ? <ActivityLoading size="large" /> : null}
+              <View style={{flexDirection: 'column', marginTop: 10}}>
+                <Button
+                  color="red"
+                  title="Proceed to Pay"
+                  // onPress={onPressButton}
+
+                  onPress={() =>
+                    Alert.alert(
+                      'Confirm Your Order',
+                      'Orders once placed cannot be cancelled and are non-refundable',
+                      [
+                        {
+                          text: 'Cancel',
+                          onPress: () => {
+                            return null;
+                          },
+                        },
+                        {
+                          text: 'Confirm',
+                          onPress:()=>{onPressButton()}
+                          // onPress: () => {
+                          //   onPressButton()
+                          //   //  AsyncStorage.removeItem('userToken'),
+                          //   //   AsyncStorage.removeItem('userId'),
+                          //   //   getProfile();
+                          // },
+                        },
+                      ],
+                      {cancelable: false},
+                    )
+                  }
+                />
+                <View style={{flexDirection: 'row', padding: 2}}>
                   <View
                     style={{
-                      height: 10,
-                      width: 10,
-                      borderRadius: 5,
-                      backgroundColor: '#000',
-                    }}
-                  />
+                      height: 22,
+                      width: 22,
+                      borderRadius: 12,
+                      borderWidth: 2,
+                      borderColor: '#000',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginTop: 7,
+                      marginRight: 3,
+                    }}>
+                    <View
+                      style={{
+                        height: 10,
+                        width: 10,
+                        borderRadius: 5,
+                        backgroundColor: '#000',
+                      }}
+                    />
+                  </View>
+                  <Text style={{marginTop: 7}}>Cash On Delivery</Text>
                 </View>
-                <Text style={{marginTop: 7}}>Cash On Delivery</Text>
               </View>
             </View>
           </View>
-        </View>
+        )
       }
       showsVerticalScrollIndicator={false}
     />

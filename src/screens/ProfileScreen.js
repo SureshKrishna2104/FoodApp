@@ -112,6 +112,8 @@ const ProfileScreen = ({navigation}) => {
     return willFocusSubscription;
   }, []);
 
+
+   
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -137,7 +139,7 @@ const ProfileScreen = ({navigation}) => {
                     {data ? data.address : ''}
                   </Text>
                   <Text style={styles.userCityText}>
-                    {data ? data.pinCode : ''}
+                  {data ? data.city : ''}-{data ? data.pinCode : ''}
                   </Text>
                 </View>
               </View>
@@ -172,11 +174,12 @@ const ProfileScreen = ({navigation}) => {
               <TouchableRipple
                 onPress={() =>
                   navigation.navigate('EditProfile', {
-                    name: data.name,
-                    phone: data.number,
-                    address: data.address,
-                    pincode: data.pinCode,
-                    pwd: data.password,
+                    name: data?.name,
+                    phone: data?.number,
+                    city:data?.city,
+                    address: data?.address,
+                    pincode: data?.pinCode,
+                    pwd: data?.password,
                   })
                 }>
                 <View style={styles.menuItem}>
@@ -221,9 +224,9 @@ const ProfileScreen = ({navigation}) => {
                       {
                         text: 'Confirm',
                         onPress: () => {
-                          AsyncStorage.removeItem('userId');
-
-                          getProfile();
+                           AsyncStorage.removeItem('userToken'),
+                            AsyncStorage.removeItem('userId'),
+                            getProfile();
                         },
                       },
                     ],

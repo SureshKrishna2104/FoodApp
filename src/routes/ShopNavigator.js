@@ -1,55 +1,231 @@
 import React, {useEffect} from 'react';
-import {createAppContainer} from 'react-navigation';
-//import {createDrawerNavigator} from '@react-navigation/drawer';
-//import {createDrawerNavigator} from 'react-navigation-drawer';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {useSelector, useDispatch} from 'react-redux';
-//import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import ShopsList from '../screens/ShopsList';
-import ProductList from '../screens/ProductList';
-import ProductDetail from '../screens/ProductDetail';
-import CartScreen from '../screens/CartScreen';
-import SignUp from '../screens/SignUp';
-import Login from '../screens/Login';
-import OfferScreen from '../screens/OfferScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import EditProfile from '../screens/EditProfile';
-import OrderScreen from '../screens/OrderScreen';
-import AuthLoadingScreen from '../screens/AuthLoadingScreen';
-import Icon from 'react-native-vector-icons/Ionicons';
-import * as cartActions from '../store/actions/cart';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  DevSettings,
+  Alert,
+} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createDrawerNavigator,
+  DrawerItem,
+  DrawerItemList,
+  DrawerContentScrollView,
+} from '@react-navigation/drawer';
 import DHomeScreen from '../screens/DeliveryMan/DHomeScreen';
 import DFoodDetail from '../screens/DeliveryMan/DFoodDetail';
+import DOrderDetail from '../screens/DeliveryMan/DOrderDetail';
 
-const ShopNavigator = createStackNavigator(
-  {
-    FoodOrders:DHomeScreen,
-    FoodDetail:DFoodDetail
-  },
-  {
-    defaultNavigationOptions: {
-      headerTitleAlign: 'center',
-      headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? '#6FC3F7' : '',
-        alignContent: 'center',
-      },
-      headerTintColor: Platform.OS === 'android' ? 'white' : ' ',
-    },
-  },
-);
-const defaultStackNavOptions = {
-  headerStyle: {
-    backgroundColor: Platform.OS === 'android' ? '#6FC3F7' : '',
-  },
-  headerTintColor: 'white',
-  headerTitleSyle: {
-    fontFamily: 'open-sans-bold',
-  },
-  headerBackTitleStyle: {
-    fontFamily: 'open-sans',
-  },
+import AsyncStorage from '@react-native-community/async-storage';
+
+const NavigationDrawerStructure = props => {
+  const toggleDrawer = () => {
+    //Props to open/close the drawer
+    props.navigationProps.toggleDrawer();
+  };
+
+  return (
+    <View style={{flexDirection: 'row'}}>
+      <TouchableOpacity onPress={() => toggleDrawer()}>
+        {/*Donute Button Image */}
+        <Image
+          source={{
+            uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png',
+          }}
+          style={{width: 25, height: 25, marginLeft: 5}}
+        />
+      </TouchableOpacity>
+    </View>
+  );
 };
+
+const ShopNavigator = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function firstScreenStack({navigation}) {
+  return (
+    <ShopNavigator.Navigator initialRouteName="FirstPage">
+      <ShopNavigator.Screen
+        name="FirstPage"
+        component={DOrderDetail}
+        options={{
+          title: 'MyOrders', //Set Header Title
+          headerLeft: () => (
+            <NavigationDrawerStructure navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: '#6FC3F7',
+            shadowColor: '#fff',
+            elevation: 0,
+          },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+       <ShopNavigator.Screen
+      name="FoodDetail"
+      component={DFoodDetail}
+      options={{
+        title: 'FoodDetail', //Set Header Title
+        headerStyle: {
+          backgroundColor: '#6FC3F7',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+    </ShopNavigator.Navigator>
+  );
+}
+
+const ShopStack = ({navigation}) => (
+  <ShopNavigator.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#6FC3F7',
+        shadowColor: '#fff',
+        elevation: 0,
+      },
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
+    <ShopNavigator.Screen
+      name="FoodOrders"
+      component={DHomeScreen}
+      options={{
+        title: 'HomePage', //Set Header Title
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#6FC3F7',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+
+    <ShopNavigator.Screen
+      name="FoodDetail"
+      component={DFoodDetail}
+      options={{
+        title: 'FoodDetail', //Set Header Title
+        headerStyle: {
+          backgroundColor: '#6FC3F7',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+  </ShopNavigator.Navigator>
+);
+function root() {
+  return (
+    <Drawer.Navigator
+      drawerContentOptions={{
+        activeTintColor: '#e91e63',
+        itemStyle: {marginVertical: 5},
+      }}
+      drawerContent={props => {
+        return (
+          <DrawerContentScrollView {...props}>
+            <DrawerItemList {...props} />
+            <DrawerItem
+              label="Logout"
+              onPress={() =>
+                Alert.alert(
+                  'Logout',
+                  'Are you sure want to logout',
+                  [
+                    {
+                      text: 'Cancel',
+                      onPress: () => {
+                        return null;
+                      },
+                    },
+                    {
+                      text: 'Confirm',
+                      onPress: () => {
+                        AsyncStorage.removeItem('userToken');
+                        AsyncStorage.removeItem('userId');
+                        AsyncStorage.removeItem('role');
+                        DevSettings.reload();
+                      },
+                      // onPress: () => {
+                      //   onPressButton()
+                      //   //  AsyncStorage.removeItem('userToken'),
+                      //   //   AsyncStorage.removeItem('userId'),
+                      //   //   getProfile();
+                      // },
+                    },
+                  ],
+                  {cancelable: false},
+                )
+              }
+            />
+          </DrawerContentScrollView>
+        );
+      }}>
+      <Drawer.Screen
+        name="SecondPage"
+        options={{drawerLabel: 'HomePage'}}
+        component={ShopStack}
+      />
+      <Drawer.Screen
+        name="FirstPage"
+        options={{drawerLabel: 'MyOrders',title:'My Orders'}}
+        component={firstScreenStack}
+      />
+    </Drawer.Navigator>
+  );
+}
+export default root;
+// const ShopNavigator = createStackNavigator(
+//   {
+//     FoodOrders:DHomeScreen,
+//     FoodDetail:DFoodDetail
+//   }
+//   // {
+//   //   defaultNavigationOptions: {
+//   //     headerTitleAlign: 'center',
+//   //     headerStyle: {
+//   //       backgroundColor: Platform.OS === 'android' ? '#6FC3F7' : '',
+//   //       alignContent: 'center',
+//   //     },
+//   //     headerTintColor: Platform.OS === 'android' ? 'white' : ' ',
+//   //   },
+//   // },
+// );
+// const defaultStackNavOptions = {
+//   headerStyle: {
+//     backgroundColor: Platform.OS === 'android' ? '#6FC3F7' : '',
+//   },
+//   headerTintColor: 'white',
+//   headerTitleSyle: {
+//     fontFamily: 'open-sans-bold',
+//   },
+//   headerBackTitleStyle: {
+//     fontFamily: 'open-sans',
+//   },
+// };
 // const CartNavigator = createStackNavigator(
 //   {
 //     Carts: CartScreen,
@@ -151,4 +327,4 @@ const defaultStackNavOptions = {
 //   },
 // );
 
-export default createAppContainer(ShopNavigator);
+//export default createAppContainer(ShopNavigator);

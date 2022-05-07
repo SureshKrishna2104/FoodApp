@@ -12,7 +12,7 @@
 //   );
 // };
 // export default EditProfile;
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -33,10 +33,10 @@ import Feather from 'react-native-vector-icons/Feather';
 import {postMethod1} from '../services/Apiservices';
 //import {putMethod} from '../services/Apiservices';
 import {useTheme} from 'react-native-paper';
+import {Picker} from '@react-native-picker/picker';
 //import { AuthContext } from '../routes'
 import ActivityLoading from '../components/ActivityLoading';
 import {useToast} from 'react-native-toast-notifications';
-
 
 import {Value} from 'react-native-reanimated';
 const EditProfile = props => {
@@ -45,10 +45,32 @@ const EditProfile = props => {
   const address1 = props.route.params.address;
   const pincode1 = props.route.params.pincode;
   const password1 = props.route.params.pwd;
+  const city=props.route.params.city;
   const toast = useToast();
   const [isLoading, setIsLoading] = React.useState(false);
   const [jwt, setJwt] = React.useState('');
-
+  const [cityData, setCityData] = useState([]);
+  const [pinData, setPinData] = useState([]);
+  const [selectedPincode, setSelectedPincode] = useState();
+  const [selectedState, setselectedState] = useState();
+  useEffect(() => {
+    fetch('https://food-order-ver-1.herokuapp.com/getCity', {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(responseData => {
+        setCityData(responseData.data);
+        responseData.data.map((e, i) => {
+          if (e.cityName === city) {
+            setPinData(e.pinCodes);
+          }
+        });
+      })
+      .catch(err => {
+        setIsLoading(false);
+        //console.error(err);
+      });
+  }, []);
   //const { signIn } = React.useContext(AuthContext);
 
   const doLogin = () => {
@@ -56,8 +78,10 @@ const EditProfile = props => {
       number: number,
       password: password1,
       address: address,
-      pinCode: pincode,
+      // pinCode: pincode,
       name: name,
+      city: selectedState?selectedState:city,
+      pinCode: selectedPincode,
     };
 
     if (number != '') {
@@ -66,8 +90,8 @@ const EditProfile = props => {
         .then(response => {
           if (response) {
             if (response.status == 200) {
-             // Alert.alert('User Updated Successfully');
-             showtoast()
+              // Alert.alert('User Updated Successfully');
+              showtoast();
               props.navigation.goBack();
             } else if (response.status == 500) {
               setIsLoading(false);
@@ -107,39 +131,48 @@ const EditProfile = props => {
   const [pincode, setPincode] = React.useState(pincode1);
   useEffect(() => {
     AsyncStorage.getItem('userId').then(async res => {
-    
       setId(res);
-
     });
     AsyncStorage.getItem('userToken').then(async res => {
- 
       setJwt(res);
-
     });
   }, []);
+
+  let stateArray = cityData?.map((s, i) => {
+    return <Picker.Item key={i} value={s.cityName} label={s.cityName} />;
+  });
+
+  useEffect(() => {
+    cityData.map((e, i) => {
+      if (e.cityName === selectedState) {
+        setPinData(e.pinCodes);
+      }
+    });
+  }, [selectedState]);
+  let pinArray = pinData?.map((s, i) => {
+    return <Picker.Item key={i} value={s.pinCode} label={s.pinCode} />;
+  });
   const showtoast = () => {
     // ToastAndroid.show('hiihhi', ToastAndroid.SHORT);
     //toast.show("hoii")
-    
-    
+
     toast.show('Account Updated Successfully', {
-    type: ' success',
-    placement: 'top',
-    duration: 2000,
-    offset: 10,
-    animationType: 'zoom-in ',
-    normalColor: '#5F9B8C',
-    successColor: 'green',
-    textStyle: {fontSize: 18},
-    
-    //textStyle:''
+      type: ' success',
+      placement: 'top',
+      duration: 2000,
+      offset: 10,
+      animationType: 'zoom-in ',
+      normalColor: '#5F9B8C',
+      successColor: 'green',
+      textStyle: {fontSize: 18},
+
+      //textStyle:''
     });
-    };
+  };
 
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
-     
         <View style={styles.header}>
           <Image
             source={require('../assets/images/login.jpg')}
@@ -195,7 +228,7 @@ const EditProfile = props => {
           </Text>
 
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
+            <FontAwesome name="phone" color={colors.text} size={20} />
             <TextInput
               placeholder="Enter Your Number"
               placeholderTextColor="#666666"
@@ -221,7 +254,92 @@ const EditProfile = props => {
             Address
           </Text>
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
+            <FontAwesome name="address-card-o" color={colors.text} size={20} />
+            <TextInput
+              placeholder="Enter Your Address"
+              placeholderTextColor="#666666"
+              style={[
+                styles.textInput,
+                {
+                  color: colors.text,
+                },
+              ]}
+              value={address}
+              onChangeText={text => setAddress(text)}
+            />
+          </View>
+          <Text
+            style={[
+              styles.text_footer,
+              {
+                color: colors.text,
+              },
+            ]}>
+            City
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  color: 'red',
+                },
+              ]}>
+              {' '}
+              *
+            </Text>
+          </Text>
+          <View style={styles.action}>
+            <Feather name="map" color={colors.text} size={20} />
+            <Picker
+              selectedValue={selectedState?selectedState:city}
+              style={{width: 300, marginTop: -15}}
+              onValueChange={(itemValue, itemIndex) =>
+                setselectedState(itemValue)
+              }>
+              {stateArray != '' ? (
+                <Picker.Item label="Select City" value="" />
+              ) : (
+                <Picker.Item label="xyz" value="xyz" />
+              )}
+              {stateArray}
+            </Picker>
+          </View>
+          <Text
+            style={[
+              styles.text_footer,
+              {
+                color: colors.text,
+              },
+            ]}>
+            Pincode
+            <Text
+              style={[
+                styles.text_footer,
+                {
+                  color: 'red',
+                },
+              ]}>
+              {' '}
+              *
+            </Text>
+          </Text>
+          <View style={styles.action}>
+            <Feather name="lock" color={colors.text} size={20} />
+            <Picker
+              selectedValue={selectedPincode?selectedPincode:pincode1}
+              style={{width: 300, marginTop: -15}}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedPincode(itemValue)
+              }>
+              {pinArray != '' ? (
+                <Picker.Item label="Select PinCode" value="" />
+              ) : (
+                <Picker.Item label="xyz" value="xyz" />
+              )}
+              {pinArray}
+            </Picker>
+          </View>
+          {/* <View style={styles.action}>
+            <FontAwesome name="address-card-o" color={colors.text} size={20} />
             <TextInput
               placeholder="Enter Your Address"
               placeholderTextColor="#666666"
@@ -260,7 +378,7 @@ const EditProfile = props => {
               onChangeText={val => setPincode(val)}
               keyboardType={'numeric'}
             />
-          </View>
+          </View> */}
 
           <TouchableOpacity
             style={styles.appButtonContainer}
@@ -270,7 +388,7 @@ const EditProfile = props => {
               secureTextEntry={true}
               color="grey"
               align="center">
-              Edit Profile
+              Save Profile
             </Text>
           </TouchableOpacity>
           {isLoading ? <ActivityLoading size="large" /> : null}
@@ -279,7 +397,6 @@ const EditProfile = props => {
     </ScrollView>
   );
 };
-
 
 export default EditProfile;
 const styles = StyleSheet.create({

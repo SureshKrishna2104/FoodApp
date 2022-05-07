@@ -22,6 +22,7 @@ import {useTheme} from 'react-native-paper';
 import {Picker} from '@react-native-picker/picker';
 import {useToast} from 'react-native-toast-notifications';
 
+import {Checkbox} from 'react-native-paper';
 //import { AuthContext } from '../routes'
 import ActivityLoading from '../components/ActivityLoading';
 const SignUp = ({navigation}) => {
@@ -42,6 +43,7 @@ const SignUp = ({navigation}) => {
   const [cityData, setCityData] = useState([]);
   const [pinData, setPinData] = useState([]);
   const toast = useToast();
+  const [checked, setChecked] = React.useState(false);
   //const { signIn } = React.useContext(AuthContext);
 
   const setInfo = async data => {
@@ -72,52 +74,55 @@ const SignUp = ({navigation}) => {
       city: selectedState,
       pinCode: selectedPincode,
     };
+    if (checked) {
+      if (
+        data.number != '' &&
+        data.name != '' &&
+        data.password != '' &&
+        data.address != '' &&
+        setCityData != '' &&
+        selectedPincode != ''
+      ) {
+        setIsLoading(true);
+        postMethod('/signup', req)
+          .then(response => {
+            if (response) {
+              //console.warn('login response', response);
 
-    if (
-      data.number != '' &&
-      data.name != '' &&
-      data.password != '' &&
-      data.address != '' &&
-      setCityData != '' &&
-      selectedPincode != ''
-    ) {
-      setIsLoading(true);
-      postMethod('/signup', req)
-        .then(response => {
-          if (response) {
-            //console.warn('login response', response);
+              if (response.status == 200) {
+                showtoast('Account created successfully', 'sucess');
+                navigation.navigate('Login');
+              } else if (response.status == 500) {
+                setIsLoading(false);
 
-            if (response.status == 200) {
-              showtoast();
-              navigation.navigate('Login');
-            } else if (response.status == 500) {
-              setIsLoading(false);
+                Alert.alert('Not able to login in, Please try later');
+              }
+              if (response.statuscode == 404) {
+                setIsLoading(false);
 
-              Alert.alert('Not able to login in, Please try later');
+                Alert.alert('User account already deactivated');
+              }
             }
-            if (response.statuscode == 404) {
-              setIsLoading(false);
+          })
+          .catch(error => {
+            setIsLoading(false);
 
-              Alert.alert('User account already deactivated');
-            }
-          }
-        })
-        .catch(error => {
-          setIsLoading(false);
+            Alert.alert(
+              'No Internet connection.\n Please check your internet connection \nor try again',
+              error,
+            );
+            console.warn(
+              'No Internet connection.\n Please check your internet connection \nor try again',
+              error,
+            );
+          });
+      } else {
+        setIsLoading(false);
 
-          Alert.alert(
-            'No Internet connection.\n Please check your internet connection \nor try again',
-            error,
-          );
-          console.warn(
-            'No Internet connection.\n Please check your internet connection \nor try again',
-            error,
-          );
-        });
+        Alert.alert('Please add all manadatory fields');
+      }
     } else {
-      setIsLoading(false);
-
-      Alert.alert('Please add all manadatory fields');
+      showtoast('Accept terms and conditions to continue', 'warning');
     }
   };
 
@@ -215,24 +220,23 @@ const SignUp = ({navigation}) => {
   let pinArray = pinData?.map((s, i) => {
     return <Picker.Item key={i} value={s.pinCode} label={s.pinCode} />;
   });
-  const showtoast = () => {
+  const showtoast = (msg, type) => {
     // ToastAndroid.show('hiihhi', ToastAndroid.SHORT);
     //toast.show("hoii")
-    
-    
-    toast.show('Account created Sucessfully', {
-    type: ' success',
-    placement: 'top',
-    duration: 2000,
-    offset: 10,
-    animationType: 'zoom-in ',
-    normalColor: '#5F9B8C',
-    successColor: 'green',
-    textStyle: {fontSize: 18},
-    
-    //textStyle:''
+
+    toast.show(msg, {
+      type: type,
+      placement: 'top',
+      duration: 2000,
+      offset: 10,
+      animationType: 'zoom-in ',
+      normalColor: '#5F9B8C',
+      successColor: 'green',
+      textStyle: {fontSize: 18},
+
+      //textStyle:''
     });
-    };
+  };
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -312,7 +316,7 @@ const SignUp = ({navigation}) => {
           </Text>
 
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
+            <FontAwesome name="phone" color={colors.text} size={20} />
             <TextInput
               placeholder="Enter Your Number"
               placeholderTextColor="#666666"
@@ -396,7 +400,7 @@ const SignUp = ({navigation}) => {
             </Text>
           </Text>
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
+            <FontAwesome name="address-card-o" color={colors.text} size={20} />
             <TextInput
               placeholder="Enter Your Address"
               placeholderTextColor="#666666"
@@ -411,7 +415,7 @@ const SignUp = ({navigation}) => {
             />
           </View>
           <Text
-            style={[
+            style={[  
               styles.text_footer,
               {
                 color: colors.text,
@@ -430,7 +434,7 @@ const SignUp = ({navigation}) => {
             </Text>
           </Text>
           <View style={styles.action}>
-            <Feather name="lock" color={colors.text} size={20} />
+            <Feather name="map" color={colors.text} size={20} />
             <Picker
               selectedValue={selectedState}
               style={{width: 300, marginTop: -15}}
@@ -479,6 +483,23 @@ const SignUp = ({navigation}) => {
               )}
               {pinArray}
             </Picker>
+          </View>
+          <View style={styles.checkboxContainer}>
+            <Checkbox
+              status={checked ? 'checked' : 'unchecked'}
+              onPress={() => {
+                setChecked(!checked);
+              }}
+            />
+            <Text style={{color: 'black', marginTop: 6}}>
+              I've read and accept the
+              <Text
+                onPress={() => navigation.navigate('TermsAndConditions')}
+                style={styles.label}>
+                {' '}
+                terms & conditions
+              </Text>
+            </Text>
           </View>
 
           <TouchableOpacity
@@ -549,6 +570,19 @@ const styles = StyleSheet.create({
     color: '#0f73ee',
     fontWeight: 'bold',
     fontSize: 30,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    marginLeft: -5,
+  },
+  checkbox: {
+    alignSelf: 'center',
+  },
+  label: {
+    margin: 8,
+    fontSize: 15,
+    color: 'red',
   },
   text_footer: {
     color: '#05375a',

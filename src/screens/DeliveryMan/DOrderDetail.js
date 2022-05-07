@@ -1,53 +1,11 @@
-// import {StyleSheet, Text, View,TouchableOpacity,Alert} from 'react-native';
-// import React from 'react';
-// import AsyncStorage from '@react-native-community/async-storage';
-
-// const DHomeScreen = ({navigation}) => {
-//   return (
-//     <View>
-//       <TouchableOpacity
-//         onPress={() =>
-//           Alert.alert(
-//             'Log out',
-//             'Do you want to logout?',
-//             [
-//               {
-//                 text: 'Cancel',
-//                 onPress: () => {
-//                   return null;
-//                 },
-//               },
-//               {
-//                 text: 'Confirm',
-//                 onPress: () => {
-//                   AsyncStorage.removeItem('role');
-//                   AsyncStorage.removeItem('userId');
-//                   navigation.navigate('AuthLoading')
-
-//                 },
-//               },
-//             ],
-//             {cancelable: false},
-//           )
-//         }>
-//         <Text>LogOut</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// export default DHomeScreen;
-
-// const styles = StyleSheet.create({});
-
 import React, {useEffect} from 'react';
-import {Text, View, FlatList,DevSettings} from 'react-native';
+import {Text, View, FlatList} from 'react-native';
 import OrderItems from '../../components/OrderItems';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import {isJwtExpired} from 'jwt-check-expiration';
 import ActivityLoading from '../../components/ActivityLoading';
-const DHomeScreen = props => {
+const DOrderDetail = props => {
   //const order = props.route.params.order;
   const [data, setData] = React.useState([]);
   const [orgdata, setOrgData] = React.useState([]);
@@ -73,7 +31,7 @@ const DHomeScreen = props => {
         AsyncStorage.getItem('userId').then(async res => {
           setIsLoading(true);
           fetch(
-            'https://food-order-ver-1.herokuapp.com/getOrders/deliveryBoy',
+            'https://food-order-ver-1.herokuapp.com/deliveryUpdate/'+res,
             {
               method: 'GET',
               headers: {
@@ -199,4 +157,4 @@ const DHomeScreen = props => {
   );
 };
 
-export default DHomeScreen;
+export default DOrderDetail;

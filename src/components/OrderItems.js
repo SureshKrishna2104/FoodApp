@@ -10,7 +10,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/FontAwesome5';
 const OrderItems = props => {
- 
   return (
     <View style={styles.mealItem}>
       <TouchableOpacity onPress={props.onSelectMeal}>
@@ -25,7 +24,7 @@ const OrderItems = props => {
                 marginTop: 5,
               }}>
               <Icon name="calendar-outline" size={23} color="#88898a" />{' '}
-              {props.orderDate}
+              {props.orderDate.slice(0, 10)}
             </Text>
             <Text
               style={{
@@ -40,27 +39,42 @@ const OrderItems = props => {
               {props.totalAmount}
             </Text>
           </View>
-
-          <Text
-            style={{
-              fontSize: 17,
-              color: 'white',
-              fontWeight: 'bold',
-              //marginBottom: 10,
-              marginTop: 5,
-              marginRight: '5%',
-            }}>
-            <Icons name="shipping-fast" size={20} color="#88898a" />{' '}
-            {props.status === '1'
-              ? 'Order Taken'
-              : props.status === '2'
-              ? 'On its Way'
-              : props.status === '3'
-              ? 'Deleivered'
-              : props.status === '4'
-              ? 'Cancelled'
-              : 'Ordered'}
-          </Text>
+          <View style={{flexDirection: 'column'}}>
+            <Text
+              style={{
+                fontSize: 17,
+                color: 'white',
+                fontWeight: 'bold',
+                //marginBottom: 10,
+                marginTop: 5,
+                marginRight: '5%',
+              }}>
+              <Icons name="shipping-fast" size={20} color="#88898a" />{' '}
+              {props.status === '1'
+                ? 'Order Taken'
+                : props.status === '2'
+                ? 'On its Way'
+                : props.status === '3'
+                ? 'Deleivered'
+                : props.status === '4'
+                ? 'Cancelled'
+                : 'Ordered'}
+            </Text>
+            {props.phoneNumber ? (
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  //marginBottom: 10,
+                  marginTop: 5,
+                  marginRight: 5,
+                }}>
+                <Icons name="phone" size={20} color="#88898a" />{' '}
+                {props.phoneNumber}
+              </Text>
+            ) : null}
+          </View>
         </View>
       </TouchableOpacity>
     </View>

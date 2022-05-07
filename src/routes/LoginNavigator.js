@@ -278,14 +278,14 @@ const CartStackScreen = ({navigation}) => (
       component={CartScreen}
       options={CartScreen.navigationOptions}
     />
-     <CartStack.Screen
+     {/* <CartStack.Screen
       name="Orders"
       component={OrderScreen}
       options={{
         title: 'Your Orders',
         headerTitleAlign: 'center',
       }}
-    />
+    /> */}
      <CartStack.Screen
       name="BillDetail"
       component={BillDetail}

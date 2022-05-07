@@ -81,7 +81,7 @@ const Login = ({navigation}, props) => {
               navigation.goBack();
             } else if (response.status == 500) {
               setIsLoading(false);
-              Alert.alert('User Not Found!, Please SignUp');
+              Alert.alert('User Not Found!, Please Check Username and Password');
             }
             if (response.status == 404) {
               setIsLoading(false);
@@ -153,7 +153,7 @@ const Login = ({navigation}, props) => {
 
     toast.show('Login successfully', {
       type: ' success',
-      placement: 'top',
+      placement: 'bottom',
       duration: 2000,
       offset: 10,
       animationType: 'zoom-in ',
@@ -196,7 +196,7 @@ const Login = ({navigation}, props) => {
             Phone Number
           </Text>
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={colors.text} size={20} />
+            <FontAwesome name="phone" color={colors.text} size={20} />
             <TextInput
               placeholder="Enter Your Number"
               placeholderTextColor="#666666"

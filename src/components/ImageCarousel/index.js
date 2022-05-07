@@ -29,7 +29,7 @@ const ImageCarousel = ({images}) => {
         renderItem={({item}) => (
           <Image
             source={{uri: item}}
-            style={[styles.image, {width: windowWidth - 40}]}
+            style={[styles.image, {width: windowWidth-50 }]}
           />
         )}
         horizontal
