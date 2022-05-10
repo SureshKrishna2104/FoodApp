@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Animatable from 'react-native-animatable';
+import RNRestart from 'react-native-restart';
 //import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -75,7 +76,8 @@ const Login = ({navigation}, props) => {
 
               //  dispatch(cartActions.login(true));s
               if (response.data.role) {
-                DevSettings.reload();
+               // DevSettings.reload();
+                RNRestart.Restart();
               }
               navigation.navigate('Shops');
               navigation.goBack();

@@ -257,6 +257,14 @@ const HomeStackScreen = ({navigation}) => (
       options={ProductDetail.navigationOptions}
       
     />
+     <HomeStack.Screen
+      name="Login"
+      component={Login}
+      options={{
+        title: 'Login',
+        headerTitleAlign: 'center',
+      }}
+    />
   </HomeStack.Navigator>
 );
 

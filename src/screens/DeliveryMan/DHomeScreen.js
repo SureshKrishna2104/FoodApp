@@ -43,6 +43,7 @@
 import React, {useEffect} from 'react';
 import {Text, View, FlatList,DevSettings} from 'react-native';
 import OrderItems from '../../components/OrderItems';
+import RNRestart from 'react-native-restart';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import {isJwtExpired} from 'jwt-check-expiration';
@@ -98,7 +99,8 @@ const DHomeScreen = props => {
         AsyncStorage.removeItem('userToken');
         AsyncStorage.removeItem('userId');
         AsyncStorage.removeItem('role');
-        DevSettings.reload();
+        RNRestart.Restart();
+       // DevSettings.reload();
        // props.navigation.navigate('Profile');
       }
     });
@@ -154,7 +156,8 @@ const DHomeScreen = props => {
             address:itemdata.item.address,
             city:itemdata.item.city,
             pincode:itemdata.item.pincode,
-            phoneNumber:itemdata.item.phoneNumber
+            phoneNumber:itemdata.item.phoneNumber,
+            hotelName:itemdata.item.hotelName
           });
         }}
       />

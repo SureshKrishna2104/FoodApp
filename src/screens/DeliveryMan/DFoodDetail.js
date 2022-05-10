@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   DevSettings,
 } from 'react-native';
+import RNRestart from 'react-native-restart';
 import React, {useEffect, useState} from 'react';
 import {ProgressBar, Colors} from 'react-native-paper';
 import Icons from 'react-native-vector-icons/FontAwesome5';
@@ -85,7 +86,8 @@ const DFoodDetail = props => {
         AsyncStorage.removeItem('userToken');
         AsyncStorage.removeItem('userId');
         AsyncStorage.removeItem('role');
-        DevSettings.reload();
+       // DevSettings.reload();
+        RNRestart.Restart()
       }
     });
   };
@@ -102,7 +104,7 @@ const DFoodDetail = props => {
               marginTop: 5,
               marginLeft: '5%',
             }}>
-            {itemdata.item?.itemName?.toUpperCase()} x{' '}
+           {itemdata.item?.hotelName?.toUpperCase()}-{itemdata.item?.itemName?.toUpperCase()} x{' '}
             {itemdata.item.itemQuantity}
           </Text>
 

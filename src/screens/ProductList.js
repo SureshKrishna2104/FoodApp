@@ -24,9 +24,8 @@ const ProductList = ({route, navigation}, props) => {
     })
       .then(response => response.json())
       .then(responseData => {
-       
         setData(responseData.data.item);
-        setIsLoading(false); 
+        setIsLoading(false);
       })
       .catch(err => {
         console.error(err, 'error');
@@ -34,25 +33,27 @@ const ProductList = ({route, navigation}, props) => {
       });
   }, []);
   const renderGrid = itemdata => {
-    return (
-      <MealItem
-        image={itemdata.item.image_url[0]}
-        title={itemdata.item.itemName}
-        description={itemdata.item.description}
-        hotelName={hotelName}
-        amount={itemdata.item.amount}
-        onSelectMeal={() => {
-          navigation.navigate('ProductDetail', {
-            itemId: itemdata.item.itemId,
-            itemAmount: itemdata.item.amount,
-            itemName: itemdata.item.itemName,
-            itemImage: itemdata.item.image_url,
-            itemHotel: hotelId,
-            length: size,
-          });
-        }}
-      />
-    );
+    if (itemdata.item.active) {
+      return (
+        <MealItem
+          image={itemdata.item.image_url[0]}
+          title={itemdata.item.itemName}
+          description={itemdata.item.description}
+          hotelName={hotelName}
+          amount={itemdata.item.amount}
+          onSelectMeal={() => {
+            navigation.navigate('ProductDetail', {
+              itemId: itemdata.item.itemId,
+              itemAmount: itemdata.item.amount,
+              itemName: itemdata.item.itemName,
+              itemImage: itemdata.item.image_url,
+              itemHotel: hotelId,
+              length: size,
+            });
+          }}
+        />
+      );
+    }
   };
   return (
     <FlatList

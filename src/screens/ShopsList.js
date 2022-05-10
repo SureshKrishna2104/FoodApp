@@ -51,22 +51,23 @@ const ShopsList = props => {
   }, []);
 
   const renderGrid = itemdata => {
-    
-    return (
-      <ShopGrid
-        image={itemdata.item.image_url[0]}
-        title={itemdata.item.hotelName}
-        description={itemdata.item.description}
-        onSelectNews={() => {
-          props.navigation.navigate('Products', {
-            hotelId: itemdata.item.hotelId,
-            hotelName: itemdata.item.hotelName,
-            hotelImage: itemdata.item.image_url[0],
-            hotelItems: itemdata.item.items,
-          });
-        }}
-      />
-    );
+    if (itemdata.item._active) {
+      return (
+        <ShopGrid
+          image={itemdata.item.image_url[0]}
+          title={itemdata.item.hotelName}
+          description={itemdata.item.description}
+          onSelectNews={() => {
+            props.navigation.navigate('Products', {
+              hotelId: itemdata.item.hotelId,
+              hotelName: itemdata.item.hotelName,
+              hotelImage: itemdata.item.image_url[0],
+              hotelItems: itemdata.item.items,
+            });
+          }}
+        />
+      );
+    }
   };
 
   return (

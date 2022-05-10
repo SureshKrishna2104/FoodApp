@@ -7,6 +7,7 @@ import {
   DevSettings,
   Alert,
 } from 'react-native';
+import RNRestart from 'react-native-restart';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
   createDrawerNavigator,
@@ -167,7 +168,8 @@ function root() {
                         AsyncStorage.removeItem('userToken');
                         AsyncStorage.removeItem('userId');
                         AsyncStorage.removeItem('role');
-                        DevSettings.reload();
+                        //DevSettings.reload();
+                        RNRestart.Restart()
                       },
                       // onPress: () => {
                       //   onPressButton()
